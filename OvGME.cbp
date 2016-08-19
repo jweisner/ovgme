@@ -1,0 +1,129 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes" ?>
+<CodeBlocks_project_file>
+	<FileVersion major="1" minor="6" />
+	<Project>
+		<Option title="OvGME" />
+		<Option pch_mode="2" />
+		<Option compiler="gnu_gcc_mingw_x86_64_w64" />
+		<Build>
+			<Target title="dbg 32">
+				<Option output="bin/32/dbg/OvGME" prefix_auto="1" extension_auto="1" />
+				<Option object_output="obj/32/dbg" />
+				<Option type="1" />
+				<Option compiler="gnu_gcc_mingw_i686_w64" />
+				<Compiler>
+					<Add option="-g" />
+				</Compiler>
+			</Target>
+			<Target title="rel 32">
+				<Option output="bin/32/rel/OvGME" prefix_auto="1" extension_auto="1" />
+				<Option object_output="obj/32/rel" />
+				<Option type="0" />
+				<Option compiler="gnu_gcc_mingw_i686_w64" />
+				<Compiler>
+					<Add option="-O3" />
+				</Compiler>
+				<Linker>
+					<Add option="-s" />
+				</Linker>
+			</Target>
+			<Target title="dbg 64">
+				<Option output="bin/64/dbg/OvGME" prefix_auto="1" extension_auto="1" />
+				<Option object_output="obj/64/dbg" />
+				<Option type="1" />
+				<Option compiler="gnu_gcc_mingw_x86_64_w64" />
+				<Compiler>
+					<Add option="-g" />
+				</Compiler>
+			</Target>
+			<Target title="rel 64">
+				<Option output="bin/64/rel/OvGME" prefix_auto="1" extension_auto="1" />
+				<Option object_output="obj/64/rel" />
+				<Option type="0" />
+				<Option compiler="gnu_gcc_mingw_x86_64_w64" />
+				<Compiler>
+					<Add option="-O3" />
+				</Compiler>
+				<Linker>
+					<Add option="-s" />
+				</Linker>
+			</Target>
+		</Build>
+		<Compiler>
+			<Add option="-Wall" />
+			<Add option="-std=c++11" />
+			<Add directory="include" />
+			<Add directory="include/thirdparty/miniz" />
+			<Add directory="include/thirdparty/xxhash" />
+			<Add directory="include/thirdparty/pugixml" />
+		</Compiler>
+		<Linker>
+			<Add option="-static-libgcc" />
+			<Add option="-static-libstdc++" />
+			<Add library="gdi32" />
+			<Add library="user32" />
+			<Add library="kernel32" />
+			<Add library="comctl32" />
+			<Add library="shlwapi" />
+			<Add library="comdlg32" />
+			<Add library="ws2_32" />
+		</Linker>
+		<Unit filename="include/gme.h" />
+		<Unit filename="include/gme_conf.h" />
+		<Unit filename="include/gme_dlg_about.h" />
+		<Unit filename="include/gme_dlg_game.h" />
+		<Unit filename="include/gme_dlg_main.h" />
+		<Unit filename="include/gme_dlg_mods.h" />
+		<Unit filename="include/gme_dlg_repo.h" />
+		<Unit filename="include/gme_dlg_snap.h" />
+		<Unit filename="include/gme_game.h" />
+		<Unit filename="include/gme_logs.h" />
+		<Unit filename="include/gme_mods.h" />
+		<Unit filename="include/gme_netw.h" />
+		<Unit filename="include/gme_repo.h" />
+		<Unit filename="include/gme_snap.h" />
+		<Unit filename="include/gme_tools.h" />
+		<Unit filename="include/gme_uins.h" />
+		<Unit filename="include/gmenode.h" />
+		<Unit filename="include/thirdparty/miniz/miniz.h" />
+		<Unit filename="include/thirdparty/pugixml/pugiconfig.hpp" />
+		<Unit filename="include/thirdparty/pugixml/pugixml.hpp" />
+		<Unit filename="include/thirdparty/xxhash/xxhash.h" />
+		<Unit filename="main.cpp" />
+		<Unit filename="manifest.xml" />
+		<Unit filename="resource.h" />
+		<Unit filename="resource.rc">
+			<Option compilerVar="WINDRES" />
+		</Unit>
+		<Unit filename="src/gme.cpp" />
+		<Unit filename="src/gme_conf.cpp" />
+		<Unit filename="src/gme_dlg_about.cpp" />
+		<Unit filename="src/gme_dlg_game.cpp" />
+		<Unit filename="src/gme_dlg_main.cpp" />
+		<Unit filename="src/gme_dlg_mods.cpp" />
+		<Unit filename="src/gme_dlg_repo.cpp" />
+		<Unit filename="src/gme_dlg_snap.cpp" />
+		<Unit filename="src/gme_game.cpp" />
+		<Unit filename="src/gme_logs.cpp" />
+		<Unit filename="src/gme_mods.cpp" />
+		<Unit filename="src/gme_netw.cpp" />
+		<Unit filename="src/gme_repo.cpp" />
+		<Unit filename="src/gme_snap.cpp" />
+		<Unit filename="src/gme_tools.cpp" />
+		<Unit filename="src/gme_uins.cpp" />
+		<Unit filename="src/gmenode.cpp" />
+		<Unit filename="src/thirdparty/miniz/miniz.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="src/thirdparty/pugixml/pugixml.cpp" />
+		<Unit filename="src/thirdparty/xxhash/xxhash.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Extensions>
+			<code_completion />
+			<envvars />
+			<debugger />
+			<lib_finder disable_auto="1" />
+		</Extensions>
+	</Project>
+</CodeBlocks_project_file>

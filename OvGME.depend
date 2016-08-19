@@ -1,0 +1,437 @@
+# depslib dependency file v1.0
+1470907087 source:d:\dev\proj\ovgme\resource.rc
+	<windows.h>
+	<commctrl.h>
+	<richedit.h>
+	"resource.h"
+
+1470907087 d:\dev\proj\ovgme\resource.h
+
+1471033674 source:d:\dev\proj\ovgme\main.cpp
+	"resource.h"
+	"global.h"
+	"config.h"
+	"mods.h"
+	"snap.h"
+	"game.h"
+	"htreq.h"
+	"uninst.h"
+
+1470905896 d:\dev\proj\ovgme\config.h
+	"global.h"
+
+1469959137 d:\dev\proj\ovgme\dialog.h
+	"global.h"
+
+1470926619 d:\dev\proj\ovgme\mods.h
+	"global.h"
+	"game.h"
+
+1470991404 d:\dev\proj\ovgme\global.h
+	"base.h"
+	"node.h"
+
+1470905850 d:\dev\proj\ovgme\game.h
+	"global.h"
+	"config.h"
+
+1470135200 d:\dev\proj\ovgme\miniz.h
+	<stdlib.h>
+	<time.h>
+	<string.h>
+	<assert.h>
+	<stdio.h>
+	<sys/stat.h>
+	<sys/utime.h>
+	<sys/utime.h>
+	<sys/utime.h>
+	<utime.h>
+	<utime.h>
+
+1470818449 d:\dev\proj\ovgme\node.h
+	"base.h"
+
+1471029635 d:\dev\proj\ovgme\base.h
+	<stdio.h>
+	<stdlib.h>
+	<iostream>
+	<tchar.h>
+	<string.h>
+	<algorithm>
+	<string>
+	<vector>
+	<winsock2.h>
+	<ws2tcpip.h>
+	<windows.h>
+	<commctrl.h>
+	<shlobj.h>
+	<shlwapi.h>
+	<htmlhelp.h>
+	<stdint.h>
+	<inttypes.h>
+	"miniz.c"
+	"xxhash.h"
+
+1452539028 d:\dev\proj\ovgme\miniz.c
+	<stdlib.h>
+	<time.h>
+	<string.h>
+	<assert.h>
+	<stdio.h>
+	<sys/stat.h>
+	<sys/utime.h>
+	<sys/utime.h>
+	<sys/utime.h>
+	<utime.h>
+	<utime.h>
+
+1452539028 source:d:\dev\proj\ovgme\miniz.c
+	<stdlib.h>
+	<time.h>
+	<string.h>
+	<assert.h>
+	<stdio.h>
+	<sys/stat.h>
+	<sys/utime.h>
+	<sys/utime.h>
+	<sys/utime.h>
+	<utime.h>
+	<utime.h>
+
+1470999217 d:\dev\proj\ovgme\uninst.h
+	"global.h"
+	"game.h"
+
+1470999204 d:\dev\proj\ovgme\snap.h
+	"global.h"
+	"game.h"
+
+1466731408 source:d:\dev\proj\ovgme\xxhash.c
+	<stdlib.h>
+	<string.h>
+	"xxhash.h"
+	<stdint.h>
+
+1466731408 d:\dev\proj\ovgme\xxhash.h
+	<stddef.h>
+	"xxhash.c"
+
+1466731408 d:\dev\proj\ovgme\xxhash.c
+	<stdlib.h>
+	<string.h>
+	"xxhash.h"
+	<stdint.h>
+
+1471037436 d:\dev\proj\ovgme\network.h
+	"base.h"
+	"global.h"
+
+1471032487 d:\dev\proj\ovgme\htreq.h
+	"network.h"
+
+1471621296 source:d:\dev\proj\cpp\ovgme1_5\main.cpp
+	"gme.h"
+	"gme_uins.h"
+	"gme_netw.h"
+	"gme_dlg_main.h"
+
+1471550335 d:\dev\proj\cpp\ovgme1_5\resource.h
+
+1470991404 d:\dev\proj\cpp\ovgme1_5\include\global.h
+	"base.h"
+	"node.h"
+
+1471029635 d:\dev\proj\cpp\ovgme1_5\include\base.h
+	<stdio.h>
+	<stdlib.h>
+	<iostream>
+	<tchar.h>
+	<string.h>
+	<algorithm>
+	<string>
+	<vector>
+	<winsock2.h>
+	<ws2tcpip.h>
+	<windows.h>
+	<commctrl.h>
+	<shlobj.h>
+	<shlwapi.h>
+	<htmlhelp.h>
+	<stdint.h>
+	<inttypes.h>
+	"miniz.c"
+	"xxhash.h"
+
+1452539028 d:\dev\proj\cpp\ovgme1_5\include\thirdparty\miniz\miniz.c
+	<stdlib.h>
+	<time.h>
+	<string.h>
+	<assert.h>
+	<stdio.h>
+	<sys/stat.h>
+	<sys/utime.h>
+	<sys/utime.h>
+	<sys/utime.h>
+	<utime.h>
+	<utime.h>
+
+1466731408 d:\dev\proj\cpp\ovgme1_5\include\thirdparty\xxhash\xxhash.h
+	<stddef.h>
+	"xxhash.c"
+
+1470818449 d:\dev\proj\cpp\ovgme1_5\include\node.h
+	"base.h"
+
+1470905896 d:\dev\proj\cpp\ovgme1_5\include\config.h
+	"global.h"
+
+1470926619 d:\dev\proj\cpp\ovgme1_5\include\mods.h
+	"global.h"
+	"game.h"
+
+1470905850 d:\dev\proj\cpp\ovgme1_5\include\game.h
+	"global.h"
+	"config.h"
+
+1470999204 d:\dev\proj\cpp\ovgme1_5\include\snap.h
+	"global.h"
+	"game.h"
+
+1471032487 d:\dev\proj\cpp\ovgme1_5\include\htreq.h
+	"network.h"
+
+1471037616 d:\dev\proj\cpp\ovgme1_5\include\network.h
+	"base.h"
+	"global.h"
+
+1470999217 d:\dev\proj\cpp\ovgme1_5\include\uninst.h
+	"global.h"
+	"game.h"
+
+1471550335 source:d:\dev\proj\cpp\ovgme1_5\resource.rc
+	<windows.h>
+	<commctrl.h>
+	<richedit.h>
+	"resource.h"
+
+1466731408 source:d:\dev\proj\cpp\ovgme1_5\src\thirdparty\xxhash\xxhash.c
+	<stdlib.h>
+	<string.h>
+	"xxhash.h"
+	<stdint.h>
+
+1471380222 source:d:\dev\proj\cpp\ovgme1_5\src\gme.cpp
+	"gme.h"
+
+1471072579 source:d:\dev\proj\cpp\ovgme1_5\src\gme_conf.cpp
+	"gme_conf.h"
+	"gme_tools.h"
+
+1471472422 source:d:\dev\proj\cpp\ovgme1_5\src\gme_game.cpp
+	"gme_conf.h"
+	"gme_game.h"
+	"gme_mods.h"
+	"gme_tools.h"
+
+1471552665 source:d:\dev\proj\cpp\ovgme1_5\src\gme_mods.cpp
+	"gme_tools.h"
+	"gme_game.h"
+	"gme_mods.h"
+
+1471626287 source:d:\dev\proj\cpp\ovgme1_5\src\gme_netw.cpp
+	"gme_tools.h"
+	"gme_netw.h"
+	"gme_logs.h"
+
+1471378026 source:d:\dev\proj\cpp\ovgme1_5\src\gme_snap.cpp
+	"gme_snap.h"
+	"gme_game.h"
+	"gme_tools.h"
+
+1471592452 source:d:\dev\proj\cpp\ovgme1_5\src\gme_tools.cpp
+	"gme_tools.h"
+
+1471549969 d:\dev\proj\cpp\ovgme1_5\include\gme_tools.h
+	"gme.h"
+	"gmenode.h"
+
+1471624401 d:\dev\proj\cpp\ovgme1_5\include\gme.h
+	<stdio.h>
+	<stdlib.h>
+	<iostream>
+	<tchar.h>
+	<string.h>
+	<algorithm>
+	<string>
+	<vector>
+	<sstream>
+	<iomanip>
+	<process.h>
+	<winsock2.h>
+	<ws2tcpip.h>
+	<windows.h>
+	<commctrl.h>
+	<shlobj.h>
+	<shlwapi.h>
+	<htmlhelp.h>
+	<stdint.h>
+	<inttypes.h>
+	"miniz.h"
+	"xxhash.h"
+	"../resource.h"
+
+1471069267 d:\dev\proj\cpp\ovgme1_5\include\thirdparty\miniz\miniz.h
+	<stdlib.h>
+	<time.h>
+
+1471071358 d:\dev\proj\cpp\ovgme1_5\include\gmenode.h
+	"gme.h"
+
+1471167391 source:d:\dev\proj\cpp\ovgme1_5\src\gme_uins.cpp
+	"gme_uins.h"
+	"gme_mods.h"
+	"gme_game.h"
+	"gme_tools.h"
+
+1471068491 source:d:\dev\proj\cpp\ovgme1_5\src\gmenode.cpp
+	"gmenode.h"
+
+1471071219 d:\dev\proj\cpp\ovgme1_5\include\gme_conf.h
+	"gme.h"
+
+1471280993 d:\dev\proj\cpp\ovgme1_5\include\gme_mods.h
+	"gme.h"
+
+1471163612 d:\dev\proj\cpp\ovgme1_5\include\gme_game.h
+	"gme.h"
+
+1471072785 d:\dev\proj\cpp\ovgme1_5\include\gme_snap.h
+
+1471071160 d:\dev\proj\cpp\ovgme1_5\include\gme_uins.h
+
+1471084385 d:\dev\proj\cpp\ovgme1_5\\resource.h
+
+1471069267 source:d:\dev\proj\cpp\ovgme1_5\src\thirdparty\miniz\miniz.c
+	"miniz.h"
+	<string.h>
+	<assert.h>
+	<stdio.h>
+	<sys/stat.h>
+	<sys/utime.h>
+	<sys/utime.h>
+	<sys/utime.h>
+	<utime.h>
+	<utime.h>
+
+1471379510 d:\dev\proj\cpp\ovgme1_5\include\gme_netw.h
+
+1471624374 source:d:\dev\proj\cpp\ovgme1_5\src\gme_repo.cpp
+	"gme_game.h"
+	"gme_mods.h"
+	"gme_repo.h"
+	"gme_tools.h"
+	"gme_netw.h"
+	"gme_logs.h"
+	"pugixml.hpp"
+
+1471549436 d:\dev\proj\cpp\ovgme1_5\include\gme_repo.h
+
+1393457747 source:d:\dev\proj\cpp\ovgme1_5\src\thirdparty\pugixml\pugixml.cpp
+	"pugixml.hpp"
+	<stdlib.h>
+	<stdio.h>
+	<string.h>
+	<assert.h>
+	<wchar.h>
+	<math.h>
+	<float.h>
+	<setjmp.h>
+	<istream>
+	<ostream>
+	<string>
+	<new>
+	<stdint.h>
+
+1471184278 d:\dev\proj\cpp\ovgme1_5\include\thirdparty\pugixml\pugixml.hpp
+	"pugiconfig.hpp"
+	<stddef.h>
+	<exception>
+	<iterator>
+	<iosfwd>
+	<string>
+
+1393303685 d:\dev\proj\cpp\ovgme1_5\include\thirdparty\pugixml\pugiconfig.hpp
+
+1471085112 d:\dev\proj\cpp\ovgme1_5\include\resource.h
+
+1471466150 source:d:\dev\proj\cpp\ovgme1_5\src\gme_dlg_about.cpp
+	"gme.h"
+
+1471167331 d:\dev\proj\cpp\ovgme1_5\include\gme_dlg_about.h
+	"gme.h"
+
+1471165889 d:\dev\proj\cpp\ovgme1_5\include\gme_dlg_repconf.h
+
+1471293438 d:\dev\proj\cpp\ovgme1_5\include\gme_dlg_repo.h
+	"gme.h"
+
+1471549337 source:d:\dev\proj\cpp\ovgme1_5\src\gme_dlg_repo.cpp
+	"gme.h"
+	"gme_repo.h"
+	"gme_tools.h"
+
+1471167359 d:\dev\proj\cpp\ovgme1_5\include\gme_dlg_snap.h
+	"gme.h"
+
+1471477254 source:d:\dev\proj\cpp\ovgme1_5\src\gme_dlg_snap.cpp
+	"gme.h"
+	"gme_snap.h"
+
+1471477119 source:d:\dev\proj\cpp\ovgme1_5\src\gme_dlg_mods.cpp
+	"gme.h"
+	"gme_mods.h"
+	"gme_tools.h"
+
+1471167359 d:\dev\proj\cpp\ovgme1_5\include\gme_dlg_mods.h
+	"gme.h"
+
+1471167359 d:\dev\proj\cpp\ovgme1_5\include\gme_dlg_game.h
+	"gme.h"
+
+1471468406 source:d:\dev\proj\cpp\ovgme1_5\src\gme_dlg_game.cpp
+	"gme.h"
+	"gme_game.h"
+	"gme_tools.h"
+
+1471167359 d:\dev\proj\cpp\ovgme1_5\include\gme_dlg_main.h
+	"gme.h"
+
+1471555044 source:d:\dev\proj\cpp\ovgme1_5\src\gme_dlg_main.cpp
+	"gme.h"
+	"gme_tools.h"
+	"gme_game.h"
+	"gme_conf.h"
+	"gme_mods.h"
+	"gme_repo.h"
+	"gme_netw.h"
+	"gme_logs.h"
+	"gme_dlg_about.h"
+	"gme_dlg_repo.h"
+	"gme_dlg_snap.h"
+	"gme_dlg_mods.h"
+	"gme_dlg_game.h"
+	"gme_dlg_main.h"
+
+1471348673 source:d:\dev\proj\cpp\ovgme1_5\src\gme_dlg_debug.cpp
+	"gme_dlg_debug.h"
+
+1471348655 d:\dev\proj\cpp\ovgme1_5\include\gme_dlg_debug.h
+	"gme.h"
+
+1471349916 d:\dev\proj\cpp\ovgme1_5\include\gme_logs.h
+
+1471349767 source:d:\dev\proj\cpp\ovgme1_5\src\gme_logs.cpp
+	"gme.h"
+	"gme_logs.h"
+	"gme_tools.h"
+
