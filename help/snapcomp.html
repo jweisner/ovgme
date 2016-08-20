@@ -1,0 +1,47 @@
+<html>
+<head>
+  <title>Comparing a snapshot</title>
+  
+  <meta name="keywords"  content="game,snapshot,compare,output" ></head>
+  
+  <body style="font-family:arial; font-size:10pt;">
+    <table bgcolor="#000" border="0" width="100%">
+      <tbody>
+        <tr>
+          <td style="color:#fff; font-size:14pt;"> 
+            <b>Comparing a snapshot</b>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+    <br>
+To compare an existing snapshot for the current selected game, go to the "<b>Game</b>" menu, 
+select "<b>snapshot</b>" then "<b>compare...</b>". A new dialog will prompt you to begin 
+the comparison process. The comparison process can take long time since it must read all 
+game files to verify the xxHash checksum, you can cancel the comparison process at 
+any time.<br><br>
+
+<h4>Comparison output</h4>
+During the comparison process, an output log is generated in the comparison process 
+dialog window. This output log lists all file tree differences with the last snapshot. 
+This list has three columns: Type, Change and Path.<br><br>
+
+<blockquote> 
+  <b>Type</b> : identifies whether the concerned entry is a file or a directory.
+  <blockquote> 
+    <span style="font-family:Courier;"><b>(f)</b></span> : stands for File.<br>
+    <span style="font-family:Courier;"><b>(d)</b></span> : stands for Directory.
+  </blockquote> 
+  
+  <b>Change </b>: identifies what kind of changes occurred about this entry.
+  <blockquote> 
+    <span style="font-family:Courier;"><b>+</b></span> : stands for added, the file or folder was added since the last snapshot.<br>
+    <span style="font-family:Courier;"><b>-</b></span> : stands for removed, the file or folder was removed since the last snapshot.<br>
+    <span style="font-family:Courier;"><b>~</b></span> : stands for modified, the file was modified since the last snapshot.
+  </blockquote> 
+  
+  <b>Path</b> : identifies the relative path of the entry from the root game folder.
+  
+</blockquote> 
+  </body>
+</html>

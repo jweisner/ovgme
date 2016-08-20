@@ -1,0 +1,96 @@
+<html>
+<head>
+  <title>Repository Principle</title>
+  
+  <meta name="keywords"  content="mods,repository,repositories,principle,base,server,http,url," ></head>
+  
+  <body style="font-family:arial; font-size:10pt;">
+    <table bgcolor="#000" border="0" width="100%">
+      <tbody>
+        <tr>
+          <td style="color:#fff; font-size:14pt;"> 
+            <b>Repository principle</b>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+    <br>
+
+For OvGME, a repository is simply a web server (HTTP) who provides a specifically 
+structured XML data with informations about Mod(s) to download. There are two things not 
+to be confused: The repository server, and where Mod(s) are downloadable.<br>
+
+<h4>Repository transaction</h4>
+
+The OvGME repository mechanism is pretty simple: A web server hosts an XML file 
+available as any other web page at a specific address, OvGME will query the HTTP server 
+to receive this specific file, then will parse it to gather data about what Mods are 
+available and where they can be downloaded.<br>
+<img src="repos_schem.jpg" alt="Repository transaction schema">
+<br>
+
+<h4>The repository server</h4>
+
+The repository server must be a standard HTTP 1.1 server. This is, so to say, mainly 
+the only standard which is currently in service on the web. In other words, a repository 
+server is nothing other than a web site who provide an OvGME compatible XML file. The 
+only rules is that OvGME must be able to access this XML file through the web using a 
+specified URL.<br>
+<br>
+To summarize: If you can open the XML file using your favorite web browser, OvGME will 
+too, and then, this is an "OvGME repository".<br>
+
+<h4>The standard URL to provide</h4>
+
+If you provide a classical XML file in your server, the repository URL provided to users 
+must be the full URL to the XML file, with or without the "<i>.xml</i>" at the end of URL.
+Indeed, if there is no "<i>.xml</i>" at the end of the URL, OvGME will automatically append 
+"<i>.xml</i>" at the end of URL.<br>
+<br>
+For example, if the full URL to XML file is:<br>
+     "<i>http://www.example.com:8080/repository/game1.xml</i>"<br>
+<br>
+The following URL is <u>also valid</u> for OvGME:<br>
+     "<i>http://www.example.com:8080/repository/game1</i>"<br>
+<br>
+OvGME supports all standard url format, with or without protocol or port specified.
+Here are example of supported URL format:<br>
+<blockquote>
+  <i>
+  http://www.example.com/folder/repository<br>
+  www.example.com/folder/repository<br>
+  www.example.com:8081/folder/repository<br>
+  http://www.example.com:8081/folder/repository<br>
+  </i>
+</blockquote>
+<i>Note: If not port is specified, the default HTTP port 80 is used.</i><br>
+
+<h4>Dynamically generated XML data</h4>
+OvGME supports the chunked transfer-encoding method for simple HTTP GET request (not for 
+file download). In other words, <b>OvGME can gather XML data from any dynamically  
+generated web page such as PHP or ASP page.</b><br>
+<br>
+However, in this case, the provided repository URL must allow OvGME to recognize this is
+not a raw XML repository (to not trying to add the "<i>.xml</i>" extension to URL). 
+To do so, the URL must either: 
+<ul>
+<li>
+Be the full URL to the web file including "<i>.php</i>", "<i>.asp</i>" or "<i>.aspx</i>" extension.
+</li>
+<li>
+Or containing a "<i>?</i>" character, typical of a dynamic URL request.
+</li>
+</ul>
+Here are some examples of valid provided URL for dynamically generated repository:<br>
+<blockquote>
+  <i>
+  http://www.example.com/repository.php<br>
+  http://www.example.com/repo.asp<br>
+  http://www.example.com?game=1&type=2<br>
+  </i>
+</blockquote>
+Dynamically generated XML allow repositories managers to create their repositories using 
+real databases with their own XML source generator.
+
+  </body>
+</html>

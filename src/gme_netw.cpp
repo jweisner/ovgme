@@ -303,15 +303,10 @@ SOCKET GME_NetwConnect(sockaddr* saddr)
     return INVALID_SOCKET;
   }
 
-  GME_LogsAppend("connect :: Try\r\n");
-
   if(0 != connect(sock, saddr, sizeof(sockaddr))) {
-    GME_LogsAppend("connect :: error\r\n");
     closesocket(sock);
     return INVALID_SOCKET;
   }
-
-  GME_LogsAppend("connect :: end\r\n");
 
   return sock;
 }

@@ -1,3 +1,4 @@
+OvGME 1.6, 2016-20-08
 
 - Fixed bug for already encoded URL being re-encoded with "%" char interpreted.
 
@@ -7,7 +8,11 @@
 
 - Empty error message on repository check fail fixed.
 
-- Help updated.
+- Help updated and corrected.
+
+- Help now starts with good window size.
+
+- Added help source files.
 
 
 OvGME 1.5.9, 2016-19-08

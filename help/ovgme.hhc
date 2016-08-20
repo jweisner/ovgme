@@ -1,0 +1,52 @@
+<!DOCTYPE HTML PUBLIC "-//IETF//DTD HTML//EN">
+<HTML>
+<HEAD>
+  <meta name="GENERATOR" content="Microsoft&reg; HTML Help Workshop 4.1">
+  <!-- Sitemap 1.0 -->
+</HEAD>
+<BODY>
+<OBJECT type="text/site properties">
+  <param name="ExWindow Styles" value="0x800225">
+  <param name="Window Styles" value="0x800225">
+</OBJECT>
+<UL> 
+<LI> <OBJECT type="text/sitemap">	<PARAM name="Name" value="Introduction"><PARAM name="Local" value="introduction.html"><PARAM name="ImageNumber" value="0"></OBJECT>
+<LI> <OBJECT type="text/sitemap"><PARAM name="Name" value="Game management"> <PARAM name="ImageNumber" value="0">	</OBJECT>
+<UL>
+<LI> <OBJECT type="text/sitemap">	<PARAM name="Name" value="Adding a game"> <PARAM name="Local" value="gameadd.html"> <PARAM name="ImageNumber" value="0"> </OBJECT>
+<LI> <OBJECT type="text/sitemap"> <PARAM name="Name" value="Editing a game"> <PARAM name="Local" value="gameedit.html"> <PARAM name="ImageNumber" value="0"> </OBJECT>
+<LI> <OBJECT type="text/sitemap"> <PARAM name="Name" value="Removing a game"> <PARAM name="Local" value="gamerem.html"> <PARAM name="ImageNumber" value="0"> </OBJECT>
+</UL>
+<LI> <OBJECT type="text/sitemap"> <PARAM name="Name" value="Game snapshot"> <PARAM name="ImageNumber" value="0"> </OBJECT>
+<UL>
+<LI> <OBJECT type="text/sitemap"> <PARAM name="Name" value="Introduction"> <PARAM name="Local" value="snapintro.html"> <PARAM name="ImageNumber" value="0"> </OBJECT>
+<LI> <OBJECT type="text/sitemap"> <PARAM name="Name" value="Creating snapshot"> <PARAM name="Local" value="snapnew.html"> <PARAM name="ImageNumber" value="0"> </OBJECT>
+<LI> <OBJECT type="text/sitemap"> <PARAM name="Name" value="Comparing snapshot"> <PARAM name="Local" value="snapcomp.html"> <PARAM name="ImageNumber" value="0"> </OBJECT>
+</UL>
+<LI> <OBJECT type="text/sitemap"> <param name="Name" value="Mods management"> <PARAM name="ImageNumber" value="0"> </OBJECT>
+<UL>
+<LI> <OBJECT type="text/sitemap"><PARAM name="Name" value="Introduction"><PARAM name="Local" value="modsintro.html"><PARAM name="ImageNumber" value="0"></OBJECT>
+<LI> <OBJECT type="text/sitemap"><PARAM name="Name" value="Enabling & disabling Mod(s)"><PARAM name="Local" value="modsenadis.html"><PARAM name="ImageNumber" value="0"> </OBJECT>
+<LI> <OBJECT type="text/sitemap"> <PARAM name="Name" value="Mods profile"> <PARAM name="Local" value="modsprofil.html"> <PARAM name="ImageNumber" value="0"> </OBJECT>
+<LI> <OBJECT type="text/sitemap"> <PARAM name="Name" value="Mod repositories"> <PARAM name="Local" value="modsrepos.html"><PARAM name="ImageNumber" value="0"></OBJECT>
+<LI> <OBJECT type="text/sitemap"> <PARAM name="Name" value="Mod(s) importation"> <PARAM name="Local" value="modsimport.html"> <PARAM name="ImageNumber" value="0"> </OBJECT>
+<LI> <OBJECT type="text/sitemap"> <PARAM name="Name" value="Making Mod-Archives"> <PARAM name="Local" value="modsmake.html"> <PARAM name="ImageNumber" value="0"> </OBJECT>
+<LI> <OBJECT type="text/sitemap"> <PARAM name="Name" value="Mods FAQ"> <PARAM name="Local" value="modsfaq.html"> <PARAM name="ImageNumber" value="0"> </OBJECT>
+</UL>
+<LI> <OBJECT type="text/sitemap"> <PARAM name="Name" value="Mods structure"> <PARAM name="ImageNumber" value="0"> </OBJECT>
+<UL>
+<LI> <OBJECT type="text/sitemap"> <PARAM name="Name" value="Introduction"> <PARAM name="Local" value="structintro.html"> <PARAM name="ImageNumber" value="0"> </OBJECT>
+<LI> <OBJECT type="text/sitemap"> <PARAM name="Name" value="Directory-Mod"> <PARAM name="Local" value="structdir.html"> <PARAM name="ImageNumber" value="0"></OBJECT>
+<LI> <OBJECT type="text/sitemap"> <PARAM name="Name" value="Mod-Archive (Zip)"> <PARAM name="Local" value="structzip.html"> <PARAM name="ImageNumber" value="0"> </OBJECT>
+<LI> <OBJECT type="text/sitemap"> <PARAM name="Name" value="Mod versioning"> <PARAM name="Local" value="structvers.html"> <PARAM name="ImageNumber" value="0"> </OBJECT>
+</UL>
+<LI> <OBJECT type="text/sitemap"><param name="Name" value="Repository management"> <PARAM name="ImageNumber" value="0"> </OBJECT>
+<UL>
+<LI> <OBJECT type="text/sitemap"> <PARAM name="Name" value="Repository principle"> <PARAM name="Local" value="reposbase.html"> <PARAM name="ImageNumber" value="0"> </OBJECT>
+<LI> <OBJECT type="text/sitemap"> <PARAM name="Name" value="Repository XML data"> <PARAM name="Local" value="reposxml.html"> <PARAM name="ImageNumber" value="0"> </OBJECT>
+<LI> <OBJECT type="text/sitemap"> <PARAM name="Name" value="Repository Faq"> <PARAM name="Local" value="reposfaq.html"> <PARAM name="ImageNumber" value="0"> </OBJECT>
+</UL>
+<LI> <OBJECT type="text/sitemap"> <param name="Name" value="Compatibility"> <PARAM name="ImageNumber" value="0"></OBJECT>
+<UL> 
+<LI> <OBJECT type="text/sitemap"> <PARAM name="Name" value="OvGME and JSGME"> <PARAM name="Local" value="jsgmecomp.html"> <PARAM name="ImageNumber" value="0">	</OBJECT>
+

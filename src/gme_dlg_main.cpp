@@ -71,7 +71,7 @@ void GME_MainInit()
 
   wcscpy(buff, L"Mod");
   lvcol.pszText = buff;
-  lvcol.cx = 700;
+  lvcol.cx = 698;
   lvcol.iSubItem = 0;
   SendMessageW(GetDlgItem(g_hwndMain, LVM_MODSLIST), LVM_INSERTCOLUMNW, 0, (LPARAM)&lvcol);
 

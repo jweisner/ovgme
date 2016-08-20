@@ -1,0 +1,85 @@
+<html>
+<head>
+  <title>Mod Versioning</title>
+  
+  <meta name="keywords"  content="mods,structure,mod-archive,zip," ></head>
+  
+  <body style="font-family:arial; font-size:10pt;">
+    <table bgcolor="#000" border="0" width="100%">
+      <tbody>
+        <tr>
+          <td style="color:#fff; font-size:14pt;"> 
+            <b>Mod versioning</b>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+    <br>
+    
+OvGME supports versioning for Mod-Archives (not for Directory-Mod). The Mod version is 
+identified localy by a string contained in a specific text file at root of the 
+Mod-Archive zip file, or by the repository provided data. This version is used by the 
+repositories mechanism to check which version of a same Mod is greater than another.
+
+<h4>The version.txt file</h4>
+
+OvGME automatically checks if a properly named "version.txt" file exists at root of 
+the zip file of a Mod-Archive. If this file exists, it will be considered as the version 
+string for this Mod. This file must be a standard ASCII .txt file and the version string 
+should follow the format as described below.
+
+<h4>Version string format</h4>
+
+The version string must be only numbers optionally separated by dot, no letter nor any 
+other special character are allowed.<br>
+<br>
+There are up to three version components allowed, all separated by one (and only one) 
+dot, to fit the standard GNU version numbering scheme as follow:<br> 
+<span style="font-family:Courier;">
+<i>major</i><b>.</b><i>minor</i><b>.</b><i>revision</i><br>
+</span>
+<br>
+
+A valid version string does not have to include the three version components, it can 
+for example include only <i>version major</i> and <i>version minor</i> components, 
+or even only one number which will be considered as the <i>version major</i> component.<br> 
+Here are examples of valid version string:<br>
+<blockquote>
+<span style="font-family:Courier;">
+1.5.0<br>
+1.2<br>
+2<br>
+0.9.5<br>
+0.9<br>
+</span>
+</blockquote>
+
+The string parsing rules are the following: <br>
+<ul>
+<li>
+If there are three numbers, each number is sequentially interpreted as:<br> <i>version major</i> . <i>version minor</i> . <i>version revsion</i><br>
+</li>
+<li>
+If there are two numbers, each number is sequentially interpreted as:<br> <i>version major</i> . <i>version minor</i><br>
+</li>
+<li>
+If there is only one number, the number is interpreted as:<br> <i>version major</i><br>
+</li>
+</ul>
+
+<h4>Version comparison</h4>
+
+OvGME automatically determines which version is greater by analyzing the major, minor 
+and revision components in order. If two version strings does not have the same format, 
+it uses the following rule to compare them: The missing components at the right of 
+the <i>version major</i> component has a <b>0</b> value.<br><br>
+For example, a version string "<i>1.2</i>" is in fact numerically translated as 
+<span style="font-family:Courier;">1.2.0</span> and a "<i>2</i>" string is numerically 
+translated as <span style="font-family:Courier;">2.0.0</span>. So:<br>
+<blockquote>
+if the "<i>1.2</i>" string (<span style="font-family:Courier;">1.2.0</span>) must be compared to the "<i>1.2.1</i>" string, the "<i>1.2.1</i>" string will be considered as the greater one.<br><br>
+If the "<i>1.2.2</i>" string must be compared to the "<i>1.3</i>" string, the "<i>1.3</i>" string (<span style="font-family:Courier;">1.3.0</span>) will be considered as the greater one.<br><br>
+If the "<i>1</i>" string must be compared to the "<i>0.5.5</i>" string, the "<i>1</i>" string (<span style="font-family:Courier;">1.0.0</span>) will be considered as the greater one.<br><br>
+</blockquote>
+  </body>
+</html>
