@@ -133,6 +133,8 @@ BOOL CALLBACK GME_DlgMain(HWND hwndDlg, UINT uMsg, WPARAM wParam, LPARAM lParam)
     SendMessage(g_hwndMain, WM_SETICON, ICON_BIG, (LPARAM)g_hicnMain);
     /* set main menu */
     SetMenu(hwndDlg, g_hmnuMain);
+    /* disable cancel button */
+    EnableWindow(GetDlgItem(g_hwndMain, BTN_MODCANCEL), false);
     /* Get game cfg and create list */
     if(!GME_GameUpdList()) {
       DialogBox(g_hInst, MAKEINTRESOURCE(DLG_WIZARD), hwndDlg, (DLGPROC)GME_DlgGameAdd);
@@ -209,6 +211,10 @@ BOOL CALLBACK GME_DlgMain(HWND hwndDlg, UINT uMsg, WPARAM wParam, LPARAM lParam)
 
     case MNU_MODDISALL:
       GME_ModsToggleAll(MODS_DISABLE);
+      return true;
+
+    case BTN_MODCANCEL:
+      GME_ModsProcCancel();
       return true;
 
     case MNU_SNAPCREATE:

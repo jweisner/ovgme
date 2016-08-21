@@ -23,7 +23,7 @@
 std::wstring GME_GetAppdataPath()
 {
   wchar_t buff[MAX_PATH];
-  SHGetFolderPathW(NULL, CSIDL_APPDATA, NULL, 0, buff);
+  SHGetFolderPathW(NULL, CSIDL_COMMON_APPDATA, NULL, 0, buff);
   std::wstring hpath = buff;
   hpath.append(L"\\OvGME");
   return hpath;

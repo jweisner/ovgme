@@ -1,0 +1,72 @@
+<html>
+<head>
+  <title>OvGME and JSGME</title>
+  
+  <meta name="keywords"  content="compatibility,jsgme," ></head>
+  
+  <body style="font-family:arial; font-size:10pt;">
+    <table bgcolor="#000" border="0" width="100%">
+      <tbody>
+        <tr>
+          <td style="color:#fff; font-size:14pt;"> 
+            <b>OvGME and JSGME</b>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+    <br>
+OvGME shares some concepts with JSGME, <b><u>but be careful !</u></b>
+<h4>How OvGME cohabit with JSGME ?</h4>
+Bad ! so to say, the prudent answer is that OvGME does not cohabit at all with JSGME. 
+OvGME uses its own logic, its own configuration files with its own backup format, and 
+don't care about JSGME. 
+
+<h4>Do i risk to corrupt the JSGME configuration using OvGME ?</h4>
+No, but in fact Yes ! OvGME does not interfere with JSGME configuration and backup 
+structures, and JSGME does not interfere with OvGME, both software act independently 
+<b>HOWEVER</b>:<br><br>
+
+This imply that OvGME ignores what JSGME does, and vice versa. For example, if you 
+enable a mod using OvGME, JSGME will not see it as enabled (and vice versa). This 
+situation can creates many confusion in backup since JSGME can create backup of files 
+modified by OvGME without knowing it (and vice versa) and then finally you can loose 
+the original files.<br><br>
+
+The safe rules are:<br>
+<ul>
+<li>A mod already enabled with JSGME <b><u>must not</u></b> be enabled again using OvGME.</li>
+<li>A mod already enabled with OvGME <b><u>must not</u></b> be enabled again using JSGME.</li>
+<li>A mod enabled with OvGME <b><u>must be</u></b> disabled using OvGME.</li>
+<li>A mod enabled with JSGME <b><u>must be</u></b> disabled using JSGME.</li>
+</ul>
+
+
+The true safe rule is:
+<ul>
+<li><b><u>Don't use both JSGME and OvGME for the same game.</u></b></li>
+</ul>
+
+<h4>How do i switch from JSGME to OvGME and vice versa for a game ?</h4>
+
+If you choose to use OvGME for a game where you already use JSGME:
+
+<ol>
+<li>Launch your JSGME instance for this game.</li>
+<li>In JSGME, Disable ALL mods.</li>
+<li>You can now quit JSGME.</li>
+<li>In OvGME, Add a game and specify the proper mod stock folder, the one previously used by JSGME for example (see Game management).</li>
+<li>You can now delete the "!BACKUP" and "!INSTLOGS" hidden folders in mods stock folder.</li>
+<li>You also can now delete the "JSGME.ini" files in game root folder and mods stock folder.</li>
+</ol>
+
+If you choose to use JSGME for a game where you already use OvGME:
+
+<ol>
+<li>Launch OvGME and select the proper game (see Game management).</li>
+<li>In OvGME, Disable ALL mods (see Mods management ).</li>
+<li>In OvGME, Remove the game (see Game management).</li>
+<li>You can now quit OvGME and install JSGME safely.</li>
+</ol>
+
+  </body>
+</html>

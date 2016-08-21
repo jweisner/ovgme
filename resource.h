@@ -44,6 +44,7 @@
 #define TXT_COMMENT                             40001
 #define TXT_UNINST_MOD                          40001
 #define TXT_VERSION                             40001
+#define BTN_MODCANCEL                           40002
 #define CHK_CUSTBACKUP                          40002
 #define ENT_REPOURL                             40002
 #define ENT_VERSMAJOR                           40002
@@ -104,11 +105,7 @@
 #define MNU_REPOSCONFIG                         40056
 #define MNU_REPOSQUERY                          40057
 #define MNU_REPOSMKXML                          40058
-#define POP_ADDDESC                             40060
-#define POP_EDITDESC                            40061
 #define POP_OPENDIR                             40062
-#define POP_RENAME                              40063
-#define POP_REMDESC                             40064
 #define POP_TOGGLE                              40065
 #define POP_ENABLE                              40066
 #define POP_DISABLE                             40067

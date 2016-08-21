@@ -407,6 +407,7 @@ int GME_NetwHttpGET(const char* url_str, const GME_NetwGETOnErr on_err, const GM
   if(!GME_NetwGetIp4(url.host, url.port, &saddr)) {
     WSACleanup();
     if(on_err) on_err(url_str);
+    GME_Logs(GME_LOG_ERROR, "GME_NetwHttpGET", "GME_NetwGetIp4 failed", url_str);
     return GME_HTTPGET_ERR_DNS;
   }
 
@@ -415,6 +416,7 @@ int GME_NetwHttpGET(const char* url_str, const GME_NetwGETOnErr on_err, const GM
   if((sock = GME_NetwConnect(&saddr)) == INVALID_SOCKET) {
     WSACleanup();
     if(on_err) on_err(url_str);
+    GME_Logs(GME_LOG_ERROR, "GME_NetwHttpGET", "GME_NetwConnect failed", url_str);
     return GME_HTTPGET_ERR_CNX;
   }
 
@@ -439,6 +441,7 @@ int GME_NetwHttpGET(const char* url_str, const GME_NetwGETOnErr on_err, const GM
     /* stream error... */
     closesocket(sock); WSACleanup();
     if(on_err) on_err(url_str);
+    GME_Logs(GME_LOG_ERROR, "GME_NetwHttpGET", "recv failed", url_str);
     return GME_HTTPGET_ERR_REC;
   }
 
@@ -449,12 +452,14 @@ int GME_NetwHttpGET(const char* url_str, const GME_NetwGETOnErr on_err, const GM
     /* this is a 404 or any HTTP server error... */
     closesocket(sock); WSACleanup();
     if(on_err) on_err(url_str);
+    GME_Logs(GME_LOG_ERROR, "GME_NetwHttpGET", "HTTP code greater than 302", url_str);
     return header.code;
   }
 
   if(header.code == 301 || header.code == 302) {
     /* this is a redirection, we must send a new request */
     closesocket(sock); WSACleanup();
+    GME_Logs(GME_LOG_WARNING, "GME_NetwHttpGET", "redirection", url_str);
     return GME_NetwHttpGET(header.location, on_err, on_dnl, on_end);
   }
 
@@ -491,6 +496,7 @@ int GME_NetwHttpGET(const char* url_str, const GME_NetwGETOnErr on_err, const GM
           bps = float(body_data.size())/(float(clock()-t)/CLOCKS_PER_SEC);
           if(!on_dnl(pct, bps)) {
             closesocket(sock); WSACleanup();
+            GME_Logs(GME_LOG_NOTICE, "GME_NetwHttpGET", "Canceled by user", url_str);
             return 0; // canceled
           }
         }
@@ -507,6 +513,7 @@ int GME_NetwHttpGET(const char* url_str, const GME_NetwGETOnErr on_err, const GM
               /* stream error... */
               closesocket(sock); WSACleanup();
               if(on_err) on_err(url_str);
+              GME_Logs(GME_LOG_ERROR, "GME_NetwHttpGET", "recv failed", url_str);
               return GME_HTTPGET_ERR_REC;
             }
             data_p = recv_buff;
@@ -522,6 +529,7 @@ int GME_NetwHttpGET(const char* url_str, const GME_NetwGETOnErr on_err, const GM
             /* stream error... */
             closesocket(sock); WSACleanup();
             if(on_err) on_err(url_str);
+            GME_Logs(GME_LOG_ERROR, "GME_NetwHttpGET", "recv failed", url_str);
             return GME_HTTPGET_ERR_REC;
           }
           data_p = recv_buff;
@@ -545,6 +553,7 @@ int GME_NetwHttpGET(const char* url_str, const GME_NetwGETOnErr on_err, const GM
     }
     closesocket(sock); WSACleanup();
     if(on_err) on_err(url_str);
+    GME_Logs(GME_LOG_ERROR, "GME_NetwHttpGET", "Unsuported transfer encoding", url_str);
     return GME_HTTPGET_ERR_ENC;
   }
 
@@ -560,6 +569,7 @@ int GME_NetwHttpGET(const char* url_str, const GME_NetwGETOnErr on_err, const GM
   } catch(const std::bad_alloc&) {
     closesocket(sock); WSACleanup();
     if(on_err) on_err(url_str);
+    GME_Logs(GME_LOG_ERROR, "GME_NetwHttpGET", "Bad alloc", std::to_string(header.content_length).c_str());
     return GME_HTTPGET_ERR_BAL;
   }
 
@@ -574,6 +584,7 @@ int GME_NetwHttpGET(const char* url_str, const GME_NetwGETOnErr on_err, const GM
     if(!on_dnl(pct, bps)) {
       closesocket(sock); WSACleanup();
       delete[] body_data;
+      GME_Logs(GME_LOG_NOTICE, "GME_NetwHttpGET", "Canceled by user", url_str);
       return 0; // canceled
     }
   }
@@ -589,6 +600,7 @@ int GME_NetwHttpGET(const char* url_str, const GME_NetwGETOnErr on_err, const GM
         closesocket(sock); WSACleanup();
         delete[] body_data;
         if(on_err) on_err(url_str);
+        GME_Logs(GME_LOG_ERROR, "GME_NetwHttpGET", "recv failed", url_str);
         return GME_HTTPGET_ERR_REC;
       }
       memcpy(body_data+body_size, recv_buff, recv_size);
@@ -600,6 +612,7 @@ int GME_NetwHttpGET(const char* url_str, const GME_NetwGETOnErr on_err, const GM
         if(!on_dnl(pct, bps)) {
           closesocket(sock); WSACleanup();
           delete[] body_data;
+          GME_Logs(GME_LOG_NOTICE, "GME_NetwHttpGET", "Canceled by user", url_str);
           return 0; // canceled
         }
       }
@@ -634,6 +647,7 @@ int GME_NetwHttpGET(const char* url_str, const GME_NetwGETOnErr on_err, const GM
   if(!GME_NetwGetIp4(url.host, url.port, &saddr)) {
     WSACleanup();
     if(on_err) on_err(url_str);
+    GME_Logs(GME_LOG_ERROR, "GME_NetwHttpGET", "GME_NetwGetIp4 failed", url_str);
     return GME_HTTPGET_ERR_DNS;
   }
 
@@ -642,6 +656,7 @@ int GME_NetwHttpGET(const char* url_str, const GME_NetwGETOnErr on_err, const GM
   if((sock = GME_NetwConnect(&saddr)) == INVALID_SOCKET) {
     WSACleanup();
     if(on_err) on_err(url_str);
+    GME_Logs(GME_LOG_ERROR, "GME_NetwHttpGET", "GME_NetwConnect failed", url_str);
     return GME_HTTPGET_ERR_CNX;
   }
 
@@ -666,6 +681,7 @@ int GME_NetwHttpGET(const char* url_str, const GME_NetwGETOnErr on_err, const GM
     /* stream error... */
     closesocket(sock); WSACleanup();
     if(on_err) on_err(url_str);
+    GME_Logs(GME_LOG_ERROR, "GME_NetwHttpGET", "recv failed", url_str);
     return GME_HTTPGET_ERR_REC;
   }
 
@@ -676,12 +692,14 @@ int GME_NetwHttpGET(const char* url_str, const GME_NetwGETOnErr on_err, const GM
     /* this is a 404 or any HTTP server error... */
     closesocket(sock); WSACleanup();
     if(on_err) on_err(url_str);
+    GME_Logs(GME_LOG_ERROR, "GME_NetwHttpGET", "HTTP code greater than 302", url_str);
     return header.code;
   }
 
   if(header.code == 301 || header.code == 302) {
     /* this is a redirection, we must send a new request */
     closesocket(sock); WSACleanup();
+    GME_Logs(GME_LOG_WARNING, "GME_NetwHttpGET", "redirection", url_str);
     return GME_NetwHttpGET(header.location, on_err, on_dnl, on_sav, path);
   }
 
@@ -692,6 +710,7 @@ int GME_NetwHttpGET(const char* url_str, const GME_NetwGETOnErr on_err, const GM
     }
     closesocket(sock); WSACleanup();
     if(on_err) on_err(url_str);
+    GME_Logs(GME_LOG_ERROR, "GME_NetwHttpGET", "Unsuported transfer encoding", url_str);
     return GME_HTTPGET_ERR_ENC;
   }
 
@@ -709,6 +728,7 @@ int GME_NetwHttpGET(const char* url_str, const GME_NetwGETOnErr on_err, const GM
   if(!fp) {
     closesocket(sock); WSACleanup();
     if(on_err) on_err(url_str);
+    GME_Logs(GME_LOG_ERROR, "GME_NetwHttpGET", "Unable to open file", GME_StrToMbs(file_path).c_str());
     return GME_HTTPGET_ERR_FOP;
   }
 
@@ -719,6 +739,7 @@ int GME_NetwHttpGET(const char* url_str, const GME_NetwGETOnErr on_err, const GM
       closesocket(sock); WSACleanup();
       fclose(fp); DeleteFileW(file_path.c_str());
       if(on_err) on_err(url_str);
+      GME_Logs(GME_LOG_ERROR, "GME_NetwHttpGET", "Error on write file", GME_StrToMbs(file_path).c_str());
       return GME_HTTPGET_ERR_FWR;
     }
   }
@@ -730,6 +751,7 @@ int GME_NetwHttpGET(const char* url_str, const GME_NetwGETOnErr on_err, const GM
     if(!on_dnl(pct, bps)) {
       closesocket(sock); WSACleanup();
       fclose(fp); DeleteFileW(file_path.c_str());
+      GME_Logs(GME_LOG_NOTICE, "GME_NetwHttpGET", "Canceled by user", url_str);
       return 0; // canceled
     }
   }
@@ -745,12 +767,14 @@ int GME_NetwHttpGET(const char* url_str, const GME_NetwGETOnErr on_err, const GM
         closesocket(sock); WSACleanup();
         fclose(fp); DeleteFileW(file_path.c_str());
         if(on_err) on_err(url_str);
+        GME_Logs(GME_LOG_ERROR, "GME_NetwHttpGET", "recv failed", url_str);
         return GME_HTTPGET_ERR_REC;
       }
       if(!fwrite(&recv_buff, recv_size, 1, fp)) {
         closesocket(sock); WSACleanup();
         fclose(fp); DeleteFileW(file_path.c_str());
         if(on_err) on_err(url_str);
+        GME_Logs(GME_LOG_ERROR, "GME_NetwHttpGET", "Error on write file", GME_StrToMbs(file_path).c_str());
         return GME_HTTPGET_ERR_FWR;
       }
       body_size += recv_size;
@@ -761,6 +785,7 @@ int GME_NetwHttpGET(const char* url_str, const GME_NetwGETOnErr on_err, const GM
         if(!on_dnl(pct, bps)) {
           closesocket(sock); WSACleanup(); fclose(fp);
           fclose(fp); DeleteFileW(file_path.c_str());
+          GME_Logs(GME_LOG_NOTICE, "GME_NetwHttpGET", "Canceled by user", url_str);
           return 0; // canceled
         }
       }

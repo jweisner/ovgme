@@ -42,6 +42,7 @@ void GME_ModsProc_PushApply(const std::wstring& name, int type);
 void GME_ModsProc_PushRestore(const std::wstring& name);
 bool GME_ModsProc_IsReady();
 void GME_ModsProc_Launch();
+void GME_ModsProcCancel();
 bool GME_ModsListIsEmpty();
 void GME_ModsClean();
 

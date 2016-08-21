@@ -16,6 +16,7 @@
 #include "gme_tools.h"
 #include "gme_game.h"
 #include "gme_mods.h"
+#include "gme_logs.h"
 
 /* macro for backup entry type */
 #define GME_BCK_RESTORE_DELETE -1
@@ -147,6 +148,8 @@ inline bool GME_ModsUpdBackup(HWND hpb)
             }
           }
           fclose(fp);
+        } else {
+          GME_Logs(GME_LOG_ERROR, "GME_ModsUpdBackup", "Unable to open file", GME_StrToMbs(bck_file).c_str());
         }
       }
     } while(FindNextFileW(hnd, &fdw));
@@ -175,6 +178,7 @@ inline bool GME_ModsUpdBackup(HWND hpb)
         dst_path += L"\\" + path_split[j];
         if(!GME_IsDir(dst_path)) {
           if(!CreateDirectoryW(dst_path.c_str(), 0)) {
+            GME_Logs(GME_LOG_ERROR, "GME_ModsUpdBackup", "Unable to create directory", GME_StrToMbs(dst_path).c_str());
             got_error = true;
           }
         }
@@ -184,6 +188,7 @@ inline bool GME_ModsUpdBackup(HWND hpb)
       /* copy file, no overwrite dest */
       //CopyFileW(src_path.c_str(), dst_path.c_str(), true);
       if(!GME_FileCopy(src_path, dst_path, false)) {
+        GME_Logs(GME_LOG_ERROR, "GME_ModsUpdBackup", "Unable to copy file", GME_StrToMbs(dst_path).c_str());
         got_error = true;
       }
       /* step progress bar */
@@ -211,6 +216,7 @@ inline bool GME_ModsUpdBackup(HWND hpb)
       if(!is_depend) {
         dst_path = back_path + back_tree->currChild()->getPath(true);
         if(!DeleteFileW(dst_path.c_str())) {
+          GME_Logs(GME_LOG_ERROR, "GME_ModsUpdBackup", "Unable to delete file", GME_StrToMbs(dst_path).c_str());
           got_error = true;
         }
         /* step progress bar */
@@ -228,6 +234,7 @@ inline bool GME_ModsUpdBackup(HWND hpb)
     dst_path = back_path + backd_list[i];
     if(PathIsDirectoryEmptyW(dst_path.c_str())) {
       if(!RemoveDirectoryW(dst_path.c_str())) {
+        GME_Logs(GME_LOG_ERROR, "GME_ModsUpdBackup", "Unable to delete directory", GME_StrToMbs(dst_path).c_str());
         got_error = true;
       }
     }
@@ -286,6 +293,7 @@ void GME_ModsApplyMod(HWND hpb, const std::wstring& name, int type)
       GME_DialogError(g_hwndMain, L"Mod archive extraction failed. Aborting.");
       delete mod_tree;
       SendMessage(hpb, PBM_SETPOS, (WPARAM)0, 0);
+      GME_Logs(GME_LOG_ERROR, "GME_ModsApplyMod", "GME_TreeBuildFromZip failed", GME_StrToMbs(name).c_str());
       return;
     }
     /* get the count of items for progress bar */
@@ -386,6 +394,7 @@ void GME_ModsApplyMod(HWND hpb, const std::wstring& name, int type)
             delete mod_tree;
             FindClose(hnd);
             SendMessage(hpb, PBM_SETPOS, (WPARAM)0, 0);
+            GME_Logs(GME_LOG_WARNING, "GME_ModsApplyMod", "Mod apply canceled by user", GME_StrToMbs(name).c_str());
             return;
           }
         }
@@ -445,6 +454,7 @@ void GME_ModsApplyMod(HWND hpb, const std::wstring& name, int type)
     GME_DialogError(g_hwndMain, L"Unable to backup files for mod '" + name + L"'. Aborting.");
     delete mod_tree;
     SendMessage(hpb, PBM_SETPOS, (WPARAM)0, 0);
+    GME_Logs(GME_LOG_ERROR, "GME_ModsApplyMod", "GME_ModsUpdBackup failed", GME_StrToMbs(name).c_str());
     return;
   }
 
@@ -463,6 +473,7 @@ void GME_ModsApplyMod(HWND hpb, const std::wstring& name, int type)
       GME_DialogError(g_hwndMain, L"Mod archive extraction failed for mod '" + name + L"'. Aborting.");
       delete mod_tree;
       SendMessage(hpb, PBM_SETPOS, (WPARAM)0, 0);
+      GME_Logs(GME_LOG_ERROR, "GME_ModsApplyMod", "mz_zip_reader_init_file failed", GME_StrToMbs(name).c_str());
       return;
     }
   }
@@ -484,6 +495,7 @@ void GME_ModsApplyMod(HWND hpb, const std::wstring& name, int type)
           GME_DialogError(g_hwndMain, L"Mod archive extraction failed for mod '" + name + L"'. Aborting.");
           delete mod_tree;
           SendMessage(hpb, PBM_SETPOS, (WPARAM)0, 0);
+          GME_Logs(GME_LOG_ERROR, "GME_ModsApplyMod", "mz_zip_reader_file_stat failed", GME_StrToMbs(name).c_str());
           return;
         }
 
@@ -495,6 +507,7 @@ void GME_ModsApplyMod(HWND hpb, const std::wstring& name, int type)
           delete mod_tree;
           SendMessage(hpb, PBM_SETPOS, (WPARAM)0, 0);
           delete [] unpack;
+          GME_Logs(GME_LOG_ERROR, "GME_ModsApplyMod", "mz_zip_reader_extract_to_mem failed", GME_StrToMbs(name).c_str());
           return;
         }
 
@@ -505,6 +518,7 @@ void GME_ModsApplyMod(HWND hpb, const std::wstring& name, int type)
           delete [] unpack;
           GME_ModsRestoreMod(hpb, name);
           SendMessage(hpb, PBM_SETPOS, (WPARAM)0, 0);
+          GME_Logs(GME_LOG_ERROR, "GME_ModsApplyMod", "Unable to write file", GME_StrToMbs(dst_path).c_str());
           return;
         }
         delete [] unpack;
@@ -516,6 +530,7 @@ void GME_ModsApplyMod(HWND hpb, const std::wstring& name, int type)
           delete mod_tree;
           GME_ModsRestoreMod(hpb, name);
           SendMessage(hpb, PBM_SETPOS, (WPARAM)0, 0);
+          GME_Logs(GME_LOG_ERROR, "GME_ModsApplyMod", "Unable to copy file", GME_StrToMbs(dst_path).c_str());
           return;
         }
       }
@@ -596,10 +611,12 @@ void GME_ModsRestoreMod(HWND hpb, const std::wstring& name)
     if(bckentry_list[i].action == GME_BCK_RESTORE_DELETE) {
       if(bckentry_list[i].isdir) {
         if(!RemoveDirectoryW(dst_path.c_str())) {
+          GME_Logs(GME_LOG_ERROR, "GME_ModsRestoreMod", "Unable to delete directory", GME_StrToMbs(dst_path).c_str());
           got_error = true;
         }
       } else {
         if(!DeleteFileW(dst_path.c_str())) {
+          GME_Logs(GME_LOG_ERROR, "GME_ModsRestoreMod", "Unable to delete file", GME_StrToMbs(dst_path).c_str());
           got_error = true;
         }
       }
@@ -611,6 +628,7 @@ void GME_ModsRestoreMod(HWND hpb, const std::wstring& name)
         /* copy file, overwrite dest */
         //CopyFileW(src_path.c_str(), dst_path.c_str(), false);
         if(!GME_FileCopy(src_path, dst_path, true)) {
+          GME_Logs(GME_LOG_ERROR, "GME_ModsRestoreMod", "Unable to copy file", GME_StrToMbs(dst_path).c_str());
           got_error = true;
         }
         /* step progress bar */
@@ -623,6 +641,7 @@ void GME_ModsRestoreMod(HWND hpb, const std::wstring& name)
 
   /* update backup archive, this will remove no long needed file from archive */
   if(!GME_ModsUpdBackup(hpb)) {
+    GME_Logs(GME_LOG_ERROR, "GME_ModsRestoreMod", "GME_ModsUpdBackup failed", GME_StrToMbs(name).c_str());
     got_error = true;
   }
 
@@ -940,6 +959,13 @@ void GME_ModsExploreSrc()
 */
 void GME_ModsProfileSave()
 {
+  std::wstring prfl_file = GME_GameGetCurConfPath() + L"\\profile.dat";
+
+  if(GME_IsFile(prfl_file)) {
+    if(IDCANCEL == GME_DialogWarningConfirm(g_hwndMain, L"Mods Profile already exists for this game, do you want to overwrite it ?"))
+      return;
+  }
+
   HWND hlv = GetDlgItem(g_hwndMain, LVM_MODSLIST);
 
   /* save current game mod list status */
@@ -982,7 +1008,6 @@ void GME_ModsProfileSave()
   }
 
   /* we now can write the profile */
-  std::wstring prfl_file = GME_GameGetCurConfPath() + L"\\profile.dat";
   FILE* fp = _wfopen(prfl_file.c_str(), L"wb");
   if(fp) {
     /* first 4 bytes is count of entries */
@@ -997,7 +1022,7 @@ void GME_ModsProfileSave()
   /* update menus */
   GME_GameUpdMenu();
 
-  GME_DialogInfo(g_hwndMain, L"Game mods list configuration saved as default mods profile.");
+  GME_DialogInfo(g_hwndMain, L"Game Mods list configuration saved as default Mods Profile.");
 }
 
 /*
@@ -1615,6 +1640,32 @@ DWORD WINAPI GME_ModsProc_Th(void* args)
 {
   g_ModsProc_Running = true;
 
+  /* disable all buttons and combo to prevent dirty actions during process */
+  EnableWindow(GetDlgItem(g_hwndMain, CMB_GAMELIST), false);
+  EnableWindow(GetDlgItem(g_hwndMain, BTN_IMPORTMOD), false);
+  EnableWindow(GetDlgItem(g_hwndMain, BTN_ADDGAME), false);
+  EnableWindow(GetDlgItem(g_hwndMain, BTN_MODENA), false);
+  EnableWindow(GetDlgItem(g_hwndMain, BTN_MODDIS), false);
+  EnableMenuItem(g_hmnuMain, MNU_GAMEADD, MF_GRAYED);
+  EnableMenuItem(g_hmnuMain, MNU_GAMEEDIT, MF_GRAYED);
+  EnableMenuItem(g_hmnuMain, MNU_GAMEREM, MF_GRAYED);
+  EnableMenuItem(g_hmnuMain, MNU_SNAPCREATE, MF_GRAYED);
+  EnableMenuItem(g_hmnuMain, MNU_SNAPCOMPARE, MF_GRAYED);
+  EnableMenuItem(g_hmnuMain, MNU_MODENAALL, MF_GRAYED);
+  EnableMenuItem(g_hmnuMain, MNU_MODENA, MF_GRAYED);
+  EnableMenuItem(g_hmnuMain, MNU_MODDISALL, MF_GRAYED);
+  EnableMenuItem(g_hmnuMain, MNU_MODDIS, MF_GRAYED);
+  EnableMenuItem(g_hmnuMain, MNU_PROFILSAVE, MF_GRAYED);
+  EnableMenuItem(g_hmnuMain, MNU_PROFILELOAD, MF_GRAYED);
+  EnableMenuItem(g_hmnuMain, MNU_REPOSCONFIG, MF_GRAYED);
+  EnableMenuItem(g_hmnuMain, MNU_REPOSQUERY, MF_GRAYED);
+  EnableMenuItem(g_hmnuMain, MNU_REPOSMKXML, MF_GRAYED);
+  EnableMenuItem(g_hmnuMain, MNU_MODIMPORT, MF_GRAYED);
+  EnableMenuItem(g_hmnuMain, MNU_MODCREATE, MF_GRAYED);
+  /* enable cancel */
+  EnableWindow(GetDlgItem(g_hwndMain, BTN_MODCANCEL), true);
+
+
   for(unsigned i = 0; i < g_ModsProc_ArgList.size(); i++) {
     if(g_ModsProc_Cancel) {
       g_ModsProc_ArgList.clear();
@@ -1636,6 +1687,32 @@ DWORD WINAPI GME_ModsProc_Th(void* args)
 
   GME_ModsUpdList();
 
+  /* restore buttons */
+  EnableWindow(GetDlgItem(g_hwndMain, CMB_GAMELIST), true);
+  EnableWindow(GetDlgItem(g_hwndMain, BTN_IMPORTMOD), true);
+  EnableWindow(GetDlgItem(g_hwndMain, BTN_ADDGAME), true);
+  EnableWindow(GetDlgItem(g_hwndMain, BTN_MODENA), true);
+  EnableWindow(GetDlgItem(g_hwndMain, BTN_MODDIS), true);
+  EnableMenuItem(g_hmnuMain, MNU_GAMEADD, MF_BYCOMMAND);
+  EnableMenuItem(g_hmnuMain, MNU_GAMEEDIT, MF_BYCOMMAND);
+  EnableMenuItem(g_hmnuMain, MNU_GAMEREM, MF_BYCOMMAND);
+  EnableMenuItem(g_hmnuMain, MNU_SNAPCREATE, MF_BYCOMMAND);
+  EnableMenuItem(g_hmnuMain, MNU_SNAPCOMPARE, MF_BYCOMMAND);
+  EnableMenuItem(g_hmnuMain, MNU_MODENAALL, MF_BYCOMMAND);
+  EnableMenuItem(g_hmnuMain, MNU_MODENA, MF_BYCOMMAND);
+  EnableMenuItem(g_hmnuMain, MNU_MODDISALL, MF_BYCOMMAND);
+  EnableMenuItem(g_hmnuMain, MNU_MODDIS, MF_BYCOMMAND);
+  EnableMenuItem(g_hmnuMain, MNU_PROFILSAVE, MF_BYCOMMAND);
+  EnableMenuItem(g_hmnuMain, MNU_PROFILELOAD, MF_BYCOMMAND);
+  EnableMenuItem(g_hmnuMain, MNU_REPOSCONFIG, MF_BYCOMMAND);
+  EnableMenuItem(g_hmnuMain, MNU_REPOSQUERY, MF_BYCOMMAND);
+  EnableMenuItem(g_hmnuMain, MNU_REPOSMKXML, MF_BYCOMMAND);
+  EnableMenuItem(g_hmnuMain, MNU_MODIMPORT, MF_BYCOMMAND);
+  EnableMenuItem(g_hmnuMain, MNU_MODCREATE, MF_BYCOMMAND);
+  /* re-disable what should be... */
+  GME_GameUpdMenu();
+  EnableWindow(GetDlgItem(g_hwndMain, BTN_MODCANCEL), false);
+
   g_ModsProc_Running = false;
   return 0;
 }
@@ -1652,6 +1729,13 @@ void GME_ModsProc_Launch()
     g_ModsProc_hT = CreateThread(NULL,0,GME_ModsProc_Th,NULL,0,&g_ModsProc_iT);
   } else {
     GME_DialogWarning(g_hwndMain, L"Mod(s) installation is currently processing, please wait until current process finish before enabling or disabling mod(s).");
+  }
+}
+
+void GME_ModsProcCancel()
+{
+  if(!GME_ModsProc_IsReady()) {
+    g_ModsProc_Cancel = true;
   }
 }
 

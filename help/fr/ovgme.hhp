@@ -1,0 +1,43 @@
+[OPTIONS]
+TITLE=OvGME
+Full-text search=Yes
+Display compile notes=YES
+Display compile progress=YES
+Compatibility=4.3
+Default Window=Main
+Language=0x409 English (United States)
+Default Font=Arial,8,0
+Compiled file=..\ovgme.chm
+Error Log file=ovgme.log
+Contents file=ovgme.hhc
+Index File=ovgme.hhk
+Default Topic=introduction.html
+
+[FILES]
+introduction.html
+gameadd.html
+gameedit.html
+gamerem.html
+snapintro.html
+snapnew.html
+snapcomp.html
+modsenadis.html
+modsintro.html
+modsprofil.html
+modsrepos.html
+modsimport.html
+modsmake.html
+modsfaq.html
+structintro.html
+structdir.html
+structzip.html
+structvers.html
+reposbase.html
+reposfaq.html
+reposxml.html
+jsgmecomp.html
+
+
+[WINDOWS]
+Main="Main","ovgme.hhc","ovgme.hhk","introduction.html","introduction.html", ,,,,0x061520,200, 0x00304E, [0, 0, 700, 700]  , 0x307e, , , , , , , , 0
+Popup="Popup","ovgme.hhc","ovgme.hhk","introduction.html","introduction.html", ,,,,0x061520,200, 0x00304E, [0, 0, 700, 700]  , 0x307e, , , , , , , , 0

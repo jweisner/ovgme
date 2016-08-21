@@ -15,7 +15,12 @@
 #ifndef GME_LOGS_H_INCLUDED
 #define GME_LOGS_H_INCLUDED
 
+#define GME_LOG_FATAL 0
+#define GME_LOG_ERROR 1
+#define GME_LOG_WARNING 2
+#define GME_LOG_NOTICE 3
+
 void GME_LogsInit();
-void GME_LogsAppend(const std::string& log);
+void GME_Logs(int level, const char* scope, const char* msg, const char* item);
 
 #endif // GME_LOGS_H_INCLUDED

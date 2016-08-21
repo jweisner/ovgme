@@ -1,0 +1,63 @@
+<html>
+<head>
+  <title>Directory-Mod</title>
+  
+  <meta name="keywords"  content="mods,structure,directory-mod," ></head>
+  
+  <body style="font-family:arial; font-size:10pt;">
+    <table bgcolor="#000" border="0" width="100%">
+      <tbody>
+        <tr>
+          <td style="color:#fff; font-size:14pt;"> 
+            <b>Directory-Mod</b>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+    <br>
+A Directory-Mod must be a folder which contain the file tree with sub-folders that 
+mirror the game's files and sub-folders hierarchy. This folder must be placed in the 
+Mods stock folder, OvGME will take it as the Mod root directory.<br> 
+<br> 
+Obviously, a Directory-Mod does not have to include all file tree, folders and 
+sub-folder of the targeted game. Only the needed ones to respect the game file tree 
+comparison between already existing files and modified files should be added. However, 
+a Mod can also include files or folders that does not already exists in the game file 
+tree, they will be added as new files or folders (then deleted once the Mod is disabled) 
+in the game file tree.<br> 
+<br>
+For example, if the game file tree is the following:<br>
+<br>
+<blockquote>
+<span style="font-family:Courier;">
+&#x1f4c1; MyGame<br>
+&emsp;&emsp; &#x1f4c1; Textures<br>
+&emsp;&emsp;&emsp;&emsp; &#x1f4c1; Landscape<br>
+&emsp;&emsp;&emsp;&emsp;&emsp;&emsp; &#x1f4c4; picture1.dds<br>
+&emsp;&emsp;&emsp;&emsp;&emsp;&emsp; &#x1f4c4; picture2.dds<br>
+&emsp;&emsp;&emsp;&emsp; &#x1f4c1; Vehicles<br>
+&emsp;&emsp;&emsp;&emsp;&emsp;&emsp; &#x1f4c4; picture1.dds<br>
+&emsp;&emsp;&emsp;&emsp;&emsp;&emsp; &#x1f4c4; picture2.dds<br>
+</span>
+</blockquote>
+And if your Mod consist of changing some .dds texture files in 
+"<i>MyGame\Textures\Vehicles</i>" your Directory-Mod folder should be structured as 
+follow:
+<blockquote>
+<span style="font-family:Courier;">
+&#x1f4c1; My Texture Mod<br>
+&emsp;&emsp; &#x1f4c1; Textures<br>
+&emsp;&emsp;&emsp;&emsp; &#x1f4c1; Vehicles<br>
+&emsp;&emsp;&emsp;&emsp;&emsp;&emsp; &#x1f4c4; picture1.dds<br>
+&emsp;&emsp;&emsp;&emsp;&emsp;&emsp; &#x1f4c4; picture2.dds<br>
+</span>
+</blockquote>
+Then, the "My Texture Mod" folder must be copier in the Mods stock folder of 
+this game te be recognized as a valid Directory-Mod.<br>
+<br>
+<i>Note: The Directory-Mod root folder should not contain files that are not intented to be
+copied into the game file tree, such as readme.txt file or any other extra file, since
+OvGME will considering them as part of the Mod, then, copying them into the game
+file tree.</i>
+  </body>
+</html>

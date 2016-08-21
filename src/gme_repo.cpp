@@ -837,7 +837,6 @@ DWORD WINAPI GME_RepoQueryUpd_Th(void* args)
 
     SendMessage(hpb, PBM_SETRANGE, 0, MAKELPARAM(0, 100));
     SetDlgItemText(g_hwndRepUpd, TXT_REPOQRYURL, g_GME_Repos_List[i].url);
-    GME_LogsAppend("GME_RepoQueryUpd_Th :: Call to GME_NetwGET\r\n");
 
     http_err = GME_NetwHttpGET(xml_url.c_str(), GME_RepoUpd_OnErr, GME_RepoUpd_OnDnl, GME_RepoUpd_OnEnd);
     if(http_err) {

@@ -1,3 +1,16 @@
+OvGME 1.6.1, 2016-20-08
+
+- Per-User config and backups fixed.
+
+- Ability to change game or config during Mods processing fixed.
+
+- Added Mods processing cancel button for safe cancel.
+
+- Added confirmation message for Mods profile overwrite.
+
+- Added log output for network, write and read errors.
+
+
 OvGME 1.6, 2016-20-08
 
 - Fixed bug for already encoded URL being re-encoded with "%" char interpreted.

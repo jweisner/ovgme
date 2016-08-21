@@ -23,14 +23,33 @@ void GME_LogsInit()
 {
   g_LogFile = GME_GetAppdataPath() + L"\\log.txt";
   FILE* fp = _wfopen(g_LogFile.c_str(), L"wb");
-  if(fp) fclose(fp);
+  if(fp) {
+    fclose(fp);
+  }
 }
 
-void GME_LogsAppend(const std::string& log)
+void GME_Logs(int level, const char* scope, const char* msg, const char* item)
 {
+  char buffer[32768];
+
+  switch(level) {
+  case GME_LOG_FATAL:
+    sprintf(buffer, "FATAL: %s :: %s : %s\r\n", scope, msg, item);
+    break;
+  case GME_LOG_ERROR:
+    sprintf(buffer, "ERROR: %s :: %s : %s\r\n", scope, msg, item);
+    break;
+  case GME_LOG_WARNING:
+    sprintf(buffer, "WARNING: %s :: %s : %s\r\n", scope, msg, item);
+    break;
+  default:
+    sprintf(buffer, "NOTICE: %s :: %s : %s\r\n", scope, msg, item);
+    break;
+  }
+
   FILE* fp = _wfopen(g_LogFile.c_str(), L"ab");
   if(fp) {
-    fwrite(log.c_str(), 1, log.size(), fp);
+    fwrite(buffer, 1, strlen(buffer), fp);
     fclose(fp);
   }
 }
