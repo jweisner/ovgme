@@ -200,12 +200,20 @@ inline bool GME_ModsUpdBackup(HWND hpb)
   GMEnode* back_tree = new GMEnode();
   GME_TreeBuildFromDir(back_tree, back_path);
 
+  /* pass the depend list in uppercase to prevent
+    case sensitive namming problems */
+  for(unsigned i = 0; i < dpend_list.size(); i++) {
+    GME_StrToUpper(dpend_list[i]);
+  }
+
   /* remove files no longer needed */
   bool is_depend;
   back_tree->initTraversal();
   while(back_tree->nextChild()) {
     if(!back_tree->currChild()->isDir()) {
-      dst_path = back_tree->currChild()->getPath(true);
+      /* upper case to prevent case sensitive problems... */
+      dst_path = GME_StrToUpper(back_tree->currChild()->getPath(true));
+      //dst_path = back_tree->currChild()->getPath(true);
       is_depend = false;
       for(unsigned i = 0; i < dpend_list.size(); i++) {
         if(dst_path == dpend_list[i]) {

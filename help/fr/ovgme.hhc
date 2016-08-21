@@ -11,42 +11,42 @@
 </OBJECT>
 <UL> 
 <LI> <OBJECT type="text/sitemap">	<PARAM name="Name" value="Introduction"><PARAM name="Local" value="introduction.html"><PARAM name="ImageNumber" value="0"></OBJECT>
-<LI> <OBJECT type="text/sitemap"><PARAM name="Name" value="Game management"> <PARAM name="ImageNumber" value="0">	</OBJECT>
+<LI> <OBJECT type="text/sitemap"><PARAM name="Name" value="Gestion de jeu"> <PARAM name="ImageNumber" value="0">	</OBJECT>
 <UL>
-<LI> <OBJECT type="text/sitemap">	<PARAM name="Name" value="Adding a game"> <PARAM name="Local" value="gameadd.html"> <PARAM name="ImageNumber" value="0"> </OBJECT>
-<LI> <OBJECT type="text/sitemap"> <PARAM name="Name" value="Editing a game"> <PARAM name="Local" value="gameedit.html"> <PARAM name="ImageNumber" value="0"> </OBJECT>
-<LI> <OBJECT type="text/sitemap"> <PARAM name="Name" value="Removing a game"> <PARAM name="Local" value="gamerem.html"> <PARAM name="ImageNumber" value="0"> </OBJECT>
+<LI> <OBJECT type="text/sitemap">	<PARAM name="Name" value="Ajouter un jeu"> <PARAM name="Local" value="gameadd.html"> <PARAM name="ImageNumber" value="0"> </OBJECT>
+<LI> <OBJECT type="text/sitemap"> <PARAM name="Name" value="Editer un jeu"> <PARAM name="Local" value="gameedit.html"> <PARAM name="ImageNumber" value="0"> </OBJECT>
+<LI> <OBJECT type="text/sitemap"> <PARAM name="Name" value="Supprimer un jeu"> <PARAM name="Local" value="gamerem.html"> <PARAM name="ImageNumber" value="0"> </OBJECT>
 </UL>
-<LI> <OBJECT type="text/sitemap"> <PARAM name="Name" value="Game snapshot"> <PARAM name="ImageNumber" value="0"> </OBJECT>
+<LI> <OBJECT type="text/sitemap"> <PARAM name="Name" value="Snapshot de jeu"> <PARAM name="ImageNumber" value="0"> </OBJECT>
 <UL>
 <LI> <OBJECT type="text/sitemap"> <PARAM name="Name" value="Introduction"> <PARAM name="Local" value="snapintro.html"> <PARAM name="ImageNumber" value="0"> </OBJECT>
-<LI> <OBJECT type="text/sitemap"> <PARAM name="Name" value="Creating snapshot"> <PARAM name="Local" value="snapnew.html"> <PARAM name="ImageNumber" value="0"> </OBJECT>
-<LI> <OBJECT type="text/sitemap"> <PARAM name="Name" value="Comparing snapshot"> <PARAM name="Local" value="snapcomp.html"> <PARAM name="ImageNumber" value="0"> </OBJECT>
+<LI> <OBJECT type="text/sitemap"> <PARAM name="Name" value="Créer un snapshot"> <PARAM name="Local" value="snapnew.html"> <PARAM name="ImageNumber" value="0"> </OBJECT>
+<LI> <OBJECT type="text/sitemap"> <PARAM name="Name" value="Comparer un snapshot"> <PARAM name="Local" value="snapcomp.html"> <PARAM name="ImageNumber" value="0"> </OBJECT>
 </UL>
-<LI> <OBJECT type="text/sitemap"> <param name="Name" value="Mods management"> <PARAM name="ImageNumber" value="0"> </OBJECT>
+<LI> <OBJECT type="text/sitemap"> <param name="Name" value="Gestion des Mods"> <PARAM name="ImageNumber" value="0"> </OBJECT>
 <UL>
 <LI> <OBJECT type="text/sitemap"><PARAM name="Name" value="Introduction"><PARAM name="Local" value="modsintro.html"><PARAM name="ImageNumber" value="0"></OBJECT>
-<LI> <OBJECT type="text/sitemap"><PARAM name="Name" value="Enabling & disabling Mod(s)"><PARAM name="Local" value="modsenadis.html"><PARAM name="ImageNumber" value="0"> </OBJECT>
-<LI> <OBJECT type="text/sitemap"> <PARAM name="Name" value="Mods profile"> <PARAM name="Local" value="modsprofil.html"> <PARAM name="ImageNumber" value="0"> </OBJECT>
-<LI> <OBJECT type="text/sitemap"> <PARAM name="Name" value="Mod repositories"> <PARAM name="Local" value="modsrepos.html"><PARAM name="ImageNumber" value="0"></OBJECT>
-<LI> <OBJECT type="text/sitemap"> <PARAM name="Name" value="Mod(s) importation"> <PARAM name="Local" value="modsimport.html"> <PARAM name="ImageNumber" value="0"> </OBJECT>
-<LI> <OBJECT type="text/sitemap"> <PARAM name="Name" value="Making Mod-Archives"> <PARAM name="Local" value="modsmake.html"> <PARAM name="ImageNumber" value="0"> </OBJECT>
-<LI> <OBJECT type="text/sitemap"> <PARAM name="Name" value="Mods FAQ"> <PARAM name="Local" value="modsfaq.html"> <PARAM name="ImageNumber" value="0"> </OBJECT>
+<LI> <OBJECT type="text/sitemap"><PARAM name="Name" value="Activation & désactivation de Mod(s)"><PARAM name="Local" value="modsenadis.html"><PARAM name="ImageNumber" value="0"> </OBJECT>
+<LI> <OBJECT type="text/sitemap"> <PARAM name="Name" value="Profile de Mods"> <PARAM name="Local" value="modsprofil.html"> <PARAM name="ImageNumber" value="0"> </OBJECT>
+<LI> <OBJECT type="text/sitemap"> <PARAM name="Name" value="Dépôts de Mods"> <PARAM name="Local" value="modsrepos.html"><PARAM name="ImageNumber" value="0"></OBJECT>
+<LI> <OBJECT type="text/sitemap"> <PARAM name="Name" value="Importation de Mod(s)"> <PARAM name="Local" value="modsimport.html"> <PARAM name="ImageNumber" value="0"> </OBJECT>
+<LI> <OBJECT type="text/sitemap"> <PARAM name="Name" value="Fabriquer un Mod-Archives"> <PARAM name="Local" value="modsmake.html"> <PARAM name="ImageNumber" value="0"> </OBJECT>
+<LI> <OBJECT type="text/sitemap"> <PARAM name="Name" value="FAQ Mods"> <PARAM name="Local" value="modsfaq.html"> <PARAM name="ImageNumber" value="0"> </OBJECT>
 </UL>
-<LI> <OBJECT type="text/sitemap"> <PARAM name="Name" value="Mods structure"> <PARAM name="ImageNumber" value="0"> </OBJECT>
+<LI> <OBJECT type="text/sitemap"> <PARAM name="Name" value="Structure de Mod"> <PARAM name="ImageNumber" value="0"> </OBJECT>
 <UL>
 <LI> <OBJECT type="text/sitemap"> <PARAM name="Name" value="Introduction"> <PARAM name="Local" value="structintro.html"> <PARAM name="ImageNumber" value="0"> </OBJECT>
 <LI> <OBJECT type="text/sitemap"> <PARAM name="Name" value="Directory-Mod"> <PARAM name="Local" value="structdir.html"> <PARAM name="ImageNumber" value="0"></OBJECT>
 <LI> <OBJECT type="text/sitemap"> <PARAM name="Name" value="Mod-Archive (Zip)"> <PARAM name="Local" value="structzip.html"> <PARAM name="ImageNumber" value="0"> </OBJECT>
-<LI> <OBJECT type="text/sitemap"> <PARAM name="Name" value="Mod versioning"> <PARAM name="Local" value="structvers.html"> <PARAM name="ImageNumber" value="0"> </OBJECT>
+<LI> <OBJECT type="text/sitemap"> <PARAM name="Name" value="Versioning de Mod"> <PARAM name="Local" value="structvers.html"> <PARAM name="ImageNumber" value="0"> </OBJECT>
 </UL>
-<LI> <OBJECT type="text/sitemap"><param name="Name" value="Repository management"> <PARAM name="ImageNumber" value="0"> </OBJECT>
+<LI> <OBJECT type="text/sitemap"><param name="Name" value="Gestion de dépôt"> <PARAM name="ImageNumber" value="0"> </OBJECT>
 <UL>
-<LI> <OBJECT type="text/sitemap"> <PARAM name="Name" value="Repository principle"> <PARAM name="Local" value="reposbase.html"> <PARAM name="ImageNumber" value="0"> </OBJECT>
-<LI> <OBJECT type="text/sitemap"> <PARAM name="Name" value="Repository XML data"> <PARAM name="Local" value="reposxml.html"> <PARAM name="ImageNumber" value="0"> </OBJECT>
-<LI> <OBJECT type="text/sitemap"> <PARAM name="Name" value="Repository Faq"> <PARAM name="Local" value="reposfaq.html"> <PARAM name="ImageNumber" value="0"> </OBJECT>
+<LI> <OBJECT type="text/sitemap"> <PARAM name="Name" value="Principe du dépôt"> <PARAM name="Local" value="reposbase.html"> <PARAM name="ImageNumber" value="0"> </OBJECT>
+<LI> <OBJECT type="text/sitemap"> <PARAM name="Name" value="Données XML de dépôt"> <PARAM name="Local" value="reposxml.html"> <PARAM name="ImageNumber" value="0"> </OBJECT>
+<LI> <OBJECT type="text/sitemap"> <PARAM name="Name" value="FAQ dépôt"> <PARAM name="Local" value="reposfaq.html"> <PARAM name="ImageNumber" value="0"> </OBJECT>
 </UL>
-<LI> <OBJECT type="text/sitemap"> <param name="Name" value="Compatibility"> <PARAM name="ImageNumber" value="0"></OBJECT>
+<LI> <OBJECT type="text/sitemap"> <param name="Name" value="Compatibilité"> <PARAM name="ImageNumber" value="0"></OBJECT>
 <UL> 
-<LI> <OBJECT type="text/sitemap"> <PARAM name="Name" value="OvGME and JSGME"> <PARAM name="Local" value="jsgmecomp.html"> <PARAM name="ImageNumber" value="0">	</OBJECT>
+<LI> <OBJECT type="text/sitemap"> <PARAM name="Name" value="OvGME et JSGME"> <PARAM name="Local" value="jsgmecomp.html"> <PARAM name="ImageNumber" value="0">	</OBJECT>
 

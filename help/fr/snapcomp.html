@@ -1,6 +1,6 @@
 <html>
 <head>
-  <title>Comparing a snapshot</title>
+  <title>Comparaison de snapshot</title>
   
   <meta name="keywords"  content="game,snapshot,compare,output" ></head>
   
@@ -9,38 +9,39 @@
       <tbody>
         <tr>
           <td style="color:#fff; font-size:14pt;"> 
-            <b>Comparing a snapshot</b>
+            <b>Comparaison de snapshot</b>
           </td>
         </tr>
       </tbody>
     </table>
     <br>
-To compare an existing snapshot for the current selected game, go to the "<b>Game</b>" menu, 
-select "<b>snapshot</b>" then "<b>compare...</b>". A new dialog will prompt you to begin 
-the comparison process. The comparison process can take long time since it must read all 
-game files to verify the xxHash checksum, you can cancel the comparison process at 
-any time.<br><br>
+Pour comparer un snapshot existant pour le jeu actuellement sélectionné, allez dans le menu
+"<b>Game</b>", sélectionnez "<b>snapshot</b>" puis "<b>compare...</b>". Une nouvelle boite
+de dialogue vous invitera a commencer le processus de comparaison. Le processus de comparaison
+peut prendre un long moment étant donné qu'il doit lire tous les fichiers du jeu pour vérifier
+le checksum xxHash. Vous pouvez annuler le processus tout moment.<br><br>
 
-<h4>Comparison output</h4>
-During the comparison process, an output log is generated in the comparison process 
-dialog window. This output log lists all file tree differences with the last snapshot. 
-This list has three columns: Type, Change and Path.<br><br>
+<h4>Compte-rendu de comparaison</h4>
+Durant le processus de comparaison, un compte rendu est généré dans la fenêtre du
+processus de comparaison. Ce compte-rendu liste toutes les différences de l'arborescence 
+des fichiers du jeu avec le dernier snapshot. Cette liste compte trois 
+colonnes: Type, Change et Path.<br><br>
 
 <blockquote> 
-  <b>Type</b> : identifies whether the concerned entry is a file or a directory.
+  <b>Type</b> : identifie si l'entrée concerne un fichier ou un répertoire.
   <blockquote> 
-    <span style="font-family:Courier;"><b>(f)</b></span> : stands for File.<br>
-    <span style="font-family:Courier;"><b>(d)</b></span> : stands for Directory.
+    <span style="font-family:Courier;"><b>(f)</b></span> : signifie Fichier.<br>
+    <span style="font-family:Courier;"><b>(d)</b></span> : signifie Répertoire.
   </blockquote> 
   
-  <b>Change </b>: identifies what kind of changes occurred about this entry.
+  <b>Change </b>: identifie quel type de changement l'entrée représente.
   <blockquote> 
-    <span style="font-family:Courier;"><b>+</b></span> : stands for added, the file or folder was added since the last snapshot.<br>
-    <span style="font-family:Courier;"><b>-</b></span> : stands for removed, the file or folder was removed since the last snapshot.<br>
-    <span style="font-family:Courier;"><b>~</b></span> : stands for modified, the file was modified since the last snapshot.
+    <span style="font-family:Courier;"><b>+</b></span> : signifie ajout, le fichier ou le dossier a été ajouté depuis le dernier snapshot.<br>
+    <span style="font-family:Courier;"><b>-</b></span> : signifie supprimé, le fichier ou le dossier a été supprimé depuis le dernier snapshot.<br>
+    <span style="font-family:Courier;"><b>~</b></span> : signifie modifié, le fichier a été modifié depuis le dernier snapshot.
   </blockquote> 
   
-  <b>Path</b> : identifies the relative path of the entry from the root game folder.
+  <b>Path</b> : identifie le chemin relatif du fichier ou du dossier concerné.
   
 </blockquote> 
   </body>

@@ -1,6 +1,6 @@
 <html>
 <head>
-  <title>Repository Principle</title>
+  <title>Principe du dépôt</title>
   
   <meta name="keywords"  content="mods,repository,repositories,principle,base,server,http,url," ></head>
   
@@ -9,52 +9,54 @@
       <tbody>
         <tr>
           <td style="color:#fff; font-size:14pt;"> 
-            <b>Repository principle</b>
+            <b>Principe du dépôt</b>
           </td>
         </tr>
       </tbody>
     </table>
     <br>
 
-For OvGME, a repository is simply a web server (HTTP) who provides a specifically 
-structured XML data with informations about Mod(s) to download. There are two things not 
-to be confused: The repository server, and where Mod(s) are downloadable.<br>
+Pour OvGME, un dépôt est simplement un serveur web (HTTP) qui fournit des données
+XML spécifiquement structurées avec des informations à propos de Mod(s) à télécharger.
+Il y'a deux choses à ne pas confondre: Le serveur de dépôt, et où les Mod(s).<br>
+sont téléchargeables.
 
-<h4>Repository transaction</h4>
+<h4>Transaction de dépôt</h4>
 
-The OvGME repository mechanism is pretty simple: A web server hosts an XML file 
-available as any other web page at a specific address, OvGME will query the HTTP server 
-to receive this specific file, then will parse it to gather data about what Mods are 
-available and where they can be downloaded.<br>
+Le mécanisme de dépôt d'OvGME est assez simple: Un serveur web héberge un fichier XML
+disponible comme n'importe quelle autre page web à partir d'une adresse spécifique, OvGME
+va interroger le serveur HTTP pour recevoir ce fichier spécifique, puis va l'analyser pour
+recueillir les données à propos des Mods disponibles et où ils peuvent être téléchargés.<br>
 <img src="repos_schem.jpg" alt="Repository transaction schema">
 <br>
 
-<h4>The repository server</h4>
+<h4>Le serveur de dépôt</h4>
 
-The repository server must be a standard HTTP 1.1 server. This is, so to say, mainly 
-the only standard which is currently in service on the web. In other words, a repository 
-server is nothing other than a web site who provide an OvGME compatible XML file. The 
-only rules is that OvGME must be able to access this XML file through the web using a 
-specified URL.<br>
+Le serveur de dépôt doit être un serveur HTTP 1.1 standard. C'est pour ainsi dire 
+principalement le seule standard qui est actuellement en service sur le web. En d'autres
+termes, un serveur de dépôt n'est rien d'autre qu'un site web qui fournit un fichier XML
+compatible OvGME. La seule règle étant qu'OvGME doit pouvoir accéder à ce fichier XML
+via le web avec une URL spécifique.<br>
 <br>
-To summarize: If you can open the XML file using your favorite web browser, OvGME will 
-too, and then, this is an "OvGME repository".<br>
+Pour résumer: Si vous pouvez ouvrir le fichier XML depuis votre navigateur web favoris,
+OvGME le pourra également, et donc, il s'agit d'un "dépôt OvGME".<br>
 
-<h4>The standard URL to provide</h4>
+<h4>L'URL standard à fournir</h4>
 
-If you provide a classical XML file in your server, the repository URL provided to users 
-must be the full URL to the XML file, with or without the "<i>.xml</i>" at the end of URL.
-Indeed, if there is no "<i>.xml</i>" at the end of the URL, OvGME will automatically append 
-"<i>.xml</i>" at the end of URL.<br>
+Si vous fournissez un fichier XML classique sur votre serveur, l'URL de dépôt à
+fournir aux utilisateurs doit être l'URL complète vers ce fichier XML, avec ou sans
+le "<i>.xml</i>" à la fin de l'URL. En effet, si il n'y a pas de "<i>.xml</i>" à la 
+fin de l'URL, OvGME va automatiquement le rajouter.<br>
 <br>
-For example, if the full URL to XML file is:<br>
+Par exemple, si l'URL complète pour fichier XML est:<br>
      "<i>http://www.example.com:8080/repository/game1.xml</i>"<br>
 <br>
-The following URL is <u>also valid</u> for OvGME:<br>
+L'URL suivante est <u>également valide</u> pour OvGME:<br>
      "<i>http://www.example.com:8080/repository/game1</i>"<br>
 <br>
-OvGME supports all standard url format, with or without protocol or port specified.
-Here are example of supported URL format:<br>
+OvGME prend en charge tout format d'URL standard, avec ou sans protocole ou port
+spécifié.<br>
+Voici des exemples de format d'URL pris en charge:<br>
 <blockquote>
   <i>
   http://www.example.com/folder/repository<br>
@@ -63,25 +65,26 @@ Here are example of supported URL format:<br>
   http://www.example.com:8081/folder/repository<br>
   </i>
 </blockquote>
-<i>Note: If not port is specified, the default HTTP port 80 is used.</i><br>
+<i>Note: si aucun port n'est spécifié, le port HTTP 80 par défaut est utilisé.</i><br>
 
-<h4>Dynamically generated XML data</h4>
-OvGME supports the chunked transfer-encoding method for simple HTTP GET request (not for 
-file download). In other words, <b>OvGME can gather XML data from any dynamically  
-generated web page such as PHP or ASP page.</b><br>
+<h4>Données XML générées dynamiquement</h4>
+OvGME prend en charge la méthode d'encodage de transfert chunked pour de simples
+requêtes HTTP GET (pas pour le téléchargement de fichier). En d'autres termes
+<b>OvGME peut recueillir des données XML depuis une page web générée dynamiquement
+comme une page PHP ou ASP.</b><br>
 <br>
-However, in this case, the provided repository URL must allow OvGME to recognize this is
-not a raw XML repository (to not trying to add the "<i>.xml</i>" extension to URL). 
-To do so, the URL must either: 
+Cependant, dans ce cas, l'URL founit doit permettre à OvGME de reconnaitre qu'il ne
+s'agit pas d'un dépôt XML brute (pour ne pas essayer d'ajouter l'extension "<i>.xml</i>"
+à l'URL). Pour se faire, l'URL doit au choix:
 <ul>
 <li>
-Be the full URL to the web file including "<i>.php</i>", "<i>.asp</i>" or "<i>.aspx</i>" extension.
+Etre l'URL complète vers le fichier, incluant l'extension "<i>.php</i>", "<i>.asp</i>" ou "<i>.aspx</i>".
 </li>
 <li>
-Or containing a "<i>?</i>" character, typical of a dynamic URL request.
+Contenir le caractère "<i>?</i>", typique d'une URL de requête dynamique.
 </li>
 </ul>
-Here are some examples of valid provided URL for dynamically generated repository:<br>
+Voici quelques exemples d'URL valides pour un dépôt généré dynamiquement:<br>
 <blockquote>
   <i>
   http://www.example.com/repository.php<br>
@@ -89,8 +92,9 @@ Here are some examples of valid provided URL for dynamically generated repositor
   http://www.example.com?game=1&type=2<br>
   </i>
 </blockquote>
-Dynamically generated XML allow repositories managers to create their repositories using 
-real databases with their own XML source generator.
+La génération dynamique de donnée XML permet aux gestionnaires de dépôts de créer 
+leur dépôts en utilisant une vraie base de donnée avec leur propre générateur
+de source XML.
 
   </body>
 </html>

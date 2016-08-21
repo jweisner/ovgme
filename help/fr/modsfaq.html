@@ -1,6 +1,6 @@
 <html>
 <head>
-  <title>Mods FAQ</title>
+  <title>FAQ Mods</title>
   
   <meta name="keywords"  content="mods,faq," ></head>
   
@@ -9,35 +9,33 @@
       <tbody>
         <tr>
           <td style="color:#fff; font-size:14pt;"> 
-            <b>Mods FAQ</b>
+            <b>FAQ Mods</b>
           </td>
         </tr>
       </tbody>
     </table>
     <br>
     
-<h4>I have two identical mod title in the mods list, one is Directory type, the other is Zip Archive type, why ?</h4>
+<h4>J'ai deux Mods identiques dans la liste, un de type Répertoire, l'autre de type Archive Zip, pourquoi ?</h4>
+OvGME identifie les Mods par leurs noms, le type est une identification secondaire. 
+Donc, si dans le dossier stock de Mods il y'a un Directory-Mod (sous-dossier) 
+nommé "<i>Mon Mod v1.0</i>" <b>ET</b> un Mod-Archive valide nommé "<i>Mon Mod v1.0.zip</i>", 
+OvGME verra les deux comme des Mods valides pouvant être installés. C'est une situation
+ambiguë mais pas dangereuse puisque vous ne pouvez activer les deux à la fois: Si vous activez
+l'un ou l'autre, les doublons disparaissent pour ne laisser qu'une seule version activée. 
 
-OvGME identifies Mods by their name, the type is a secondary identification. So, 
-if in the Mods stock folder there is a Directory-Mod (sub-folder) named 
-"<i>My Mod v1.0</i>" <b>AND</b> a valid mod archive named "<i>My Mod v1.0.zip</i>", 
-OvGME will see both as valid Mod to be installed. This is an ambiguous but not dangerous 
-situation since you can't enable both versions: if you enable either one or the other, 
-the duplicate Mod-Archive and Directory-Mod versions disappear to let only one 
-Enabled version.
+<h4>J'ai supprimé un Mod du dossier stock de Mods, mais il reste dans la liste comme Activé ?</h4>
+Heureusement OUI. Une fois qu'un Mod est activé (installé), les données de sauvegarde sont
+stockés dans un lie sûr et OvGME garde un oeil sur les données de sauvegarde disponibles.
+Donc, le Mod reste présent dans la liste en tant qu'Installé et les données de sauvegarde 
+restent disponibles pour la restauration. Une fois le Mod désactivé, si il n'est plus dans
+le dossier stock de Mods, il disparaîtra de la liste.
 
-<h4>I have removed a Mod from the Mods list, but it still here as Enabled ?</h4>
-Fortunatly YES. Once a Mod is enabled (installed), the backup data is stored in a safe 
-location and OvGME keeps a look to the available data to restore. So the Mod still 
-visible in the list as an installed one and backup data sill available for restore. 
-Once you disabled the Mod, if the Mod is no longer available in the Mod stock, it will 
-disappear from the Mods list.
-
-<h4>Where are stored backed files by default ?</h4>
-If you don't have chosen a custom backup directory for the selected game, the backed 
-game files are stored in a "<i>backups</i>" named sub-folder in the dedicated game 
-sub-folders within the OvGME application home directory indicated by your system, 
-usually: "<i>&lt;User&gt;\AppData\Roaming\OvGME\&lt;game Sub-folder&gt;\backups</i>".
+<h4>Où sont stockés les fichiers sauvegardés par défaut ?</h4>
+Si vous n'avez pas choisi de dossier de sauvegarde personnalisé pour le jeu sélectionné,
+les fichier du jeu sauvegardés sont stockés dans un sous-dossier nommé "<i>backups</i>" dans le
+du dossier dédié à ce jeu dans le répertoire d'accueil d'OvGME indiqué par le système.
+Généralement: "<i>ProgramData\OvGME\&lt;game Sub-folder&gt;\backups</i>".
 
   </body>
 </html>

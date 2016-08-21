@@ -1,6 +1,6 @@
 Microsoft HTML Help Compiler 4.74.8702
 
-Compiling f:\dev\cpp\proj\OvGME\ovgme.chm
+Compiling f:\dev\cpp\proj\OvGME\help\en\ovgme.chm
 
 introduction.html
 gameadd.html
@@ -43,5 +43,5 @@ Compile time: 0 minutes, 0 seconds
 9	Graphics
 
 
-Created f:\dev\cpp\proj\OvGME\ovgme.chm, 86,935 bytes
-Compression decreased file by 54,611 bytes.
+Created f:\dev\cpp\proj\OvGME\help\en\ovgme.chm, 86,919 bytes
+Compression decreased file by 54,625 bytes.

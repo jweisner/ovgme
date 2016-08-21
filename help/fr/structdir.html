@@ -15,18 +15,19 @@
       </tbody>
     </table>
     <br>
-A Directory-Mod must be a folder which contain the file tree with sub-folders that 
-mirror the game's files and sub-folders hierarchy. This folder must be placed in the 
-Mods stock folder, OvGME will take it as the Mod root directory.<br> 
+Un Directory-Mod doit être un dossier qui contient l'arborescence des fichiers
+avec les sous-dossiers qui reflètent exactement l'arborescence des fichier et 
+les sous-dossiers du jeu. Ce dossier doit être placé dans le dossier stock de Mods,
+OvGME le considérera comme le dossier racine du Mod.<br> 
 <br> 
-Obviously, a Directory-Mod does not have to include all file tree, folders and 
-sub-folder of the targeted game. Only the needed ones to respect the game file tree 
-comparison between already existing files and modified files should be added. However, 
-a Mod can also include files or folders that does not already exists in the game file 
-tree, they will be added as new files or folders (then deleted once the Mod is disabled) 
-in the game file tree.<br> 
+Evidemment, un Directory-Mod n'a pas à inclure toute l'arboréscence des fichiers, dossiers
+et sous-dossiers du jeu ciblé. Seuls les éléments nécessaires pour la
+comparaison avec les fichiers du jeux déjà existants et ceux qui doivent être modifiés
+our ajoutés. Cependant, un Mod peut aussi inclure des fichiers ou dossiers qui n'existent 
+pas dans l'arboréscence des fichiers du jeu, ils seront ajoutés comment nouveaux fichiers ou
+dossiers (puis supprimés une fois le Mod désactivé).<br> 
 <br>
-For example, if the game file tree is the following:<br>
+Par exemple, si l'arboréscence des fichier d'un jeu est la suivante:<br>
 <br>
 <blockquote>
 <span style="font-family:Courier;">
@@ -40,9 +41,9 @@ For example, if the game file tree is the following:<br>
 &emsp;&emsp;&emsp;&emsp;&emsp;&emsp; &#x1f4c4; picture2.dds<br>
 </span>
 </blockquote>
-And if your Mod consist of changing some .dds texture files in 
-"<i>MyGame\Textures\Vehicles</i>" your Directory-Mod folder should be structured as 
-follow:
+Et si votre Mod consiste à changer quelques fichiers de texture .dss dans 
+"<i>MyGame\Textures\Vehicles</i>", votre dossier Directory-Mod devrait être
+structuré comme suit: 
 <blockquote>
 <span style="font-family:Courier;">
 &#x1f4c1; My Texture Mod<br>
@@ -52,12 +53,14 @@ follow:
 &emsp;&emsp;&emsp;&emsp;&emsp;&emsp; &#x1f4c4; picture2.dds<br>
 </span>
 </blockquote>
-Then, the "My Texture Mod" folder must be copier in the Mods stock folder of 
-this game te be recognized as a valid Directory-Mod.<br>
+Ensuite, le dossier "My Texture Mod" devrait être copié dans le dossier stock
+de Mods du jeu pour être reconnu comme Directory-Mod valide.<br>
 <br>
-<i>Note: The Directory-Mod root folder should not contain files that are not intented to be
-copied into the game file tree, such as readme.txt file or any other extra file, since
-OvGME will considering them as part of the Mod, then, copying them into the game
-file tree.</i>
+<i>
+Note: Le dossier racine du Directory-Mod ne devrait pas contenir de fichiers qui
+ne sont pas destinés à être copiés dans l'arborescence de fichiers du jeu, comme
+un fichier readme.txt ou tout autre fichier supplémentaire, puisque OvGME va les
+considérer comme partie du Mod, et donc, les copier dans l'arborescence de 
+fichiers du jeu.</i>
   </body>
 </html>

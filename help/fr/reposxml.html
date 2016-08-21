@@ -1,6 +1,6 @@
 <html>
 <head>
-  <title>Repository XML data</title>
+  <title>Données XML de dépôt</title>
   
   <meta name="keywords"  content="mods,repository,repositories,xml,source," ></head>
   
@@ -9,26 +9,29 @@
       <tbody>
         <tr>
           <td style="color:#fff; font-size:14pt;"> 
-            <b>Repository XML data</b>
+            <b>Données XML de dépôt</b>
           </td>
         </tr>
       </tbody>
     </table>
     <br>
-For OvGME, a repository is only an XML file which describes which Mods are available, 
-some useful data about them, and where they can be downloaded. This is so to say, a 
-kind of mini database. The only thing is that in our case, the XML file is provided by 
-a web server.<br>
+Pour OvGME, un dépôt est simplement un fichier XML qui décrit quels Mods sont
+disponibles, quelque données utiles à leur propos, et le lieu où ils peuvent 
+être téléchargés. C'est pour ainsi dire, une sorte de mini base de donnée. La 
+seule chose étant que dans notre case, les données XML sont fournies par un
+serveur web.<br>
 
-<h4>The XML repository structure</h4>
+<h4>Structure XML de dépôt</h4>
 
-OvGME will seek for a particular structure in the provided XML data to gather 
-informations about Mods. This structure is simple enough to allow repository XML 
-data to be manually written using any text editor.<br> 
+OvGME va rechercher une structure particulière dans les données XML fournies pour
+recueillir les informations à propos des Mods. Cette structure est suffisamment 
+simple pour pouvoir être écrite à la main à l'aide d'un éditeur de texte.<br> 
 <br>
-<b>However, OvGME also provides a tool to automatically generate XML file (see below).</b>
+<b>
+Cependant, OvGME fournit également un outil pour générer automatiquement des données
+XML (voir plus bas).</b>
 <br><br>
-Here is an example of typical repository XML file content:<br><br>
+Voici un exemple de contenu typique de données XML de dépôt:<br><br>
 <span style="font-family:Courier;">
 <span style="color:#a0a;"><b>&lt;mod_list&gt;</b></span><br>
 <br>
@@ -43,97 +46,102 @@ Here is an example of typical repository XML file content:<br><br>
 <span style="color:#a0a;"><b>&lt;/mod_list&gt;</b></span><br>
 <br>
 </span>
-If you never seen XML source code before, you can see that there is several resemblance 
-with HTML since both share many syntax rule. The purpose of this help is not to explain 
-all XML subtleties, however we will speak about some basic technical aspect to better
-understand the whole structure.<br><br>
+Si vous n'aviez jamais vu de source XML avant, vous pouvez voir qu'il y'a plusieurs
+similitudes avec l'HTML étant donné que les deux partagent beaucoup de règles de
+syntaxe. Le propos de cette aide n'est pas d'expliquer toutes les subtilités 
+de l'XML, mais nous allons parler un peu d'aspect techniques basiques pour mieux
+comprendre la structure globale.<br><br>
 <br>
-In the example above we can see several colored entities to be more distinct:<br><br>
+Dans l'exemple ci-dessus, nous pouvons voir plusieurs entités, colorés pour êtres plus distinctes:<br><br>
 <ul>
 <li>
-The <span style="color:#a0a;"><b>&lt;purple&gt;</b></span> entities are named "nodes"
+Les entités <span style="color:#a0a;"><b>&lt;mauves&gt;</b></span> sont nommés des "neouds".
 </li>
 <li>
-The <span style="color:#0a0;">green=</span> entities are called "attributes"
+Les entités <span style="color:#0a0;">vertes=</span> sont appelés "attributs".
 </li>
 <li>
-The <span style="color:#00f;">"blue"</span> entities are strings, they are the attributes values.
+Les entités <span style="color:#00f;">"bleues"</span> sont des chaînes, sont les valeurs des attributs.
 </li>
 <li>
-The Black parts are inner data of nodes.
+Les parties noirs sont les données internes des neouds.
 </li>
 </ul>
-<h5>Nodes structure</h5>
-In our case we have three nodes, the <span style="color:#a0a;"><b>mod_list</b></span> is the root node, and the two <span style="color:#a0a;"><b>mod</b></span> are 
-children of this root node. This is the base structure OvGME will seek for repository 
-file: One root with several children, where each children is a Mod descriptor. A 
-repository XML data can have as many Mod descriptor child nodes as you want, there is 
-no limitation.<br>
+<h5>Structure des neouds</h5>
+Dans notre cas nous avons trois noeuds, <span style="color:#a0a;"><b>mod_list</b></span> est le neoud racine, et les deux <span style="color:#a0a;"><b>mod</b></span>
+sont les neouds enfants de ce neoud racine. C'est la structure de base qu'OvGME cherche
+pour un dépôt: Une racine avec plusieurs enfants, où chaque enfant est un Descripteur de Mod. 
+Des données XML de dépôt peuvent avoir autant de neouds Descripteur de Mod que vous le souhaitez,
+il n'y a pas de limitation.<br>
 <br>
-<i>Note: Node names does not matter, you can replace <span style="color:#a0a;"><b>mod_list</b></span> by any other name and <span style="color:#a0a;"><b>mod</b></span>
-by what you want. OvGME only seek for a particular nodes structure.</i><br>
+<i>Note: les noms importent peu, vous pouvez remplacer <span style="color:#a0a;"><b>mod_list</b></span> par un autre nom et <span style="color:#a0a;"><b>mod</b></span>
+par ce que vous voulez. OvGME recherche seulement une structure particulière de neouds.</i><br>
 
-<h5>Mod descriptor attributes</h5>
+<h5>Attributs des Descripteurs de Mod</h5>
 
-Each Mod descriptor node must have three attributes named respectively "<span style="color:#0a0;">name</span>", 
-"<span style="color:#0a0;">version</span>" and "<span style="color:#0a0;">url</span>". Here, <b>name does matter</b>, OvGME will seek for these specific 
-attributes and their values.<br>
+Chaque Descripteur de Mod doit avoir trois attributs nommés respectivement "<span style="color:#0a0;">name</span>",
+"<span style="color:#0a0;">version</span>" et "<span style="color:#0a0;">url</span>". Ici, <b>le nom est important</b>, OvGME va
+chercher ces attributs particuliers et leurs valeurs.<br>
 <br>
-<i>Note: the order of attributes doesn't matter, you can specify url attribute first and 
-the name attribute at the end, this has no impact.</i><br>
+<i>Note: l'ordre des attributs n'a pas d'importance, vous pouvez spécifier l'attribut 
+url en premier et name à la fin, cela n'a pas d'impacte.</i><br>
 <ul>
 <li>
-<span style="color:#0a0;">name</span> : describe the Mod name.This name is, so to say, what identify the Mod in all 
-cases, even internally by OvGM algorithms to compare it with locally installed Mods.<br><br>
+<span style="color:#0a0;">name</span> : décrit le nom du Mod. Ce nom est, pour ainsi dire, ce qui identifie le Mod dans tous
+les cas, même en interne par les algorithmes d'OvGME pour comparer avec les mods localement installés.<br><br>
 </li>
 <li>
-<span style="color:#0a0;">version</span> : describe the Mod version. This value will be used, for example, to compare 
-with the locally installed Mods. (for more details, see the Mod versioning topic )<br><br>
+<span style="color:#0a0;">version</span> : décrit la version du Mod. Cette valeur sera utilisée, par exemple, pour comparer avec 
+les Mods localement installés ( pour plus de détails, voir le chapitre Versioning des Mods)
+<br><br>
 </li>
 <li>
-<span style="color:#0a0;">url</span> : is the URL to the file to download. This is where OvGME will request for download 
-the Mod-Archive zip file. This url must be a valid HTTP URL.<br><br>
+<span style="color:#0a0;">url</span> : est l'URL de téléchargement du fichier. C'est l'adresse à laquelle OvGME enverra une 
+requête pour télécharger le fichier zip du Mod-Archive. <br><br>
 </li>
 </ul>
 
-<h5>Mod descriptor description</h5>
+<h5>Description du Descripteur de Mod</h5>
 
-Within the Mod descriptor node, you can optionally insert the Mod description, this is 
-the black part in the example above. There is no restriction for size or format, but, 
-like in HMTL, the XML format does not "recognize" the carriage returns within the data. 
-But unlike HTML, you can't use the "<i>&lt;br&gt;</i>" tag. So to indicate a carriage return in the 
-description, you have to encode it with the special sequence: "<b><i>&amp;#13;&amp;#10;</i></b>".<br>
+Au sein du neoud de Descripteur de Mod, vous pouvez optionnellement insérer la 
+description du Mod, c'est la partie noir dans l'exemple ci-dessus. Il n'y a pas 
+de restriction de taille ou de format, mais, comme en HTML, le format XML ne 
+"reconnait" pas les retours chariot au sein des données. Mais, on ne peut pas utiliser
+la balise "<i>&lt;br&gt;</i>" comme en HTML. Donc, pour indiquer les retours chariot 
+dans la description, vous devez les encoder avec la séquence spéciale: "<b><i>&amp;#13;&amp;#10;</i></b>".<br> 
 <br>
-<i>Note: This sequence literally mean "Put Carriage Return ASCII code (13) ; Put Line 
-Feed ASCII code (10) ;" which is named a CRLF (Carriage Return Line Feed) sequence.</i>
+<i>Note: Cette séquence signifie littéralement "Met un code ASCII Retour Chariot (13) ; Met un
+code ASCII Nouvelle Ligne (10) ;" qui est nommé séquence CRLF (Carriage Return Line Feed).</i>
 
 
-<h4>Using XML source generator</h4>
+<h4>Utilisation du générateur de source XML</h4>
 
-To help creating valid XML repository file, OvGME provide a tool to automatically 
-create XML source by analyzing the content of the Mods Stock folder (or a custom 
-specified folder). This tool take all valid zip Mod-Archive, check for a VERSION.txt, 
-a valid description file, and puts all together as XML repository source code.<br>
+Pour aider à la création de de fichier XML de dépôts, OvGME fournit un outil pour
+créer des sources XML automatiquement par l'analyse du contenu du dossier de stock
+de Mods (ou un dossier personnalisé spécifié). Cet outil prend tous les Mod-Archives
+valides, verifie la présence d'un VERSION.txt, d'une description, et met tout ensemble
+dans un code source XML de dépôt.<br>
 
-To open the XML source generator, go to the "<b>Mods</b>" menu, select 
-"<b>Repositories</b>", then "<b>Make XML source...</b>"<br><br>
+Pour ouvrir le générateur de source XML, allez dans le menu "<b>Mods</b>",
+sélectionnez "<b>Repositories</b>" puis "<b>Make XML source...</b>"<br><br>
 
-<b>Base URL</b> specifies the base URL used to generate download links for Mods. For 
-example, if you enter the "<i>http://www.example.com/public</i>" as base ULR, the download 
-link generated for Mods will be "<i>http://www.example.com/public/My%20Super%20Mod.zip</i>".<br>
+<b>Base URL</b> Spécifie la base d'URL utilisée pour générer les liens de 
+téléchargement des Mods. Par exemple, si vous entrez la base d'URL "<i>http://www.example.com/public</i>",
+les liens de téléchargement seront tel que "<i>http://www.example.com/public/My%20Super%20Mod.zip</i>".<br>
 <br>
-<i>Note: <b><u>Technically, your are not restricted to one location/URL for download links</u></b>, you can 
-use any valid URL for download links, and each Mod can have its own specific download 
-link. However, the XML generator can generate only generic links for all mods. If 
-download links of Mods are actually scattered on several locations, you have to edit 
-the XML source yourself by replacing the URL of desired Mods.</i><br>
+<i>Note  <b><u>Techniquement, vous n'êtes pas restreints à une localisation/URL pour les liens de téléchargement</u></b>, 
+vous pouvez utiliser n'importe quelle URL valide pour les liens, et chaque Mod peut avoir son propre lien
+de téléchargement spécifique. Cependant, le générateur de source XML ne peut générer que des liens
+de téléchargement générique. Si les liens de téléchargement des Mods sont effectivement dispersés 
+à plusieurs endroits, vous devez éditer le code source XML vous-même en remplaçant les URL
+des Mods désirés.</i><br>
 <br>
-Once you properly specified the required data, you can generate the XML source code, by 
-simply clicking on the "<b>Generate XML source</b>" button. You now can edit the 
-generated buffer to ajust data as your convenence.<br>
+Une fois que vous avez spécifié les données requises, vous pouvez générer le code source
+XML, simplement en cliquant sur le bouton "<b>Generate XML source</b>". Vous pouvez ensuite
+éditer le contenu du tampon généré pour ajuster à votre convenance.<br>
 <br>
-Finally, once XML source generated and modified it at your convenience, you finally can save the 
-current buffer by clicking the "<b>Save as XML...</b>" button.<br>
+Finalement, une fois la source XML généré et modifié à votre convenance, vous pouvez sauvegarder
+le tampon en cliquant sur le bouton "<b>Save as XML...</b>".<br>
 
   </body>
 </html>

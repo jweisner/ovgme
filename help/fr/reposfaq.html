@@ -1,6 +1,6 @@
 <html>
 <head>
-  <title>Repositories FAQ</title>
+  <title>FAQ Dépôts</title>
   
   <meta name="keywords"  content="mods,repository,repositories,xml,source,https,http,faq,url,zip," ></head>
   
@@ -9,21 +9,21 @@
       <tbody>
         <tr>
           <td style="color:#fff; font-size:14pt;"> 
-            <b>Repositories FAQ</b>
+            <b>FAQ dépôts</b>
           </td>
         </tr>
       </tbody>
     </table>
     <br>
     
-<h4>Does OvGME supports HTTPS servers ?</h4>
-No. OvGME only supports the standard HTTP protocol.<br><br>
+<h4>OvGME prend-il en charge les serveur HTTPS ?</h4>
+Non. OvGME ne prend en charge que le protocole HTTP standard.<br><br>
 
-<h4>Can we have several repositories on the same server (web site) ?</h4>
-Yes. OvGME only look at XML files at given URL and don't care about the web server, so 
-you can host as many XML files as you want in the same place. For example, if you want 
-to host repositories for several games or several Mod lists, you can provide an XML 
-file for each:
+<h4>Peut-on avoir plusieurs dépôts sur le même serveur (site web) ?</h4>
+Oui. OvGME regarde seulement les fichiers XML à l'URL donnée et peu importe le serveur web,
+donc vous pouvez héberger autant de fichier XML que vous voulez au même endroit. Par exemple
+si vous voulez héberger des dépôts pour plusieurs jeux ou plusieurs listes de Mods, vous
+pouvez fournir un fichier XML pour chacun:
 <blockquote><i>
      http://www.example.com/main (.xml)<br>
      http://www.example.com/updates (.xml)<br>
@@ -32,38 +32,41 @@ file for each:
 </i>
 </blockquote>
 
-<h4>Does OvGME supports dynamically generated XML data (PHP / ASP pages) ?</h4>
-Yes. OvGME can gather XML data from any dynamically generated web page such as PHP or 
-ASP page since the 1.6 version, but the provided repository URL must be explicit. Please 
-see the Repository principle for more details.<br><br>
+<h4>Est-ce que OvGME prend en charge les données XML générée dynamiquement (PHP / ASP pages) ?</h4>
+Oui. OvGME peut receuillir les données XML depuis une page générée dynamiquement comme
+une page PHP ou ASP depuis la version 1.6, mais l'URL de dépôt fournit doit être explicite.
+Veuillez consulter le chapitre Principe du dépôt pour plus de détails.<br><br>
 
 
-<h4>Does the repository server also must host the Mod-Archive zip files ?</h4>
-No, as you can read in the Repository XML file chapter, the Mod(s) URL provided in the 
-XML is totally independent from the repository URL. The repository server only provide 
-the XML "database" file. The Mod-Archive zip files can be located and downloadable on 
-any other web address.<br><br>
+<h4>Le serveur de dépôt doit-il également héberger les fichier zip de Mod-Archive ?</h4>
+Non, comme vous pouvez le lire dans le chapitre Données XML de dépôt, les URL de Mod(s) 
+fournies dans l'XML sont totalement indépendantes de l'URL du dépôt. Le serveur de dépôt 
+fournit uniquement le fichier "base de donnée" XML. Les fichier zip Mod-Archive peuvent 
+être situés et téléchargeables à une toute autre adresse web.<br><br>
 
-<h4>Does OvGME supports download/update for Mods that are not zip archives ?</h4>
-Not at this time. OvGME will look only for zip Mod-Archives. During the repositories 
-process (name check, version comparison, etc..) the classical Directory-Mods are simply 
-ignored. So to say, the classical Directory-Mod support is more or less destined to 
-become only a feature for Mods makers, to help Mods development (since an uncompressed 
-folder structure is easier to modify than a zip archive).<br><br>
+<h4>OvGME prend-il en charge le téléchargement/mise à jour pour les Mods qui sont pas des archives zip ?</h4>
+Par pour le moment. OvGME va seulement regarder pour des fichier zip Mod-Archive. Durant
+le processus de dépôts (vérification des noms, comparaison de version, etc.) les Directory-Mod
+classiques sont tout simplement ignorés. Pour ainsi dire, le support des Directory-Mod
+classiques est plus ou moins destiné à devenir uniquement une fonctionnalité pour
+les créateurs de Mods, pour aider au développement (puisqu'un dossier non compressé
+est plus facile à modifier qu'une archive zip).<br><br>
 
-<h4>Can we use repositories mechanisms inside a local network ?</h4>
-Yes, OvGME acts as a (very) simple raw HTTP client (web browser). You only need to have 
-an HTTP server in your local network. If your local network does not provide domain 
-name service (which is often the case), you only have to enter the IP-URL to the server 
-as repository URL, for example: "<i>http://192.168.0.5/repository/main</i>"<br><br>
+<h4>Peut-on utiliser le mécanisme des dépôts dans un réseau local ?</h4>
+Oui, OvGME agit comme un (très) simple client HTTP brute (navigateur web). Vous
+avez seulement besoin d'un serveur HTTP dans votre réseau local. Si votre réseau
+local n'a pas de service de nom de domaine (ce qui est souvent le cas), vous devez
+simplement entrer l'IP-URL du serveur en tant qu'URL de dépôt, par exemple:
+"<i>http://192.168.0.5/repository/main</i>"<br><br>
 
-<h4>Does the distant Zip file to download must have the exact same name as the Mod name specified in the XML file ?</h4>
-No. OvGME don't care about the downloaded file name, once downloaded, the file will be 
-renamed according the specified name with the "<i>.zip</i>" extension. For example, if in the 
-XML file, the specified Mod name is "<i>My Super Mod</i>" and the download URL is 
-"<i>http://www.ex.net/super-mod-v1_0.zip</i>", the downloaded file will be renamed in 
-"<i>My Super Mod.zip</i>" and will appear as zip Mod-Archive named "<i>My Super Mod</i>" in the 
-Mods list.
+<h4>Est-ce que le fichier zip disant à télécharger doit avoir exactement le même nom que celui du Mod spécifié 
+dans les données XML ?</h4>
+Non. OvGME se fiche du nom du fichier à télécharger, une fois téléchargé, le fichier sera
+renommé selon le nom du Mod spécifié avec l'extension "<i>.zip</i>". Par exemple, si dans
+les données XML, le nom spécifié du Mod est "<i>Mon Super Mod</i>" et que l'URL de téléchargement
+est "<i>http://www.ex.net/super-mod-v1_0.zip</i>", le fichier téléchargé sera renommé
+en "<i>Mon Super Mod.zip</i>" et apparaitra en tant Mod-Archive zip nommé "<i>Mon Super Mod</i>"
+dans la liste des Mods.
 
   </body>
 </html>

@@ -163,6 +163,15 @@ std::string GME_StrToUpper(const char* str)
   return ret;
 }
 
+std::wstring GME_StrToUpper(const std::wstring& str)
+{
+  std::wstring ret;
+  size_t s = str.size();
+  for(unsigned i = 0; i < s; i++)
+    ret.push_back(std::towupper(str[i]));
+  return ret;
+}
+
 /*
   functon to make string lower case
 */

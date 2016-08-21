@@ -32,6 +32,7 @@ void GME_StrSplit(const std::string& str, std::vector<std::string>* sbstr, const
 void GME_StrToUpper(std::wstring& str);
 void GME_StrToUpper(std::string& str);
 std::string GME_StrToUpper(const char* str);
+std::wstring GME_StrToUpper(const std::wstring& str);
 void GME_StrToLower(std::wstring& str);
 void GME_StrToLower(std::string& str);
 std::string GME_StrToLower(const char* str);
