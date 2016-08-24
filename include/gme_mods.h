@@ -25,6 +25,7 @@
 
 bool GME_ModsUpdBackup(HWND hpb);
 void GME_ModsApplyMod(HWND hpb, const std::wstring& name, int type);
+void GME_ModsUndoMod(HWND hpb, const std::wstring& name);
 void GME_ModsRestoreMod(HWND hpb, const std::wstring& name);
 bool GME_ModsToggleSel(int action);
 bool GME_ModsToggleAll(int action);

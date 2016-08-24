@@ -14,6 +14,7 @@
  */
 
 #include "gme_tools.h"
+#include "gme_logs.h"
 
 /* -------------------------------- System related toolkit ------------------------------------- */
 
@@ -341,6 +342,7 @@ bool GME_IsFile(const std::wstring& path)
 */
 bool GME_IsDir(const std::wstring& path)
 {
+  //PathIsDirectory(path.c_str());
   DWORD attr = GetFileAttributesW(path.c_str());
   return ((attr != INVALID_FILE_ATTRIBUTES) && (attr & FILE_ATTRIBUTE_DIRECTORY));
 }
@@ -415,8 +417,10 @@ bool GME_FileWrite(const ubyte* data, size_t size, const std::wstring& dst, bool
 
   FILE* fw = _wfopen(dst.c_str(), L"wb");
 
-  if(fw == NULL)
+  if(fw == NULL) {
+    GME_Logs(GME_LOG_ERROR, "GME_FileWrite", "Unable to open file for writing", GME_StrToMbs(dst).c_str());
     return false;
+  }
 
   while(size > sizeof(buff)) {
     memcpy(buff, data, sizeof(buff));
@@ -424,12 +428,14 @@ bool GME_FileWrite(const ubyte* data, size_t size, const std::wstring& dst, bool
     size -= sizeof(buff);
     if(!fwrite(buff, sizeof(buff), 1, fw)) {
       fclose(fw);
+      GME_Logs(GME_LOG_ERROR, "GME_FileWrite", "Write error", GME_StrToMbs(dst).c_str());
       return false;
     }
   }
   memcpy(buff, data, size);
   if(!fwrite(buff, size, 1, fw)) {
     fclose(fw);
+    GME_Logs(GME_LOG_ERROR, "GME_FileWrite", "Write error", GME_StrToMbs(dst).c_str());
     return false;
   }
 
@@ -454,6 +460,8 @@ bool GME_FileCopy(const std::wstring& src, const std::wstring& dst, bool overwri
   FILE* fw = _wfopen(dst.c_str(), L"wb");
 
   if(fr == NULL || fw == NULL) {
+    if(fr == NULL) GME_Logs(GME_LOG_ERROR, "GME_FileCopy", "Unable to open file for reading", GME_StrToMbs(src).c_str());
+    if(fw == NULL) GME_Logs(GME_LOG_ERROR, "GME_FileCopy", "Unable to open file for writing", GME_StrToMbs(dst).c_str());
     if(fr) fclose(fr);
     if(fw) fclose(fw);
     return false;
@@ -461,6 +469,7 @@ bool GME_FileCopy(const std::wstring& src, const std::wstring& dst, bool overwri
 
   while(0 < (n = fread(buff, 1, sizeof(buff), fr))) {
     if(!fwrite(buff, n, 1, fw)) {
+      GME_Logs(GME_LOG_ERROR, "GME_FileCopy", "Write error", GME_StrToMbs(dst).c_str());
       fclose(fr);
       fclose(fw);
       return false;

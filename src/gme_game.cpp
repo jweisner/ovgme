@@ -340,7 +340,7 @@ bool GME_GameEditCurCfg(const std::wstring& title, const std::wstring& mods, boo
   temp_str = mods;
   wcscpy(data.mods_dir, temp_str.c_str());
 
-  /* if the bakcup path changed, we restore all backup */
+  /* if the backup path changed, we restore all backup */
   if(GME_GameGetCurBackPath() != data.back_dir) {
     GME_DialogWarning(g_hwndEdiGame, L"Backup folder changed for  '" + GME_GameGetCurTitle() + L"', all enabled mod will be disabled to empty old backup folder.");
     /* uninstall process */
@@ -477,10 +477,10 @@ bool GME_GameUpdList()
     }
   }
 
-  /* select defaut game in combo box */
+  /* select default game in combo box */
   SendMessageW(hcb, CB_SETCURSEL, g_GameCur_Id, 0);
 
-  /* select defaut game cfg */
+  /* select default game cfg */
   GME_GameSelectCfg(g_GameCfg_List[g_GameCur_Id].title);
 
   return true;
@@ -491,7 +491,7 @@ bool GME_GameChkSelect()
 {
   HWND hcb = GetDlgItem(g_hwndMain, CMB_GAMELIST);
 
-  /* retreive selected item/string in combo box */
+  /* retrieve selected item/string in combo box */
   wchar_t title[256];
   int i = SendMessageW(hcb, CB_GETCURSEL, 0, 0);
   SendMessageW(hcb, CB_GETLBTEXT, i, (LPARAM)title);

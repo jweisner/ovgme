@@ -4,14 +4,23 @@
 	<Project>
 		<Option title="OvGME" />
 		<Option pch_mode="2" />
-		<Option compiler="gnu_gcc_mingw_x86_64_w64" />
+		<Option compiler="mingw32_x86_64" />
+		<MakeCommands>
+			<Build command="" />
+			<CompileFile command="" />
+			<Clean command="" />
+			<DistClean command="" />
+			<AskRebuildNeeded command="" />
+			<SilentBuild command=" &gt; $(CMD_NULL)" />
+		</MakeCommands>
 		<Build>
 			<Target title="dbg 32">
 				<Option output="bin/32/dbg/OvGME" prefix_auto="1" extension_auto="1" />
 				<Option object_output="obj/32/dbg" />
 				<Option type="1" />
-				<Option compiler="gnu_gcc_mingw_i686_w64" />
+				<Option compiler="mingw32_i686" />
 				<Compiler>
+					<Add option="-std=c++11" />
 					<Add option="-g" />
 				</Compiler>
 			</Target>
@@ -19,9 +28,10 @@
 				<Option output="bin/32/rel/OvGME" prefix_auto="1" extension_auto="1" />
 				<Option object_output="obj/32/rel" />
 				<Option type="0" />
-				<Option compiler="gnu_gcc_mingw_i686_w64" />
+				<Option compiler="mingw32_i686" />
 				<Compiler>
 					<Add option="-O3" />
+					<Add option="-std=c++11" />
 				</Compiler>
 				<Linker>
 					<Add option="-s" />
@@ -31,8 +41,9 @@
 				<Option output="bin/64/dbg/OvGME" prefix_auto="1" extension_auto="1" />
 				<Option object_output="obj/64/dbg" />
 				<Option type="1" />
-				<Option compiler="gnu_gcc_mingw_x86_64_w64" />
+				<Option compiler="mingw32_x86_64" />
 				<Compiler>
+					<Add option="-std=c++11" />
 					<Add option="-g" />
 				</Compiler>
 			</Target>
@@ -40,9 +51,10 @@
 				<Option output="bin/64/rel/OvGME" prefix_auto="1" extension_auto="1" />
 				<Option object_output="obj/64/rel" />
 				<Option type="0" />
-				<Option compiler="gnu_gcc_mingw_x86_64_w64" />
+				<Option compiler="mingw32_x86_64" />
 				<Compiler>
 					<Add option="-O3" />
+					<Add option="-std=c++11" />
 				</Compiler>
 				<Linker>
 					<Add option="-s" />
@@ -50,23 +62,17 @@
 			</Target>
 		</Build>
 		<Compiler>
-			<Add option="-Wall" />
-			<Add option="-std=c++11" />
 			<Add directory="include" />
 			<Add directory="include/thirdparty/miniz" />
-			<Add directory="include/thirdparty/xxhash" />
 			<Add directory="include/thirdparty/pugixml" />
+			<Add directory="include/thirdparty/xxhash" />
 		</Compiler>
 		<Linker>
-			<Add option="-static-libgcc" />
-			<Add option="-static-libstdc++" />
-			<Add library="gdi32" />
-			<Add library="user32" />
-			<Add library="kernel32" />
-			<Add library="comctl32" />
-			<Add library="shlwapi" />
-			<Add library="comdlg32" />
-			<Add library="ws2_32" />
+			<Add library="Comctl32" />
+			<Add library="Gdi32" />
+			<Add library="Shlwapi" />
+			<Add library="Ws2_32" />
+			<Add library="Comdlg32" />
 		</Linker>
 		<Unit filename="include/gme.h" />
 		<Unit filename="include/gme_conf.h" />

@@ -16,6 +16,7 @@
 #include "gme_tools.h"
 #include "gme_netw.h"
 #include "gme_logs.h"
+#include "pugixml.hpp"
 
 /* structure for common url */
 struct GME_Url_Struct
@@ -237,13 +238,13 @@ GME_Url_Struct GME_NetwParseUrl(const char* url_str)
     file = str.substr(file_p+1, str.size());
   }
 
-  /* try to deduct port from protocole */
+  /* try to deduct port from protocol */
   if(port.size() == 0 && prot.size()) {
     if(prot == "http") port = "80";
     if(prot == "ftp") port = "22";
   }
 
-  /* try to deduct protocole from port */
+  /* try to deduct protocol from port */
   if(prot.size() == 0 && port.size()) {
     if(port == "80") prot = "http";
     if(port == "22") prot = "ftp";
@@ -284,6 +285,7 @@ bool GME_NetwGetIp4(const char* host, const char* port, sockaddr* saddr)
   addrinfo* result = NULL;
   int error  = getaddrinfo(host, port, NULL, &result);
   if(0 != error) {
+    GME_Logs(GME_LOG_WARNING, "GME_NetwGetIp4", "Unable to resolve host", host);
     return false;
   }
   memcpy(saddr, result->ai_addr, sizeof(sockaddr));
@@ -300,10 +302,12 @@ SOCKET GME_NetwConnect(sockaddr* saddr)
 
   sock = socket(AF_INET, SOCK_STREAM, 0);
   if(sock == INVALID_SOCKET) {
+    GME_Logs(GME_LOG_ERROR, "GME_NetwConnect", "Unable to open new socket", "== INVALID_SOCKET");
     return INVALID_SOCKET;
   }
 
   if(0 != connect(sock, saddr, sizeof(sockaddr))) {
+    GME_Logs(GME_LOG_ERROR, "GME_NetwConnect", "Unable to connect to host", "");
     closesocket(sock);
     return INVALID_SOCKET;
   }
@@ -321,7 +325,13 @@ GME_Http_Head_Struct GME_NetwHttpParseHead(const char* recv_buff, size_t recv_si
   std::vector<std::string> head_entry;
 
   /* copy in a new buffer to make a string */
-  char *cstr = new char[recv_size+1];
+  char *cstr;
+  try {
+    cstr = new char[recv_size+1];
+  } catch (const std::bad_alloc&) {
+    GME_Logs(GME_LOG_ERROR, "GME_NetwHttpParseHead", "Bad alloc", std::to_string(recv_size+1).c_str());
+    return header;
+  }
   memcpy(cstr, recv_buff, recv_size);
   cstr[recv_size] = 0;
   std::string recv_str = cstr;
@@ -333,13 +343,15 @@ GME_Http_Head_Struct GME_NetwHttpParseHead(const char* recv_buff, size_t recv_si
   header.code = strtol(recv_str.substr(9, 3).c_str(), NULL, 10);
   if(header.code == 0L) {
     /* we got a problem... */
+    GME_Logs(GME_LOG_ERROR, "GME_NetwHttpParseHead", "Invalid response code", "0L");
     return header;
   }
 
-  /* find the size of body, we check the double CRLF */
+  /* find the size of the header, we check the double CRLF */
   header.size = recv_str.find("\r\n\r\n");
   if(header.size == std::string::npos) {
     /* we got a problem... */
+    GME_Logs(GME_LOG_ERROR, "GME_NetwHttpParseHead", "Unable to get header size", "CRLF missing ?");
     header.size = 0;
     return header;
   }
@@ -379,7 +391,7 @@ GME_Http_Head_Struct GME_NetwHttpParseHead(const char* recv_buff, size_t recv_si
     }
   }
 
-  /* search for "Content-Length:" header and parse */
+  /* search for "Transfer-Encoding:" header and parse */
   for(unsigned i = 0; i < head_entry.size(); i++) {
     if(head_entry[i].find("Transfer-Encoding") != std::string::npos) {
       size_t p = head_entry[i].find_first_of(':', 0) + 2;
@@ -402,7 +414,7 @@ int GME_NetwHttpGET(const char* url_str, const GME_NetwGETOnErr on_err, const GM
   /* parse url */
   GME_Url_Struct url = GME_NetwParseUrl(url_str);
 
-  /* get host adress for connection infos */
+  /* get host address for connection infos */
   sockaddr saddr;
   if(!GME_NetwGetIp4(url.host, url.port, &saddr)) {
     WSACleanup();
@@ -431,11 +443,11 @@ int GME_NetwHttpGET(const char* url_str, const GME_NetwGETOnErr on_err, const GM
   /* send request to server */
   send(sock, http_req, strlen(http_req), 0);
 
-  /* stuff to recieve data */
+  /* stuff to receive data */
   char recv_buff[4096];
   int recv_size;
 
-  /* recieving HTTP response (or not) */
+  /* receiving HTTP response (or not) */
   recv_size = recv(sock, recv_buff, sizeof(recv_buff), 0);
   if(recv_size == SOCKET_ERROR || recv_size == 0) {
     /* stream error... */
@@ -464,7 +476,7 @@ int GME_NetwHttpGET(const char* url_str, const GME_NetwGETOnErr on_err, const GM
   }
 
   if(!header.content_length) {
-    /* check if we get a transfert encoding chunked */
+    /* check if we get a transfer encoding chunked */
     if(strstr(header.transfer_encoding, "chunked")) {
 
       clock_t t = clock(); /* start clock for download speed */
@@ -496,8 +508,8 @@ int GME_NetwHttpGET(const char* url_str, const GME_NetwGETOnErr on_err, const GM
           bps = float(body_data.size())/(float(clock()-t)/CLOCKS_PER_SEC);
           if(!on_dnl(pct, bps)) {
             closesocket(sock); WSACleanup();
-            GME_Logs(GME_LOG_NOTICE, "GME_NetwHttpGET", "Canceled by user", url_str);
-            return 0; // canceled
+            GME_Logs(GME_LOG_NOTICE, "GME_NetwHttpGET", "Cancelled by user", url_str);
+            return 0; // cancelled
           }
         }
 
@@ -507,7 +519,7 @@ int GME_NetwHttpGET(const char* url_str, const GME_NetwGETOnErr on_err, const GM
             chunk_recv++; recv_size--; data_p++;
           } while(recv_size && chunk_recv < chunk_size);
 
-          if(!recv_size) {
+          if(!recv_size) { /* get new data if needed */
             recv_size = recv(sock, recv_buff, sizeof(recv_buff), 0);
             if(recv_size == SOCKET_ERROR || recv_size == 0) {
               /* stream error... */
@@ -521,9 +533,10 @@ int GME_NetwHttpGET(const char* url_str, const GME_NetwGETOnErr on_err, const GM
 
         } while(chunk_recv < chunk_size);
 
+        /* begin a new chunk */
         data_p+=2; recv_size-=2; // CRLF
 
-        if(!recv_size) {
+        if(!recv_size) { /* get new data if needed */
           recv_size = recv(sock, recv_buff, sizeof(recv_buff), 0);
           if(recv_size == SOCKET_ERROR || recv_size == 0) {
             /* stream error... */
@@ -553,7 +566,7 @@ int GME_NetwHttpGET(const char* url_str, const GME_NetwGETOnErr on_err, const GM
     }
     closesocket(sock); WSACleanup();
     if(on_err) on_err(url_str);
-    GME_Logs(GME_LOG_ERROR, "GME_NetwHttpGET", "Unsuported transfer encoding", url_str);
+    GME_Logs(GME_LOG_ERROR, "GME_NetwHttpGET", "Unsupported transfer encoding", url_str);
     return GME_HTTPGET_ERR_ENC;
   }
 
@@ -584,16 +597,16 @@ int GME_NetwHttpGET(const char* url_str, const GME_NetwGETOnErr on_err, const GM
     if(!on_dnl(pct, bps)) {
       closesocket(sock); WSACleanup();
       delete[] body_data;
-      GME_Logs(GME_LOG_NOTICE, "GME_NetwHttpGET", "Canceled by user", url_str);
-      return 0; // canceled
+      GME_Logs(GME_LOG_NOTICE, "GME_NetwHttpGET", "Cancelled by user", url_str);
+      return 0; // cancelled
     }
   }
 
-  /* do we have more data to recieve ? */
+  /* do we have more data to receive ? */
   if(header.content_length > body_size) {
 
     do {
-      /* recieve bunch of data */
+      /* receive bunch of data */
       recv_size = recv(sock, recv_buff, sizeof(recv_buff), 0);
       if(recv_size == SOCKET_ERROR || recv_size == 0) {
         /* stream error... */
@@ -612,14 +625,14 @@ int GME_NetwHttpGET(const char* url_str, const GME_NetwGETOnErr on_err, const GM
         if(!on_dnl(pct, bps)) {
           closesocket(sock); WSACleanup();
           delete[] body_data;
-          GME_Logs(GME_LOG_NOTICE, "GME_NetwHttpGET", "Canceled by user", url_str);
-          return 0; // canceled
+          GME_Logs(GME_LOG_NOTICE, "GME_NetwHttpGET", "Cancelled by user", url_str);
+          return 0; // cancelled
         }
       }
     } while(body_size < header.content_length);
   }
 
-  /* download successfull */
+  /* download successful */
   closesocket(sock); WSACleanup();
 
   /* send data to callback */
@@ -642,7 +655,7 @@ int GME_NetwHttpGET(const char* url_str, const GME_NetwGETOnErr on_err, const GM
   /* parse url */
   GME_Url_Struct url = GME_NetwParseUrl(url_str);
 
-  /* get host adress for connection infos */
+  /* get host address for connection infos */
   sockaddr saddr;
   if(!GME_NetwGetIp4(url.host, url.port, &saddr)) {
     WSACleanup();
@@ -671,11 +684,11 @@ int GME_NetwHttpGET(const char* url_str, const GME_NetwGETOnErr on_err, const GM
   /* send request to server */
   send(sock, http_req, strlen(http_req), 0);
 
-  /* stuff to recieve data */
+  /* stuff to receive data */
   char recv_buff[4096];
   int recv_size;
 
-  /* recieving HTTP response (or not) */
+  /* receiving HTTP response (or not) */
   recv_size = recv(sock, recv_buff, sizeof(recv_buff), 0);
   if(recv_size == SOCKET_ERROR || recv_size == 0) {
     /* stream error... */
@@ -704,7 +717,7 @@ int GME_NetwHttpGET(const char* url_str, const GME_NetwGETOnErr on_err, const GM
   }
 
   if(!header.content_length) {
-    /* check if we get a transfert encoding chunked */
+    /* check if we get a transfer encoding chunked */
     if(strstr(header.transfer_encoding, "chunked")) {
       /* this is some PHP page with chuck encoding, not supported */
     }
@@ -732,7 +745,7 @@ int GME_NetwHttpGET(const char* url_str, const GME_NetwGETOnErr on_err, const GM
     return GME_HTTPGET_ERR_FOP;
   }
 
-  /* first part of body recieved with header */
+  /* first part of body received with header */
   recv_size -= (header.size+4);
   if(recv_size) {
     if(!fwrite(&recv_buff[header.size+4], recv_size, 1, fp)) {
@@ -751,16 +764,16 @@ int GME_NetwHttpGET(const char* url_str, const GME_NetwGETOnErr on_err, const GM
     if(!on_dnl(pct, bps)) {
       closesocket(sock); WSACleanup();
       fclose(fp); DeleteFileW(file_path.c_str());
-      GME_Logs(GME_LOG_NOTICE, "GME_NetwHttpGET", "Canceled by user", url_str);
-      return 0; // canceled
+      GME_Logs(GME_LOG_NOTICE, "GME_NetwHttpGET", "Cancelled by user", url_str);
+      return 0; // cancelled
     }
   }
 
-  /* do we have more data to recieve ? */
+  /* do we have more data to receive ? */
   if(header.content_length > body_size) {
 
     do {
-      /* recieve bunch of data */
+      /* receive bunch of data */
       recv_size = recv(sock, recv_buff, sizeof(recv_buff), 0);
       if(recv_size == SOCKET_ERROR || recv_size == 0) {
         /* stream error... */
@@ -785,15 +798,15 @@ int GME_NetwHttpGET(const char* url_str, const GME_NetwGETOnErr on_err, const GM
         if(!on_dnl(pct, bps)) {
           closesocket(sock); WSACleanup(); fclose(fp);
           fclose(fp); DeleteFileW(file_path.c_str());
-          GME_Logs(GME_LOG_NOTICE, "GME_NetwHttpGET", "Canceled by user", url_str);
-          return 0; // canceled
+          GME_Logs(GME_LOG_NOTICE, "GME_NetwHttpGET", "Cancelled by user", url_str);
+          return 0; // cancelled
         }
       }
 
     } while(body_size < header.content_length);
   }
 
-  /* download successfull */
+  /* download successful */
   closesocket(sock); WSACleanup();
   fclose(fp);
 

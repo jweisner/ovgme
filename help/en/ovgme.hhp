@@ -39,5 +39,5 @@ jsgmecomp.html
 
 
 [WINDOWS]
-Main="Main","ovgme.hhc","ovgme.hhk","introduction.html","introduction.html", ,,,,0x061520,200, 0x00304E, [0, 0, 700, 700]  , 0x307e, , , , , , , , 0
-Popup="Popup","ovgme.hhc","ovgme.hhk","introduction.html","introduction.html", ,,,,0x061520,200, 0x00304E, [0, 0, 700, 700]  , 0x307e, , , , , , , , 0
+Main="Main","ovgme.hhc","ovgme.hhk","introduction.html","introduction.html", ,,,,0x061520,200, 0x00304E, [50, 50, 750, 750]  , 0x307e, , , , , , , , 0
+Popup="Popup","ovgme.hhc","ovgme.hhk","introduction.html","introduction.html", ,,,,0x061520,200, 0x00304E, [50, 50, 750, 750]  , 0x307e, , , , , , , , 0

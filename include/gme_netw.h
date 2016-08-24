@@ -16,6 +16,8 @@
 #ifndef GME_NETW_H_INCLUDED
 #define GME_NETW_H_INCLUDED
 
+#include <gme.h>
+
 #define GME_HTTPGET_ERR_DNS 1
 #define GME_HTTPGET_ERR_CNX 2
 #define GME_HTTPGET_ERR_ENC 3

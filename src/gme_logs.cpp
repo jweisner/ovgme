@@ -19,6 +19,9 @@
 
 std::wstring g_LogFile;
 
+/*
+  initialize the log.txt, open for write with erase
+*/
 void GME_LogsInit()
 {
   g_LogFile = GME_GetAppdataPath() + L"\\log.txt";
@@ -28,6 +31,9 @@ void GME_LogsInit()
   }
 }
 
+/*
+  function to write a log line in log txt
+*/
 void GME_Logs(int level, const char* scope, const char* msg, const char* item)
 {
   char buffer[32768];

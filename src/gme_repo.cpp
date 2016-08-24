@@ -33,7 +33,7 @@ struct GME_Repos_Struct
 
 
 /*
-  utility fonction to parse version from string
+  utility function to parse version from string
 */
 inline GME_ModVers_Struct GME_RepoParseVers(const std::wstring& str)
 {
@@ -60,7 +60,7 @@ inline GME_ModVers_Struct GME_RepoParseVers(const std::wstring& str)
 }
 
 /*
-  utility fonction to parse version to string
+  utility function to parse version to string
 */
 inline std::wstring GME_RepoVersString(const GME_ModVers_Struct& vers)
 {
@@ -251,7 +251,7 @@ bool GME_RepoChkList()
   for(unsigned i = 0; i < g_GME_Repos_List.size(); i++) {
     if(!strcmp(g_GME_Repos_List[i].url, item.pszText)) {
       imgstate = SendMessage(htv, TVM_GETITEMSTATE, (WPARAM)item.hItem, TVIS_STATEIMAGEMASK);
-      g_GME_Repos_List[i].enabled = (0x2000 & imgstate); /* 0x2000 is the bit for checkbox cheched image */
+      g_GME_Repos_List[i].enabled = (0x2000 & imgstate); /* 0x2000 is the bit for check-box checked image */
       break;
     }
   }
@@ -261,7 +261,7 @@ bool GME_RepoChkList()
     for(unsigned i = 0; i < g_GME_Repos_List.size(); i++) {
       if(!strcmp(g_GME_Repos_List[i].url, item.pszText)) {
         imgstate = SendMessage(htv, TVM_GETITEMSTATE, (WPARAM)item.hItem, TVIS_STATEIMAGEMASK);
-        g_GME_Repos_List[i].enabled = (0x2000 & imgstate); /* 0x2000 is the bit for checkbox cheched image */
+        g_GME_Repos_List[i].enabled = (0x2000 & imgstate); /* 0x2000 is the bit for check-box checked image */
         break;
       }
     }
@@ -300,9 +300,9 @@ bool GME_RepoUpdList()
   for(unsigned i = 0; i < g_GME_Repos_List.size(); i++) {
     tvins.item.pszText = g_GME_Repos_List[i].url;
     if(g_GME_Repos_List[i].enabled) {
-      tvins.item.state = INDEXTOSTATEIMAGEMASK(2); // checkbox checked image
+      tvins.item.state = INDEXTOSTATEIMAGEMASK(2); // check-box checked image
     } else {
-      tvins.item.state = INDEXTOSTATEIMAGEMASK(1); // checkbox unchecked image
+      tvins.item.state = INDEXTOSTATEIMAGEMASK(1); // check-box unchecked image
     }
     SendMessage(htv, TVM_INSERTITEM, 0, (LPARAM)&tvins);
   }
@@ -1030,7 +1030,15 @@ std::string GME_ReposXmlEncode(const std::wstring& desc)
 {
   std::string mbs = GME_StrToMbs(desc);
   const char* pstr = mbs.c_str();
-  char* buf = new char[desc.size() * 3 + 1];
+  char* buf;
+
+  try {
+    char* buf = new char[desc.size() * 3 + 1];
+  } catch (const std::bad_alloc&) {
+    GME_Logs(GME_LOG_ERROR, "GME_ReposXmlEncode", "Bad alloc", std::to_string(desc.size() * 3 + 1).c_str());
+    return std::string();
+  }
+
   char* pbuf = buf;
 
   while(*pstr) {
