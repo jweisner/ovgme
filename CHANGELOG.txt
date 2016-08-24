@@ -1,109 +1,72 @@
+OvGME 1.6.2, 2016-20-08
+
+- Mod Apply/Backup logic modification
+- Some correcting on help
+- Added some log output
+
 OvGME 1.6.1, 2016-20-08
 
 - Per-User config and backups fixed.
-
 - Ability to change game or config during Mods processing fixed.
-
 - Added Mods processing cancel button for safe cancel.
-
 - Added confirmation message for Mods profile overwrite.
-
 - Added log output for network, write and read errors.
-
 
 OvGME 1.6, 2016-20-08
 
 - Fixed bug for already encoded URL being re-encoded with "%" char interpreted.
-
 - Added support for HTTP chunked transfer.
-
 - Added some error check for XML parsing.
-
 - Empty error message on repository check fail fixed.
-
 - Help updated and corrected.
-
 - Help now starts with good window size.
-
 - Added help source files.
-
 
 OvGME 1.5.9, 2016-19-08
 
 - Rewritten network code to avoid threading sync bugs.
-
 - Better network error handling.
-
 - Reworked Repositories feature.
-
 - Added Ability to enable or disable repository.
-
 - Help and Readme updated.
-
 
 OvGME 1.5.1, 2016-15-08
 
 - Jumping to version 1.5.
-
 - New code architecture with headers and sources.
-
 - Added Mod versioning support.
-
 - Added network repository feature in alpha stage.
-
 
 OvGME 1.2.1, 2016-11-08
 
 - Fixed two ugly memory leaks.
-
 - New write error check for mod apply and and backup.
-
 - Write performances slightly improved.
-
 - Auto text wrap disabled for snapshot output log.
-
 - New snapshot cheksum method based on xxHash (faster).
-
 - Source code: most functions renamed for better naming logic.
-
 - Help corrected.
-
 
 OvGME 1.2, 2016-10-08
 
 - Added game snapshot feature (CRC-32 based).
-
 - Added Mods profile feature.
-
 - New threaded method for mod apply/restore to avoid "Not Responding" during heavy operations.
-
 - Overall mod apply/restore algorithm optimized and reinforced (faster, less memory usage).
-
 - Main menu logic improved (unavailable commands are grayed).
-
 - Overall memory management optimization.
-
 - Progress bar logic improved (now work correctly).
-
 - Cleaned code & several optimizations.
-
 - Help updated
-
 
 OvGME 1.1, 2016-08-08
 
 - Adding support for generic 'description.txt' or 'readme.txt' as description text file for mod archives.
-
 - Adding right-click pop-up menu for mod list with "open folder or archive" option for quick access to mod content.
-
 - Adding ability to choose a custom backup directory for a game.
-
 - Adding ability to choose absolute path for mods stock directory for a game.
-
 - Adding buttons to enable and disable mods in main dialog frame.
-
 - New mod list view with visible enable/disable icon.
-
 
 OvGME 1.0, 2016-07-08
 
