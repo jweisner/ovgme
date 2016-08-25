@@ -1534,23 +1534,22 @@ DWORD WINAPI GME_ModsMake_Th(void* args)
             GME_Logs(GME_LOG_ERROR, "GME_ModsMake_Th", "bad alloc", GME_StrToMbs(zip_root->currChild()->getSource().c_str()).c_str());
             return 0;
           }
-          if(data) {
-            fread(data, fs, 1, fp);
-            if(!mz_zip_writer_add_mem(&za, a_name.c_str(), data, fs, MZ_BEST_COMPRESSION)) {
-              mz_zip_writer_end(&za);
-              delete [] data;
-              delete zip_root;
-              delete arg;
-              GME_DialogError(g_hwndNewAMod, L"An error occurred during Mod-Archive creation.");
-              EnableWindow(GetDlgItem(g_hwndNewAMod, BTN_CREATE), true);
-              EnableWindow(GetDlgItem(g_hwndNewAMod, IDCANCEL), false);
-              EnableWindow(GetDlgItem(g_hwndNewAMod, BTN_CLOSE), true);
-              g_ModsMake_Running = false;
-              GME_Logs(GME_LOG_ERROR, "GME_ModsMake_Th", "mz_zip_writer_add_mem (file) failed", GME_StrToMbs(zip_path).c_str());
-              return 0;
-            }
+
+          fread(data, fs, 1, fp);
+          if(!mz_zip_writer_add_mem(&za, a_name.c_str(), data, fs, MZ_BEST_COMPRESSION)) {
+            mz_zip_writer_end(&za);
             delete [] data;
+            delete zip_root;
+            delete arg;
+            GME_DialogError(g_hwndNewAMod, L"An error occurred during Mod-Archive creation.");
+            EnableWindow(GetDlgItem(g_hwndNewAMod, BTN_CREATE), true);
+            EnableWindow(GetDlgItem(g_hwndNewAMod, IDCANCEL), false);
+            EnableWindow(GetDlgItem(g_hwndNewAMod, BTN_CLOSE), true);
+            g_ModsMake_Running = false;
+            GME_Logs(GME_LOG_ERROR, "GME_ModsMake_Th", "mz_zip_writer_add_mem (file) failed", GME_StrToMbs(zip_path).c_str());
+            return 0;
           }
+          delete [] data;
         } else {
           GME_Logs(GME_LOG_WARNING, "GME_ModsMake_Th", "Unable to open file", GME_StrToMbs(zip_root->currChild()->getSource().c_str()).c_str());
         }
@@ -1626,12 +1625,12 @@ void GME_ModsMakeCancel()
 void GME_ModsMakeArchive(const std::wstring& src_dir, const std::wstring& dst_path, const std::wstring& desc, int vmaj, int vmin, int vrev)
 {
   if(!GME_IsDir(dst_path)) {
-    GME_DialogQuestionConfirm(g_hwndNewAMod, L"Invalid destination path.");
+    GME_DialogWarning(g_hwndNewAMod, L"Invalid destination path.");
     return;
   }
 
   if(!GME_IsDir(src_dir)) {
-    GME_DialogQuestionConfirm(g_hwndNewAMod, L"Invalid source Directory-Mod path.");
+    GME_DialogWarning(g_hwndNewAMod, L"Invalid source Directory-Mod path.");
     return;
   }
 
@@ -1658,9 +1657,9 @@ void GME_ModsMakeArchive(const std::wstring& src_dir, const std::wstring& dst_pa
 
   /* mod folder */
   GMEnode* mod_tree = new GMEnode();
-  mod_tree->setParent(zip_root);
   GME_TreeBuildFromDir(mod_tree, src_dir);
   mod_tree->setName(mod_name);
+  mod_tree->setParent(zip_root);
 
   /* add the description txt node */
   if(txt_data.size()) {

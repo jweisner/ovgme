@@ -214,7 +214,7 @@ GME_Url_Struct GME_NetwParseUrl(const char* url_str)
     file_p = str.find_last_of("/", -1);
   }
 
-  memset(&url, 0, sizeof(url));
+  memset(&url, 0, sizeof(GME_Url_Struct));
 
   if(prot_p != std::string::npos) {
     prot = str.substr(0, prot_p);

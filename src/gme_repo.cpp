@@ -144,10 +144,22 @@ struct GME_ReposMod_Struct
     memset(url, 0, 255);
     memset(&version, 0, sizeof(GME_ModVers_Struct));
   }
+
+  clear() {
+    memset(name, 0, 255);
+    memset(url, 0, 255);
+    memset(&version, 0, sizeof(GME_ModVers_Struct));
+    desc.clear();
+  }
+
   wchar_t name[255];
+
   char url[255];
+
   GME_ModVers_Struct version;
+
   std::string desc;
+
 };
 
 std::vector<GME_ReposMod_Struct> g_GME_ReposMod_List;
@@ -542,6 +554,9 @@ bool GME_RepoParseXml(const std::wstring& xml)
         GME_DialogWarning(g_hwndRepUpd, L"Repository XML error: 'version' attribute not found.");
         continue;
       }
+
+      reposmod.clear();
+
       wcscpy(reposmod.name, child.attribute(L"name").value());
       wcstombs(reposmod.url, child.attribute(L"url").value(), wcslen(child.attribute(L"url").value()));
       reposmod.version = GME_RepoParseVers(child.attribute(L"version").value());
@@ -811,6 +826,7 @@ DWORD WINAPI GME_RepoQueryUpd_Th(void* args)
 
     g_ReposQry_Id = i;
 
+    xml_url.clear();
     xml_url = g_GME_Repos_List[i].url;
 
     /* check for ".php" or ".asp(x)" for dynamic content */
