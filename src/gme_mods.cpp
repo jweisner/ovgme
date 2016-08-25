@@ -1456,6 +1456,7 @@ DWORD WINAPI GME_ModsMake_Th(void* args)
 
   GMEnode* zip_root = arg->zip_root;
   std::wstring zip_path = arg->zip_path;
+  std::wstring tmp_path = zip_path + L".build";
 
   /* simply get count of nodes */
   unsigned c = 0;
@@ -1471,15 +1472,15 @@ DWORD WINAPI GME_ModsMake_Th(void* args)
   mz_zip_archive za; // Zip archive struct
 
   memset(&za, 0, sizeof(mz_zip_archive));
-  if(!mz_zip_writer_init_file(&za, GME_StrToMbs(zip_path).c_str(), 0)) {
+  if(!mz_zip_writer_init_file(&za, GME_StrToMbs(tmp_path).c_str(), 4096)) {
     delete zip_root;
     delete arg;
+    GME_Logs(GME_LOG_ERROR, "GME_ModsMake_Th", "mz_zip_writer_init_file failed", GME_StrToMbs(tmp_path).c_str());
     GME_DialogError(g_hwndNewAMod, L"An error occurred during Mod-Archive creation.");
     EnableWindow(GetDlgItem(g_hwndNewAMod, BTN_CREATE), true);
     EnableWindow(GetDlgItem(g_hwndNewAMod, IDCANCEL), false);
     EnableWindow(GetDlgItem(g_hwndNewAMod, BTN_CLOSE), true);
     g_ModsMake_Running = false;
-    GME_Logs(GME_LOG_ERROR, "GME_ModsMake_Th", "mz_zip_writer_init_file failed", GME_StrToMbs(zip_path).c_str());
     return 0;
   }
 
@@ -1503,12 +1504,13 @@ DWORD WINAPI GME_ModsMake_Th(void* args)
         mz_zip_writer_end(&za);
         delete zip_root;
         delete arg;
+        DeleteFileW(tmp_path.c_str());
+        GME_Logs(GME_LOG_ERROR, "GME_ModsMake_Th", "mz_zip_writer_add_mem (dir) failed", GME_StrToMbs(tmp_path).c_str());
         GME_DialogError(g_hwndNewAMod, L"An error occurred during Mod-Archive creation.");
         EnableWindow(GetDlgItem(g_hwndNewAMod, BTN_CREATE), true);
         EnableWindow(GetDlgItem(g_hwndNewAMod, IDCANCEL), false);
         EnableWindow(GetDlgItem(g_hwndNewAMod, BTN_CLOSE), true);
         g_ModsMake_Running = false;
-        GME_Logs(GME_LOG_ERROR, "GME_ModsMake_Th", "mz_zip_writer_add_mem (dir) failed", GME_StrToMbs(zip_path).c_str());
         return 0;
       }
     } else {
@@ -1524,31 +1526,51 @@ DWORD WINAPI GME_ModsMake_Th(void* args)
             data = new ubyte[fs];
           } catch (const std::bad_alloc&) {
             mz_zip_writer_end(&za);
+            fclose(fp);
             delete zip_root;
             delete arg;
+            DeleteFileW(tmp_path.c_str());
+            GME_Logs(GME_LOG_ERROR, "GME_ModsMake_Th", "bad alloc", GME_StrToMbs(zip_root->currChild()->getSource()).c_str());
             GME_DialogError(g_hwndNewAMod, L"An error occurred during Mod-Archive creation.");
             EnableWindow(GetDlgItem(g_hwndNewAMod, BTN_CREATE), true);
             EnableWindow(GetDlgItem(g_hwndNewAMod, IDCANCEL), false);
             EnableWindow(GetDlgItem(g_hwndNewAMod, BTN_CLOSE), true);
             g_ModsMake_Running = false;
-            GME_Logs(GME_LOG_ERROR, "GME_ModsMake_Th", "bad alloc", GME_StrToMbs(zip_root->currChild()->getSource().c_str()).c_str());
             return 0;
           }
 
-          fread(data, fs, 1, fp);
-          if(!mz_zip_writer_add_mem(&za, a_name.c_str(), data, fs, MZ_BEST_COMPRESSION)) {
+          if(fread(data, fs, 1, fp) != 1) {
             mz_zip_writer_end(&za);
+            fclose(fp);
             delete [] data;
             delete zip_root;
             delete arg;
+            DeleteFileW(tmp_path.c_str());
+            GME_Logs(GME_LOG_ERROR, "GME_ModsMake_Th", "file read error", GME_StrToMbs(zip_root->currChild()->getSource()).c_str());
             GME_DialogError(g_hwndNewAMod, L"An error occurred during Mod-Archive creation.");
             EnableWindow(GetDlgItem(g_hwndNewAMod, BTN_CREATE), true);
             EnableWindow(GetDlgItem(g_hwndNewAMod, IDCANCEL), false);
             EnableWindow(GetDlgItem(g_hwndNewAMod, BTN_CLOSE), true);
             g_ModsMake_Running = false;
-            GME_Logs(GME_LOG_ERROR, "GME_ModsMake_Th", "mz_zip_writer_add_mem (file) failed", GME_StrToMbs(zip_path).c_str());
             return 0;
           }
+
+          if(!mz_zip_writer_add_mem(&za, a_name.c_str(), data, fs, MZ_BEST_COMPRESSION)) {
+            mz_zip_writer_end(&za);
+            fclose(fp);
+            delete [] data;
+            delete zip_root;
+            delete arg;
+            DeleteFileW(tmp_path.c_str());
+            GME_Logs(GME_LOG_ERROR, "GME_ModsMake_Th", "mz_zip_writer_add_mem (file) failed", GME_StrToMbs(tmp_path).c_str());
+            GME_DialogError(g_hwndNewAMod, L"An error occurred during Mod-Archive creation.");
+            EnableWindow(GetDlgItem(g_hwndNewAMod, BTN_CREATE), true);
+            EnableWindow(GetDlgItem(g_hwndNewAMod, IDCANCEL), false);
+            EnableWindow(GetDlgItem(g_hwndNewAMod, BTN_CLOSE), true);
+            g_ModsMake_Running = false;
+            return 0;
+          }
+          fclose(fp);
           delete [] data;
         } else {
           GME_Logs(GME_LOG_WARNING, "GME_ModsMake_Th", "Unable to open file", GME_StrToMbs(zip_root->currChild()->getSource().c_str()).c_str());
@@ -1558,12 +1580,13 @@ DWORD WINAPI GME_ModsMake_Th(void* args)
           mz_zip_writer_end(&za);
           delete zip_root;
           delete arg;
+          DeleteFileW(tmp_path.c_str());
+          GME_Logs(GME_LOG_ERROR, "GME_ModsMake_Th", "mz_zip_writer_add_mem (mem) failed", GME_StrToMbs(tmp_path).c_str());
           GME_DialogError(g_hwndNewAMod, L"An error occurred during Mod-Archive creation.");
           EnableWindow(GetDlgItem(g_hwndNewAMod, BTN_CREATE), true);
           EnableWindow(GetDlgItem(g_hwndNewAMod, IDCANCEL), false);
           EnableWindow(GetDlgItem(g_hwndNewAMod, BTN_CLOSE), true);
           g_ModsMake_Running = false;
-          GME_Logs(GME_LOG_ERROR, "GME_ModsMake_Th", "mz_zip_writer_add_mem (mem) failed", GME_StrToMbs(zip_path).c_str());
           return 0;
         }
       }
@@ -1573,24 +1596,52 @@ DWORD WINAPI GME_ModsMake_Th(void* args)
       mz_zip_writer_end(&za);
       delete zip_root;
       delete arg;
-      DeleteFileW(zip_path.c_str());
+      DeleteFileW(tmp_path.c_str());
       g_ModsMake_Running = false;
       return 0;
     }
 
     SendMessage(hpb, PBM_STEPIT, 0, 0);
   }
+
   mz_zip_writer_finalize_archive(&za);
+
   mz_zip_writer_end(&za);
 
   delete zip_root;
   delete arg;
 
+  /* Deleting existing archive if it exists */
+  if(GME_IsFile(zip_path)) {
+    if(!DeleteFileW(zip_path.c_str())) {
+      DeleteFileW(tmp_path.c_str());
+      GME_Logs(GME_LOG_ERROR, "GME_ModsMake_Th", "Unable to delete file", GME_StrToMbs(zip_path).c_str());
+      GME_DialogError(g_hwndNewAMod, L"An error occurred during Mod-Archive creation.");
+      EnableWindow(GetDlgItem(g_hwndNewAMod, BTN_CREATE), true);
+      EnableWindow(GetDlgItem(g_hwndNewAMod, IDCANCEL), false);
+      EnableWindow(GetDlgItem(g_hwndNewAMod, BTN_CLOSE), true);
+      g_ModsMake_Running = false;
+      return 0;
+    }
+  }
+
+  /* rename temporary file to final name */
+  if(!MoveFileW(tmp_path.c_str(), zip_path.c_str())) {
+    DeleteFileW(tmp_path.c_str());
+    GME_Logs(GME_LOG_ERROR, "GME_ModsMake_Th", "Unable to rename file", GME_StrToMbs(zip_path).c_str());
+    GME_DialogError(g_hwndNewAMod, L"An error occurred during Mod-Archive creation.");
+    EnableWindow(GetDlgItem(g_hwndNewAMod, BTN_CREATE), true);
+    EnableWindow(GetDlgItem(g_hwndNewAMod, IDCANCEL), false);
+    EnableWindow(GetDlgItem(g_hwndNewAMod, BTN_CLOSE), true);
+    g_ModsMake_Running = false;
+    return 0;
+  }
+
   SendMessage(hpb, PBM_SETPOS, (WPARAM)0, 0);
 
-  GME_ModsMakeRstDialog();
-
   GME_DialogInfo(g_hwndNewAMod, L"The Mod-Archive '" + zip_path + L".zip' was successfully created.");
+
+  GME_ModsMakeRstDialog();
 
   g_ModsMake_Running = false;
 
@@ -1624,6 +1675,11 @@ void GME_ModsMakeCancel()
 */
 void GME_ModsMakeArchive(const std::wstring& src_dir, const std::wstring& dst_path, const std::wstring& desc, int vmaj, int vmin, int vrev)
 {
+  if(g_ModsMake_Running) {
+    GME_DialogWarning(g_hwndNewAMod, L"Make archive process already running, please wait.");
+    return;
+  }
+
   if(!GME_IsDir(dst_path)) {
     GME_DialogWarning(g_hwndNewAMod, L"Invalid destination path.");
     return;
@@ -1676,6 +1732,7 @@ void GME_ModsMakeArchive(const std::wstring& src_dir, const std::wstring& dst_pa
   }
 
   GME_ModsMake_Arg_Struct* th_args = new GME_ModsMake_Arg_Struct;
+  memset(th_args, 0, sizeof(GME_ModsMake_Arg_Struct));
   th_args->zip_root = zip_root;
   wcscpy(th_args->zip_path, zip_path.c_str());
 
