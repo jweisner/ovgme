@@ -1,3 +1,13 @@
+OvGME 1.6.3, 2016-20-08
+
+- Fixed Make Mod-Archive bug when created in Mod stock folder
+- Fixed bad optimization on Mod overlap check
+- Fixed error on read or write 0 bytes
+- Fixed main progress bar not working
+- Fixed Directory-Mod has sam version than Mod-Archive
+- Fixed some Cancel button logic
+- Added compression level option for Make Mod-Archive
+
 OvGME 1.6.2, 2016-20-08
 
 - Mod download Url string corruption fixed

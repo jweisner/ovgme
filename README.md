@@ -2,7 +2,7 @@
 #OvGME
 Enhanced Generic game Mod Enabler and manager. 
 ----------------------------------------------------------------------------------------
-Version: 1.6.2
+Version: 1.6.3
 ----------------------------------------------------------------------------------------
 
 Home page: https://github.com/sedenion/ovgme

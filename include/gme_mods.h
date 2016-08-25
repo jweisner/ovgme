@@ -23,7 +23,7 @@
 #define MODS_DISABLE 0
 #define MODS_TOGGLE -1
 
-bool GME_ModsUpdBackup(HWND hpb);
+bool GME_ModsUpdBackup();
 void GME_ModsApplyMod(HWND hpb, const std::wstring& name, int type);
 void GME_ModsUndoMod(HWND hpb, const std::wstring& name);
 void GME_ModsRestoreMod(HWND hpb, const std::wstring& name);
@@ -37,7 +37,7 @@ bool GME_ModsProfileApply();
 void GME_ModsListQuickEnable(const std::wstring& name, bool enable);
 bool GME_ModsUpdList();
 void GME_ModsUninstall();
-void GME_ModsMakeArchive(const std::wstring& src_dir, const std::wstring& dst_path, const std::wstring& desc, int vmaj, int vmin, int vrev);
+void GME_ModsMakeArchive(const std::wstring& src_dir, const std::wstring& dst_path, const std::wstring& desc, int vmaj, int vmin, int vrev, int zlevel=MZ_BEST_COMPRESSION);
 void GME_ModsMakeCancel();
 void GME_ModsProc_PushApply(const std::wstring& name, int type);
 void GME_ModsProc_PushRestore(const std::wstring& name);

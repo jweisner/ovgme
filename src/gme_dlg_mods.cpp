@@ -26,7 +26,9 @@ size_t tmp_desc_size;
 int tmp_vmaj;
 int tmp_vmin;
 int tmp_vrev;
+int tmp_zlvl;
 int tmp_res;
+int tmp_idx;
 
 void GME_DlgModsMakeInit()
 {
@@ -64,6 +66,16 @@ BOOL CALLBACK GME_DlgModsMake(HWND hwndDlg, UINT uMsg, WPARAM wParam, LPARAM lPa
     EnableWindow(GetDlgItem(g_hwndNewAMod, IDCANCEL), false);
     // disable Add button
     EnableWindow(GetDlgItem(hwndDlg, BTN_CREATE), false);
+    // add compression levels
+    SendMessage(GetDlgItem(g_hwndNewAMod, CB_ZIPLEVEL), CB_ADDSTRING, 0, (LPARAM)"Best Compression");
+    SendMessage(GetDlgItem(g_hwndNewAMod, CB_ZIPLEVEL), CB_SETITEMDATA, 0, (LPARAM)MZ_BEST_COMPRESSION);
+    SendMessage(GetDlgItem(g_hwndNewAMod, CB_ZIPLEVEL), CB_ADDSTRING, 1, (LPARAM)"Default Level");
+    SendMessage(GetDlgItem(g_hwndNewAMod, CB_ZIPLEVEL), CB_SETITEMDATA, 1, (LPARAM)MZ_DEFAULT_LEVEL);
+    SendMessage(GetDlgItem(g_hwndNewAMod, CB_ZIPLEVEL), CB_ADDSTRING, 2, (LPARAM)"Best Speed");
+    SendMessage(GetDlgItem(g_hwndNewAMod, CB_ZIPLEVEL), CB_SETITEMDATA, 2, (LPARAM)MZ_BEST_SPEED);
+    SendMessage(GetDlgItem(g_hwndNewAMod, CB_ZIPLEVEL), CB_ADDSTRING, 3, (LPARAM)"No Compression");
+    SendMessage(GetDlgItem(g_hwndNewAMod, CB_ZIPLEVEL), CB_SETITEMDATA, 3, (LPARAM)MZ_NO_COMPRESSION);
+    SendMessage(GetDlgItem(g_hwndNewAMod, CB_ZIPLEVEL), CB_SETCURSEL, 1, 0);
     return true;
 
   case WM_CLOSE:
@@ -95,10 +107,15 @@ BOOL CALLBACK GME_DlgModsMake(HWND hwndDlg, UINT uMsg, WPARAM wParam, LPARAM lPa
         return true;
       }
       GetDlgItemTextW(hwndDlg, ENT_MODDESC, tmp_sdesc, tmp_desc_size);
+
       tmp_vmaj = GetDlgItemInt(hwndDlg, ENT_VERSMAJOR, &tmp_res, true);
       tmp_vmin = GetDlgItemInt(hwndDlg, ENT_VERSMINOR, &tmp_res, true);
       tmp_vrev = GetDlgItemInt(hwndDlg, ENT_VERSREVIS, &tmp_res, true);
-      GME_ModsMakeArchive(tmp_ssrc, tmp_sdst, tmp_sdesc, tmp_vmaj, tmp_vmin, tmp_vrev);
+
+      tmp_idx = SendMessage(GetDlgItem(g_hwndNewAMod, CB_ZIPLEVEL), CB_GETCURSEL, 0, 0);
+      tmp_zlvl = SendMessage(GetDlgItem(g_hwndNewAMod, CB_ZIPLEVEL), CB_GETITEMDATA, tmp_idx, 0);
+      std::cout << "tmp_zlvl = " << tmp_zlvl << "\n";
+      GME_ModsMakeArchive(tmp_ssrc, tmp_sdst, tmp_sdesc, tmp_vmaj, tmp_vmin, tmp_vrev, tmp_zlvl);
       delete[] tmp_sdesc;
       return true;
 
