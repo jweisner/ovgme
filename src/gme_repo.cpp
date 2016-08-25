@@ -140,13 +140,13 @@ std::vector<GME_Repos_Struct> g_GME_Repos_List;
 struct GME_ReposMod_Struct
 {
   GME_ReposMod_Struct() {
-    memset(name, 0, 255);
+    memset(name, 0, 255*sizeof(wchar_t));
     memset(url, 0, 255);
     memset(&version, 0, sizeof(GME_ModVers_Struct));
   }
 
   clear() {
-    memset(name, 0, 255);
+    memset(name, 0, 255*sizeof(wchar_t));
     memset(url, 0, 255);
     memset(&version, 0, sizeof(GME_ModVers_Struct));
     desc.clear();
