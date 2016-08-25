@@ -249,12 +249,16 @@ void GME_ModsUndoMod(HWND hpb, const std::vector<GME_BckEntry_Struct>& bckentry_
     dst_path = game_path + bckentry_list[i].path;
     if(bckentry_list[i].action == GME_BCK_RESTORE_DELETE) {
       if(bckentry_list[i].isdir) {
-        if(!RemoveDirectoryW(dst_path.c_str())) {
-          GME_Logs(GME_LOG_WARNING, "GME_ModsUndoMod", "Unable to delete directory", GME_StrToMbs(dst_path).c_str());
+        if(GME_IsDir(dst_path)) {
+          if(!RemoveDirectoryW(dst_path.c_str())) {
+            GME_Logs(GME_LOG_WARNING, "GME_ModsUndoMod", "(=DELETE) Unable to delete directory", GME_StrToMbs(dst_path).c_str());
+          }
         }
       } else {
-        if(!DeleteFileW(dst_path.c_str())) {
-          GME_Logs(GME_LOG_WARNING, "GME_ModsUndoMod", "Unable to delete file", GME_StrToMbs(dst_path).c_str());
+        if(GME_IsFile(dst_path)) {
+          if(!DeleteFileW(dst_path.c_str())) {
+            GME_Logs(GME_LOG_WARNING, "GME_ModsUndoMod", "(=DELETE) Unable to delete file", GME_StrToMbs(dst_path).c_str());
+          }
         }
       }
     } else {
@@ -264,7 +268,7 @@ void GME_ModsUndoMod(HWND hpb, const std::vector<GME_BckEntry_Struct>& bckentry_
         src_path = back_path + bckentry_list[i].path;
         /* copy file, overwrite dest */
         if(!GME_FileCopy(src_path, dst_path, true)) {
-          GME_Logs(GME_LOG_WARNING, "GME_ModsUndoMod", "Unable to copy file", GME_StrToMbs(dst_path).c_str());
+          GME_Logs(GME_LOG_WARNING, "GME_ModsUndoMod", "(=SWAP) Unable to restore file", GME_StrToMbs(dst_path).c_str());
         }
         /* step progress bar */
         SendMessage(hpb, PBM_STEPIT, 0, 0);
@@ -633,14 +637,22 @@ void GME_ModsRestoreMod(HWND hpb, const std::wstring& name)
     dst_path = game_path + bckentry_list[i].path;
     if(bckentry_list[i].action == GME_BCK_RESTORE_DELETE) {
       if(bckentry_list[i].isdir) {
-        if(!RemoveDirectoryW(dst_path.c_str())) {
-          GME_Logs(GME_LOG_ERROR, "GME_ModsRestoreMod", "Unable to delete directory", GME_StrToMbs(dst_path).c_str());
-          got_error = true;
+        if(GME_IsDir(dst_path)) {
+          if(!RemoveDirectoryW(dst_path.c_str())) {
+            GME_Logs(GME_LOG_ERROR, "GME_ModsRestoreMod", "(=DELETE) Unable to delete directory", GME_StrToMbs(dst_path).c_str());
+            got_error = true;
+          }
+        } else {
+          GME_Logs(GME_LOG_WARNING, "GME_ModsRestoreMod", "(=DELETE) Directory does not exists", GME_StrToMbs(dst_path).c_str());
         }
       } else {
-        if(!DeleteFileW(dst_path.c_str())) {
-          GME_Logs(GME_LOG_ERROR, "GME_ModsRestoreMod", "Unable to delete file", GME_StrToMbs(dst_path).c_str());
-          got_error = true;
+        if(GME_IsFile(dst_path)) {
+          if(!DeleteFileW(dst_path.c_str())) {
+            GME_Logs(GME_LOG_ERROR, "GME_ModsRestoreMod", "(=DELETE) Unable to delete file", GME_StrToMbs(dst_path).c_str());
+            got_error = true;
+          }
+        } else {
+          GME_Logs(GME_LOG_WARNING, "GME_ModsRestoreMod", "(=DELETE) File does not exists", GME_StrToMbs(dst_path).c_str());
         }
       }
     } else {
@@ -650,7 +662,7 @@ void GME_ModsRestoreMod(HWND hpb, const std::wstring& name)
         src_path = back_path + bckentry_list[i].path;
         /* copy file, overwrite dest */
         if(!GME_FileCopy(src_path, dst_path, true)) {
-          GME_Logs(GME_LOG_ERROR, "GME_ModsRestoreMod", "Unable to copy file", GME_StrToMbs(dst_path).c_str());
+          GME_Logs(GME_LOG_ERROR, "GME_ModsRestoreMod", "(=SWAP) Unable to restore file", GME_StrToMbs(dst_path).c_str());
           got_error = true;
         }
       }
@@ -1488,7 +1500,7 @@ DWORD WINAPI GME_ModsMake_Th(void* args)
       }
     } else {
       /* read source file */
-      if(zip_root->currChild()->getSource().size()) {
+      if(!zip_root->currChild()->getSource().empty()) {
         fp = _wfopen(zip_root->currChild()->getSource().c_str(), L"rb");
         if(fp) {
           fseek(fp, 0, SEEK_END);
