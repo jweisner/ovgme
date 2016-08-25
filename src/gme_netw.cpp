@@ -194,7 +194,7 @@ std::string GME_NetwDecodeUrl(const std::string& url)
 */
 GME_Url_Struct GME_NetwParseUrl(const char* url_str)
 {
-   GME_Url_Struct url;
+  GME_Url_Struct url;
 
   std::string str = GME_NetwEncodeUrl(url_str);
 
@@ -241,13 +241,13 @@ GME_Url_Struct GME_NetwParseUrl(const char* url_str)
   /* try to deduct port from protocol */
   if(port.size() == 0 && prot.size()) {
     if(prot == "http") port = "80";
-    if(prot == "ftp") port = "22";
+    if(prot == "ftp") port = "21";
   }
 
   /* try to deduct protocol from port */
   if(prot.size() == 0 && port.size()) {
     if(port == "80") prot = "http";
-    if(port == "22") prot = "ftp";
+    if(port == "21") prot = "ftp";
   }
 
   /* set to default if nothing was deducted */
@@ -586,7 +586,7 @@ int GME_NetwHttpGET(const char* url_str, const GME_NetwGETOnErr on_err, const GM
     return GME_HTTPGET_ERR_BAL;
   }
 
-  /* first part of body recieved with header */
+  /* first part of body received with header */
   recv_size -= (header.size+4);
   if(recv_size) memcpy(body_data, &recv_buff[header.size+4], recv_size);
   body_size += recv_size;
