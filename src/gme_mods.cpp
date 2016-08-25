@@ -1241,10 +1241,12 @@ bool GME_ModsUpdList()
   std::vector<int> type_list;
 
    /* get uninstalled (available) mod list */
-  srch_path = GME_GameGetCurModsPath() + L"\\*";
-
   WIN32_FIND_DATAW fdw;
-  HANDLE hnd = FindFirstFileW(srch_path.c_str(), &fdw);
+  HANDLE hnd;
+
+  /* first check only for folders */
+  srch_path = GME_GameGetCurModsPath() + L"\\*";
+  hnd = FindFirstFileW(srch_path.c_str(), &fdw);
   if(hnd != INVALID_HANDLE_VALUE) {
     do {
       if(fdw.dwFileAttributes & FILE_ATTRIBUTE_DIRECTORY) {
@@ -1259,7 +1261,17 @@ bool GME_ModsUpdList()
           name_list.push_back(name);
           type_list.push_back(0);
         }
-      } else {
+      }
+    } while(FindNextFileW(hnd, &fdw));
+  }
+  FindClose(hnd);
+
+  /* then search only .zip files */
+  srch_path = GME_GameGetCurModsPath() + L"\\*.zip";
+  hnd = FindFirstFileW(srch_path.c_str(), &fdw);
+  if(hnd != INVALID_HANDLE_VALUE) {
+    do {
+      if(!(fdw.dwFileAttributes & FILE_ATTRIBUTE_DIRECTORY)) {
         if(GME_ZipIsValidMod(mods_path + L"\\" + fdw.cFileName)) {
           name = GME_FilePathToName(fdw.cFileName);
           if(!GME_IsFile(conf_path + L"\\" + name + L".bck")) {
@@ -1554,10 +1566,10 @@ DWORD WINAPI GME_ModsMake_Th(void* args)
             g_ModsMake_Running = false;
             return 0;
           }
+          fclose(fp);
 
           if(!mz_zip_writer_add_mem(&za, a_name.c_str(), data, fs, MZ_BEST_COMPRESSION)) {
             mz_zip_writer_end(&za);
-            fclose(fp);
             delete [] data;
             delete zip_root;
             delete arg;
@@ -1570,8 +1582,9 @@ DWORD WINAPI GME_ModsMake_Th(void* args)
             g_ModsMake_Running = false;
             return 0;
           }
-          fclose(fp);
+
           delete [] data;
+
         } else {
           GME_Logs(GME_LOG_WARNING, "GME_ModsMake_Th", "Unable to open file", GME_StrToMbs(zip_root->currChild()->getSource().c_str()).c_str());
         }
