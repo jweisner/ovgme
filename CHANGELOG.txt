@@ -1,5 +1,6 @@
 OvGME 1.6.2, 2016-20-08
 
+- Mod download Url string corruption fixed
 - Mod Apply/Backup logic modification
 - Some correcting on help
 - Added some log output

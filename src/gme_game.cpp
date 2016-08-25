@@ -383,7 +383,7 @@ bool GME_GameSelectCfg(const std::wstring& title)
   CloseHandle(g_ModsDir_hT);
 
   /* check if list is empty */
-  if(!g_GameCfg_List.size()) {
+  if(g_GameCfg_List.empty()) {
     /* update mods list */
     GME_ModsUpdList();
     GME_DialogInfo(g_hwndMain, L"The game management list is empty.");
@@ -457,7 +457,7 @@ bool GME_GameUpdList()
   g_GameCur_Id = -1;
 
   /* check if list is empty */
-  if(!g_GameCfg_List.size()) {
+  if(g_GameCfg_List.empty()) {
     SendMessageW(hcb, CB_SETCURSEL, 0, 0); /* select first item in combo box */
     /* update menus */
     GME_GameUpdMenu();

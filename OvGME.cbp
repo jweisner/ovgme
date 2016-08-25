@@ -68,6 +68,8 @@
 			<Add directory="include/thirdparty/xxhash" />
 		</Compiler>
 		<Linker>
+			<Add option="-static-libstdc++" />
+			<Add option="-static-libgcc" />
 			<Add library="Comctl32" />
 			<Add library="Gdi32" />
 			<Add library="Shlwapi" />

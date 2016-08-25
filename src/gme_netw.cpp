@@ -214,7 +214,7 @@ GME_Url_Struct GME_NetwParseUrl(const char* url_str)
     file_p = str.find_last_of("/", -1);
   }
 
-  memset(&url, 0, sizeof(url));
+  memset(&url, 0, sizeof(GME_Url_Struct));
 
   if(prot_p != std::string::npos) {
     prot = str.substr(0, prot_p);
@@ -239,26 +239,26 @@ GME_Url_Struct GME_NetwParseUrl(const char* url_str)
   }
 
   /* try to deduct port from protocol */
-  if(port.size() == 0 && prot.size()) {
+  if(port.empty() && !prot.empty()) {
     if(prot == "http") port = "80";
     if(prot == "ftp") port = "21";
   }
 
   /* try to deduct protocol from port */
-  if(prot.size() == 0 && port.size()) {
+  if(prot.empty() && !port.empty()) {
     if(port == "80") prot = "http";
     if(port == "21") prot = "ftp";
   }
 
   /* set to default if nothing was deducted */
-  if(prot.size() == 0) prot = "http";
-  if(port.size() == 0) port = "80";
+  if(prot.empty()) prot = "http";
+  if(port.empty()) port = "80";
 
   strcpy(url.prot, prot.c_str());
   strcpy(url.host, host.c_str());
   strcpy(url.port, port.c_str());
   strcpy(url.path, path.c_str());
-  if(file.size()) strcpy(url.file, file.c_str());
+  if(!file.empty()) strcpy(url.file, file.c_str());
 
   return url;
 }
