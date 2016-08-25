@@ -136,17 +136,13 @@ inline bool GME_ModsUpdBackup(HWND hpb)
       if(!(fdw.dwFileAttributes & FILE_ATTRIBUTE_DIRECTORY)) {
         /* read backup entry dat file */
         bck_file = conf_path + L"\\" + fdw.cFileName;
-        fp = _wfopen(bck_file.c_str(), L"rb");
-        if(fp) {
+        if(NULL != (fp = _wfopen(bck_file.c_str(), L"rb"))) {
           /* first 4 bytes is count of entries */
           fread(&c, 4, 1, fp);
           for(unsigned i = 0; i < c; i++) {
-            memset(&bckentry, 0, sizeof(GME_BckEntry_Struct));
             fread(&bckentry, sizeof(GME_BckEntry_Struct), 1, fp);
-            if(bckentry.action == GME_BCK_RESTORE_SWAP) {
-              if(!bckentry.isdir) {
-                dpend_list.push_back(bckentry.path);
-              }
+            if(bckentry.action == GME_BCK_RESTORE_SWAP && !bckentry.isdir) {
+              dpend_list.push_back(bckentry.path);
             }
           }
           fclose(fp);
@@ -382,8 +378,10 @@ void GME_ModsApplyMod(HWND hpb, const std::wstring& name, int type)
   /* temporary unsigned entry count */
   unsigned c;
 
-  /* search for each .dat file in current game config folder */
+  /* path for bck file, used just below and after */
   std::wstring bck_file;
+
+  /* search for each .bck file in current game config folder */
   std::wstring bck_srch = conf_path + L"\\*.bck";
   WIN32_FIND_DATAW fdw;
   HANDLE hnd = FindFirstFileW(bck_srch.c_str(), &fdw);
@@ -392,23 +390,24 @@ void GME_ModsApplyMod(HWND hpb, const std::wstring& name, int type)
       if(!(fdw.dwFileAttributes & FILE_ATTRIBUTE_DIRECTORY)) {
         bck_file = conf_path + L"\\" + fdw.cFileName;
         /* read backup data entry */
-        fp = _wfopen(bck_file.c_str(), L"rb");
-        if(fp) {
+        dpnd_flist.clear();
+        if(NULL != (fp = _wfopen(bck_file.c_str(), L"rb"))) {
           /* first 4 bytes is count of entries */
           fread(&c, 4, 1, fp);
           for(unsigned i = 0; i < c; i++) {
-            memset(&bckentry, 0, sizeof(GME_BckEntry_Struct));
             fread(&bckentry, sizeof(GME_BckEntry_Struct), 1, fp);
-            if(bckentry.action == GME_BCK_RESTORE_SWAP) {
-              if(!bckentry.isdir) {
-                dpnd_flist.push_back(bckentry.path);
-              }
+            if(bckentry.action == GME_BCK_RESTORE_SWAP && !bckentry.isdir) {
+              dpnd_flist.push_back(bckentry.path);
             }
           }
           fclose(fp);
         }
 
+        if(dpnd_flist.empty())
+          continue;
+
         /* cross check between mod files and bck files */
+        olap_flist.clear();
         for(unsigned i = 0; i < imod_flist.size(); i++) {
           for(unsigned j = 0; j < dpnd_flist.size(); j++) {
             if(dpnd_flist[j].find(imod_flist[i]) != std::wstring::npos) {
@@ -418,7 +417,7 @@ void GME_ModsApplyMod(HWND hpb, const std::wstring& name, int type)
         }
 
         /* if we get files overlap */
-        if(olap_flist.size() > 0) {
+        if(!olap_flist.empty()) {
 
           /* create LE message... */
           std::wstring le_message = L"The '" + name + L"' mod files overlap with the already installed '" + GME_FilePathToName(fdw.cFileName) + L"' mod.";
@@ -446,7 +445,7 @@ void GME_ModsApplyMod(HWND hpb, const std::wstring& name, int type)
 
   /* -------------------------- add backup data -------------------------- */
 
-  /* archive original files and create backup entries */
+  /* copy/backup original files and create backup entries */
   mod_tree->initTraversal();
   while(mod_tree->nextChild()) {
 
@@ -1148,7 +1147,7 @@ bool GME_ModsProfileApply()
 
   GME_ModsProc_Launch();
 
-  if(missing_list.size()) {
+  if(!missing_list.empty()) {
     std::wstring message = L"One or more mod registered in profile was not found:\n\n";
     for(unsigned i = 0; i < missing_list.size(); i++) {
       message += L"  " + missing_list[i] + L"\n";
@@ -1299,7 +1298,7 @@ bool GME_ModsUpdList()
   }
   FindClose(hnd);
 
-  if(name_list.size() == 0) {
+  if(name_list.empty()) {
     /* update menus */
     GME_GameUpdMenu();
     return true;
@@ -1709,7 +1708,7 @@ void GME_ModsMakeArchive(const std::wstring& src_dir, const std::wstring& dst_pa
   std::wstring ver_name = L"VERSION.txt";
   std::wstring zip_path = dst_path + L"\\" + zip_name;
   std::string txt_data;
-  if(desc.size()) txt_data = GME_StrToMbs(desc);
+  if(!desc.empty()) txt_data = GME_StrToMbs(desc);
   std::string ver_data;
   char vbuff[64];
   sprintf(vbuff, "%d.%d.%d", vmaj, vmin, vrev);
@@ -1731,14 +1730,14 @@ void GME_ModsMakeArchive(const std::wstring& src_dir, const std::wstring& dst_pa
   mod_tree->setParent(zip_root);
 
   /* add the description txt node */
-  if(txt_data.size()) {
+  if(!txt_data.empty()) {
     GMEnode* txt_node = new GMEnode(txt_name, false);
     txt_node->setData(txt_data.c_str(), txt_data.size());
     txt_node->setParent(zip_root);
   }
 
   /* add the version txt node */
-  if(ver_data.size()) {
+  if(!ver_data.empty()) {
     GMEnode* ver_node = new GMEnode(ver_name, false);
     ver_node->setData(ver_data.c_str(), ver_data.size());
     ver_node->setParent(zip_root);

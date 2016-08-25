@@ -46,7 +46,7 @@ inline GME_ModVers_Struct GME_RepoParseVers(const std::wstring& str)
   std::vector<std::wstring> numbers;
   GME_StrSplit(str, &numbers, L".");
 
-  if(numbers.size()) {
+  if(!numbers.empty()) {
     version.major = wcstol(numbers[0].c_str(), NULL, 10);
     if(numbers.size() > 1) {
       version.minor = wcstol(numbers[1].c_str(), NULL, 10);
@@ -192,7 +192,7 @@ bool GME_RepoWritList()
 
   std::wstring cfg_path = GME_GameGetCurConfPath() + L"\\repos.dat";
 
-  if(g_GME_Repos_List.size()) {
+  if(!g_GME_Repos_List.empty()) {
     FILE* fp = _wfopen(cfg_path.c_str(), L"wb");
     if(fp) {
       /* first 4 bytes is count */
@@ -242,7 +242,7 @@ bool GME_RepoReadList()
 
 bool GME_RepoChkList()
 {
-  if(!g_GME_Repos_List.size())
+  if(g_GME_Repos_List.empty())
     return false;
 
   HWND htv = GetDlgItem(g_hwndRepConf, TVS_REPOSLIST);
@@ -406,7 +406,7 @@ void GME_RepoCheckUpd()
   EnableWindow(GetDlgItem(g_hwndRepUpd, BTN_REPOUPDSEL), false);
   EnableWindow(GetDlgItem(g_hwndRepUpd, BTN_REPOUPDALL), false);
 
-  if(!g_GME_ReposMod_List.size()) {
+  if(g_GME_ReposMod_List.empty()) {
     GME_DialogWarning(g_hwndRepUpd, L"No Mod data found in repositories.");
     return;
   }
@@ -802,7 +802,7 @@ DWORD WINAPI GME_RepoQueryUpd_Th(void* args)
 
   GME_RepoUpdList();
 
-  if(!g_GME_Repos_List.size()) {
+  if(g_GME_Repos_List.empty()) {
     GME_DialogWarning(g_hwndRepUpd, L"The repository list is empty.");
     g_ReposQry_Running = false;
     return 0;
@@ -931,7 +931,7 @@ void GME_RepoQueryUpd()
 
 void GME_RepoDownloadSel()
 {
-  if(g_GME_ReposDnl_List.size()) {
+  if(!g_GME_ReposDnl_List.empty()) {
     GME_DialogWarning(g_hwndRepUpd, L"Downloading process is already running, please wait or cancel current process...");
     return;
   }
@@ -968,7 +968,7 @@ void GME_RepoDownloadSel()
     }
   }
 
-  if(reject_list.size()) {
+  if(!reject_list.empty()) {
     std::wstring msg = L"Mod(s) already up to date will not be donwloaded.\n\n";
     for(unsigned i = 0; i < reject_list.size(); i++) {
       msg += reject_list[i] + L"\n";
@@ -982,7 +982,7 @@ void GME_RepoDownloadSel()
 
 void GME_RepoDownloadAll()
 {
-  if(g_GME_ReposDnl_List.size()) {
+  if(!g_GME_ReposDnl_List.empty()) {
     GME_DialogWarning(g_hwndRepUpd, L"Downloading process is already running, please wait or cancel current process...");
     return;
   }
@@ -1017,7 +1017,7 @@ void GME_RepoDownloadAll()
     }
   }
 
-  if(reject_list.size()) {
+  if(!reject_list.empty()) {
     std::wstring msg = L"Mod(s) already up to date will not be donwloaded.\n\n";
     for(unsigned i = 0; i < reject_list.size(); i++) {
       msg += reject_list[i] + L"\n";
@@ -1131,7 +1131,7 @@ std::string GME_RepoMakeXml(const char* url_str, bool cust_path, const wchar_t* 
   }
   FindClose(hnd);
 
-  if(!name_list.size()) {
+  if(name_list.empty()) {
     GME_DialogWarning(g_hwndRepXml, L"No valid Mod-Archive found for XML generation.");
     return std::string();
   }
@@ -1147,7 +1147,7 @@ std::string GME_RepoMakeXml(const char* url_str, bool cust_path, const wchar_t* 
     xml_ascii += "\" url=\"";
     xml_ascii += GME_NetwEncodeUrl(base_url + GME_StrToMbs(name_list[i]));
     xml_ascii += ".zip\">\r\n";
-    if(desc_list[i].size()) {
+    if(!desc_list[i].empty()) {
       xml_ascii += GME_ReposXmlEncode(desc_list[i]);
       xml_ascii += "\r\n";
     }
