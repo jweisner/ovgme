@@ -129,11 +129,11 @@ bool GME_GameReadCfg(const std::wstring& path, GME_GameCfg_Struct* data)
 
   FILE* fp = _wfopen(gdat_path.c_str(), L"rb");
   if(fp) {
-    r += fread(data, sizeof(GME_GameCfg_Struct), 1, fp);
+    r += fread(data, 1, sizeof(GME_GameCfg_Struct), fp);
     fclose(fp);
   }
 
-  return (r == 1);
+  return (r == sizeof(GME_GameCfg_Struct));
 }
 
 
@@ -147,11 +147,11 @@ bool GME_GameWritCfg(const std::wstring& path, const GME_GameCfg_Struct* data)
 
   FILE* fp = _wfopen(gdat_path.c_str(), L"wb");
   if(fp) {
-    w += fwrite(data, sizeof(GME_GameCfg_Struct), 1, fp);
+    w += fwrite(data, 1, sizeof(GME_GameCfg_Struct), fp);
     fclose(fp);
   }
 
-  return (w == 1);
+  return (w == sizeof(GME_GameCfg_Struct));
 }
 
 
@@ -440,7 +440,7 @@ bool GME_GameUpdList()
         cfg_path = GME_GetAppdataPath() + L"\\" + fdw.cFileName + L"\\game.dat";
         cfg_fp = _wfopen(cfg_path.c_str(), L"rb");
         if(cfg_fp) {
-          fread(&cfg_data, sizeof(GME_GameCfg_Struct), 1, cfg_fp);
+          fread(&cfg_data, 1, sizeof(GME_GameCfg_Struct), cfg_fp);
           g_GameCfg_List.push_back(cfg_data);
           fclose(cfg_fp);
         }

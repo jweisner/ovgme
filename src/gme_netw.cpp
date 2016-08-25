@@ -748,7 +748,7 @@ int GME_NetwHttpGET(const char* url_str, const GME_NetwGETOnErr on_err, const GM
   /* first part of body received with header */
   recv_size -= (header.size+4);
   if(recv_size) {
-    if(!fwrite(&recv_buff[header.size+4], recv_size, 1, fp)) {
+    if(fwrite(&recv_buff[header.size+4], 1, recv_size, fp) != recv_size) {
       closesocket(sock); WSACleanup();
       fclose(fp); DeleteFileW(file_path.c_str());
       if(on_err) on_err(url_str);
@@ -783,7 +783,7 @@ int GME_NetwHttpGET(const char* url_str, const GME_NetwGETOnErr on_err, const GM
         GME_Logs(GME_LOG_ERROR, "GME_NetwHttpGET", "recv failed", url_str);
         return GME_HTTPGET_ERR_REC;
       }
-      if(!fwrite(&recv_buff, recv_size, 1, fp)) {
+      if(fwrite(&recv_buff, 1, recv_size, fp) != recv_size) {
         closesocket(sock); WSACleanup();
         fclose(fp); DeleteFileW(file_path.c_str());
         if(on_err) on_err(url_str);

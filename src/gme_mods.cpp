@@ -138,9 +138,9 @@ inline bool GME_ModsUpdBackup(HWND hpb)
         bck_file = conf_path + L"\\" + fdw.cFileName;
         if(NULL != (fp = _wfopen(bck_file.c_str(), L"rb"))) {
           /* first 4 bytes is count of entries */
-          fread(&c, 4, 1, fp);
+          fread(&c, 1, 4, fp);
           for(unsigned i = 0; i < c; i++) {
-            fread(&bckentry, sizeof(GME_BckEntry_Struct), 1, fp);
+            fread(&bckentry, 1, sizeof(GME_BckEntry_Struct), fp);
             if(bckentry.action == GME_BCK_RESTORE_SWAP && !bckentry.isdir) {
               dpend_list.push_back(bckentry.path);
             }
@@ -393,9 +393,9 @@ void GME_ModsApplyMod(HWND hpb, const std::wstring& name, int type)
         dpnd_flist.clear();
         if(NULL != (fp = _wfopen(bck_file.c_str(), L"rb"))) {
           /* first 4 bytes is count of entries */
-          fread(&c, 4, 1, fp);
+          fread(&c, 1, 4, fp);
           for(unsigned i = 0; i < c; i++) {
-            fread(&bckentry, sizeof(GME_BckEntry_Struct), 1, fp);
+            fread(&bckentry, 1, sizeof(GME_BckEntry_Struct), fp);
             if(bckentry.action == GME_BCK_RESTORE_SWAP && !bckentry.isdir) {
               dpnd_flist.push_back(bckentry.path);
             }
@@ -640,10 +640,10 @@ void GME_ModsRestoreMod(HWND hpb, const std::wstring& name)
   if(fp) {
     /* first 4 bytes is count of entries */
     unsigned c;
-    fread(&c, 4, 1, fp);
+    fread(&c, 1, 4, fp);
     for(unsigned i = 0; i < c; i++) {
       memset(&bckentry, 0, sizeof(GME_BckEntry_Struct));
-      fread(&bckentry, sizeof(GME_BckEntry_Struct), 1, fp);
+      fread(&bckentry, 1, sizeof(GME_BckEntry_Struct), fp);
       bckentry_list.push_back(bckentry);
     }
     fclose(fp);
@@ -1112,9 +1112,9 @@ bool GME_ModsProfileApply()
   if(fp) {
     /* first 4 bytes is count of entries */
     unsigned c;
-    fread(&c, 4, 1, fp);
+    fread(&c, 1, 4, fp);
     for(unsigned i = 0; i < c; i++) {
-      fread(&profilentry, sizeof(GME_ProfilEntry_Struct), 1, fp);
+      fread(&profilentry, 1, sizeof(GME_ProfilEntry_Struct), fp);
       profilentry_list.push_back(profilentry);
     }
     fclose(fp);
@@ -1550,7 +1550,7 @@ DWORD WINAPI GME_ModsMake_Th(void* args)
             return 0;
           }
 
-          if(fread(data, fs, 1, fp) != 1) {
+          if(fread(data, 1, fs, fp) != fs) {
             mz_zip_writer_end(&za);
             fclose(fp);
             delete [] data;
@@ -1828,12 +1828,12 @@ DWORD WINAPI GME_ModsProc_Th(void* args)
       return 0;
     }
     if(g_ModsProc_ArgList[i].action == MODS_ENABLE) {
-      GME_ModsApplyMod(GetDlgItem(g_hwndMain, PBM_MOD), g_ModsProc_ArgList[i].name, g_ModsProc_ArgList[i].type);
+      GME_ModsApplyMod(GetDlgItem(g_hwndMain, PBM_MODPROC), g_ModsProc_ArgList[i].name, g_ModsProc_ArgList[i].type);
       GME_ModsListQuickEnable(g_ModsProc_ArgList[i].name, true);
 
     }
     if(g_ModsProc_ArgList[i].action == MODS_DISABLE) {
-      GME_ModsRestoreMod(GetDlgItem(g_hwndMain, PBM_MOD), g_ModsProc_ArgList[i].name);
+      GME_ModsRestoreMod(GetDlgItem(g_hwndMain, PBM_MODPROC), g_ModsProc_ArgList[i].name);
       GME_ModsListQuickEnable(g_ModsProc_ArgList[i].name, false);
     }
   }

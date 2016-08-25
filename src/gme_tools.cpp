@@ -394,7 +394,10 @@ bool GME_FileRead(ubyte* data, size_t size, const std::wstring& src)
   if(fr == NULL)
     return false;
 
-  fread(data, 1, size, fr);
+  if(fread(data, 1, size, fr) != size) {
+    fclose(fr);
+    return false;
+  }
 
   fclose(fr);
 
@@ -404,7 +407,6 @@ bool GME_FileRead(ubyte* data, size_t size, const std::wstring& src)
 
 /*
   custom generic function to write files.
-  Note: this function is 10x faster than regular way for large files.
 */
 bool GME_FileWrite(const ubyte* data, size_t size, const std::wstring& dst, bool overwrite)
 {
@@ -426,14 +428,14 @@ bool GME_FileWrite(const ubyte* data, size_t size, const std::wstring& dst, bool
     memcpy(buff, data, sizeof(buff));
     data += sizeof(buff);
     size -= sizeof(buff);
-    if(!fwrite(buff, sizeof(buff), 1, fw)) {
+    if(fwrite(buff, 1, sizeof(buff), fw) != sizeof(buff)) {
       fclose(fw);
       GME_Logs(GME_LOG_ERROR, "GME_FileWrite", "Write error", GME_StrToMbs(dst).c_str());
       return false;
     }
   }
   memcpy(buff, data, size);
-  if(!fwrite(buff, size, 1, fw)) {
+  if(fwrite(buff, 1, size, fw) != size) {
     fclose(fw);
     GME_Logs(GME_LOG_ERROR, "GME_FileWrite", "Write error", GME_StrToMbs(dst).c_str());
     return false;
@@ -468,7 +470,7 @@ bool GME_FileCopy(const std::wstring& src, const std::wstring& dst, bool overwri
   }
 
   while(0 < (n = fread(buff, 1, sizeof(buff), fr))) {
-    if(!fwrite(buff, n, 1, fw)) {
+    if(fwrite(buff, 1, n, fw) != n) {
       GME_Logs(GME_LOG_ERROR, "GME_FileCopy", "Write error", GME_StrToMbs(dst).c_str());
       fclose(fr);
       fclose(fw);
@@ -487,7 +489,6 @@ bool GME_FileCopy(const std::wstring& src, const std::wstring& dst, bool overwri
 */
 size_t GME_FileGetAsciiContent(const std::wstring& path, std::wstring* content)
 {
-
   size_t r = 0;
   long fs = 0;
 

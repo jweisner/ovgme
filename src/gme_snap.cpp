@@ -205,9 +205,9 @@ DWORD WINAPI GME_SnapCompare_Th(void* pargs)
   if(fp) {
     /* first 4 bytes is count of entries */
     unsigned c;
-    fread(&c, 4, 1, fp);
+    fread(&c, 1, 4, fp);
     for(unsigned i = 0; i < c; i++) {
-      fread(&snpentry, sizeof(GME_SnapEntry_Struct), 1, fp);
+      fread(&snpentry, 1, sizeof(GME_SnapEntry_Struct), fp);
       snpentry_list.push_back(snpentry);
     }
     fclose(fp);

@@ -29,10 +29,10 @@ bool GME_ConfWritCfg(GME_ConfCfg_Struct* data)
 
   FILE* fp = _wfopen(cfg_path.c_str(), L"wb");
   if(fp) {
-    w += fwrite(data, sizeof(GME_ConfCfg_Struct), 1, fp);
+    w += fwrite(data, 1, sizeof(GME_ConfCfg_Struct), fp);
     fclose(fp);
   }
-  return (w == 1);
+  return (w == sizeof(GME_ConfCfg_Struct));
 }
 
 /*
@@ -45,10 +45,10 @@ bool GME_ConfReadCfg(GME_ConfCfg_Struct* data)
 
   FILE* fp = _wfopen(cfg_path.c_str(), L"rb");
   if(fp) {
-    r += fread(data, sizeof(GME_ConfCfg_Struct), 1, fp);
+    r += fread(data, 1, sizeof(GME_ConfCfg_Struct), fp);
     fclose(fp);
   }
-  return (r == 1);
+  return (r == sizeof(GME_ConfCfg_Struct));
 }
 
 /*

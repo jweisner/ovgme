@@ -228,10 +228,10 @@ bool GME_RepoReadList()
   if(fp) {
     unsigned c;
     /* first 4 bytes is count */
-    fread(&c, sizeof(unsigned), 1, fp);
+    fread(&c, 1, 4, fp);
     for(unsigned i = 0; i < c; i++) {
       memset(&repos, 0, sizeof(GME_Repos_Struct));
-      fread(&repos, sizeof(GME_Repos_Struct), 1, fp);
+      fread(&repos, 1, sizeof(GME_Repos_Struct), fp);
       g_GME_Repos_List.push_back(repos);
     }
     fclose(fp);

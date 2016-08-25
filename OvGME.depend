@@ -663,19 +663,19 @@
 1471626667 f:\dev\cpp\proj\ovgme\include\gme_dlg_game.h
 	"gme.h"
 
-1471626667 source:d:\dev\cpp\proj\ovgme\main.cpp
+1472157226 source:d:\dev\cpp\proj\ovgme\main.cpp
 	"gme.h"
 	"gme_uins.h"
 	"gme_netw.h"
 	"gme_dlg_main.h"
 
-1471780982 source:d:\dev\cpp\proj\ovgme\resource.rc
+1472157971 source:d:\dev\cpp\proj\ovgme\resource.rc
 	<windows.h>
 	<commctrl.h>
 	<richedit.h>
 	"resource.h"
 
-1471780982 d:\dev\cpp\proj\ovgme\resource.h
+1472157971 d:\dev\cpp\proj\ovgme\resource.h
 
 1472138597 d:\dev\cpp\proj\ovgme\include\gme.h
 	<stdio.h>
@@ -721,7 +721,7 @@
 1471626673 source:d:\dev\cpp\proj\ovgme\src\gme.cpp
 	"gme.h"
 
-1471626673 source:d:\dev\cpp\proj\ovgme\src\gme_conf.cpp
+1472156852 source:d:\dev\cpp\proj\ovgme\src\gme_conf.cpp
 	"gme_conf.h"
 	"gme_tools.h"
 
@@ -801,7 +801,7 @@
 
 1471626667 d:\dev\cpp\proj\ovgme\include\gme_snap.h
 
-1471960740 source:d:\dev\cpp\proj\ovgme\src\gme_game.cpp
+1472157403 source:d:\dev\cpp\proj\ovgme\src\gme_game.cpp
 	"gme_conf.h"
 	"gme_game.h"
 	"gme_mods.h"
@@ -812,13 +812,13 @@
 	"gme_logs.h"
 	"gme_tools.h"
 
-1472141892 source:d:\dev\cpp\proj\ovgme\src\gme_mods.cpp
+1472157454 source:d:\dev\cpp\proj\ovgme\src\gme_mods.cpp
 	"gme_tools.h"
 	"gme_game.h"
 	"gme_mods.h"
 	"gme_logs.h"
 
-1472108727 source:d:\dev\cpp\proj\ovgme\src\gme_netw.cpp
+1472156930 source:d:\dev\cpp\proj\ovgme\src\gme_netw.cpp
 	"gme_tools.h"
 	"gme_netw.h"
 	"gme_logs.h"
@@ -834,7 +834,7 @@
 
 1471626667 d:\dev\cpp\proj\ovgme\include\thirdparty\pugixml\pugiconfig.hpp
 
-1472121784 source:d:\dev\cpp\proj\ovgme\src\gme_repo.cpp
+1472157486 source:d:\dev\cpp\proj\ovgme\src\gme_repo.cpp
 	"gme_game.h"
 	"gme_mods.h"
 	"gme_repo.h"
@@ -843,12 +843,12 @@
 	"gme_logs.h"
 	"pugixml.hpp"
 
-1471626673 source:d:\dev\cpp\proj\ovgme\src\gme_snap.cpp
+1472157514 source:d:\dev\cpp\proj\ovgme\src\gme_snap.cpp
 	"gme_snap.h"
 	"gme_game.h"
 	"gme_tools.h"
 
-1471989093 source:d:\dev\cpp\proj\ovgme\src\gme_tools.cpp
+1472157613 source:d:\dev\cpp\proj\ovgme\src\gme_tools.cpp
 	"gme_tools.h"
 	"gme_logs.h"
 
