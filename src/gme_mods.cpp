@@ -1501,65 +1501,18 @@ DWORD WINAPI GME_ModsMake_Th(void* args)
     } else {
       /* read source file */
       if(!zip_root->currChild()->getSource().empty()) {
-        fp = _wfopen(zip_root->currChild()->getSource().c_str(), L"rb");
-        if(fp) {
-          fseek(fp, 0, SEEK_END);
-          fs = ftell(fp);
-          fseek(fp, 0, SEEK_SET);
-
-          try {
-            data = new ubyte[fs];
-          } catch (const std::bad_alloc&) {
-            mz_zip_writer_end(&za);
-            fclose(fp);
-            delete zip_root;
-            delete arg;
-            DeleteFileW(tmp_path.c_str());
-            GME_Logs(GME_LOG_ERROR, "GME_ModsMake_Th", "bad alloc", GME_StrToMbs(zip_root->currChild()->getSource()).c_str());
-            GME_DialogError(g_hwndNewAMod, L"An error occurred during Mod-Archive creation.");
-            EnableWindow(GetDlgItem(g_hwndNewAMod, BTN_CREATE), true);
-            EnableWindow(GetDlgItem(g_hwndNewAMod, IDCANCEL), false);
-            EnableWindow(GetDlgItem(g_hwndNewAMod, BTN_CLOSE), true);
-            g_ModsMake_Running = false;
-            return 0;
-          }
-
-          if(fread(data, 1, fs, fp) != fs) {
-            mz_zip_writer_end(&za);
-            fclose(fp);
-            delete [] data;
-            delete zip_root;
-            delete arg;
-            DeleteFileW(tmp_path.c_str());
-            GME_Logs(GME_LOG_ERROR, "GME_ModsMake_Th", "file read error", GME_StrToMbs(zip_root->currChild()->getSource()).c_str());
-            GME_DialogError(g_hwndNewAMod, L"An error occurred during Mod-Archive creation.");
-            EnableWindow(GetDlgItem(g_hwndNewAMod, BTN_CREATE), true);
-            EnableWindow(GetDlgItem(g_hwndNewAMod, IDCANCEL), false);
-            EnableWindow(GetDlgItem(g_hwndNewAMod, BTN_CLOSE), true);
-            g_ModsMake_Running = false;
-            return 0;
-          }
-          fclose(fp);
-
-          if(!mz_zip_writer_add_mem(&za, a_name.c_str(), data, fs, arg->zip_level)) {
-            mz_zip_writer_end(&za);
-            delete [] data;
-            delete zip_root;
-            delete arg;
-            DeleteFileW(tmp_path.c_str());
-            GME_Logs(GME_LOG_ERROR, "GME_ModsMake_Th", "mz_zip_writer_add_mem (file) failed", GME_StrToMbs(tmp_path).c_str());
-            GME_DialogError(g_hwndNewAMod, L"An error occurred during Mod-Archive creation.");
-            EnableWindow(GetDlgItem(g_hwndNewAMod, BTN_CREATE), true);
-            EnableWindow(GetDlgItem(g_hwndNewAMod, IDCANCEL), false);
-            EnableWindow(GetDlgItem(g_hwndNewAMod, BTN_CLOSE), true);
-            g_ModsMake_Running = false;
-            return 0;
-          }
-
-          delete [] data;
-
-        } else {
-          GME_Logs(GME_LOG_WARNING, "GME_ModsMake_Th", "Unable to open file", GME_StrToMbs(zip_root->currChild()->getSource().c_str()).c_str());
+        if(!mz_zip_writer_add_file(&za, a_name.c_str(), GME_StrToMbs(zip_root->currChild()->getSource()).c_str(), NULL, 0, arg->zip_level)) {
+          mz_zip_writer_end(&za);
+          delete zip_root;
+          delete arg;
+          DeleteFileW(tmp_path.c_str());
+          GME_Logs(GME_LOG_ERROR, "GME_ModsMake_Th", "mz_zip_writer_add_file failed", GME_StrToMbs(tmp_path).c_str());
+          GME_DialogError(g_hwndNewAMod, L"An error occurred during Mod-Archive creation.");
+          EnableWindow(GetDlgItem(g_hwndNewAMod, BTN_CREATE), true);
+          EnableWindow(GetDlgItem(g_hwndNewAMod, IDCANCEL), false);
+          EnableWindow(GetDlgItem(g_hwndNewAMod, BTN_CLOSE), true);
+          g_ModsMake_Running = false;
+          return 0;
         }
       } else {
         if(!mz_zip_writer_add_mem(&za, a_name.c_str(), zip_root->currChild()->getData(), zip_root->currChild()->getDataSize(), arg->zip_level)) {
@@ -1639,6 +1592,9 @@ DWORD WINAPI GME_ModsMake_Th(void* args)
   GME_DialogInfo(g_hwndNewAMod, L"The Mod-Archive '" + zip_path + L".zip' was successfully created.");
 
   GME_ModsMakeRstDialog();
+
+  /* just update the mod list now... */
+  GME_ModsUpdList();
 
   g_ModsMake_Running = false;
 
