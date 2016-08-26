@@ -625,7 +625,7 @@ void GME_ModsCleanBackup()
           }
           fclose(fp);
         } else {
-          GME_Logs(GME_LOG_ERROR, "GME_ModsUpdBackup", "Unable to open backup file", GME_StrToMbs(bck_file).c_str());
+          GME_Logs(GME_LOG_ERROR, "GME_ModsCleanBackup", "Unable to open backup file", GME_StrToMbs(bck_file).c_str());
         }
       }
     } while(FindNextFileW(hnd, &fdw));
@@ -662,7 +662,7 @@ void GME_ModsCleanBackup()
       if(!is_depend) {
         dst_path = back_path + back_tree->currChild()->getPath(true);
         if(!DeleteFileW(dst_path.c_str())) {
-          GME_Logs(GME_LOG_WARNING, "GME_ModsUpdBackup", "Unable to delete file", GME_StrToMbs(dst_path).c_str());
+          GME_Logs(GME_LOG_WARNING, "GME_ModsCleanBackup", "Unable to delete file", GME_StrToMbs(dst_path).c_str());
         }
       }
     } else {
@@ -680,7 +680,7 @@ void GME_ModsCleanBackup()
     dst_path = back_path + rmdir_list[i];
     if(PathIsDirectoryEmptyW(dst_path.c_str())) {
       if(!RemoveDirectoryW(dst_path.c_str())) {
-        GME_Logs(GME_LOG_WARNING, "GME_ModsUpdBackup", "Unable to delete directory", GME_StrToMbs(dst_path).c_str());
+        GME_Logs(GME_LOG_WARNING, "GME_ModsCleanBackup", "Unable to delete directory", GME_StrToMbs(dst_path).c_str());
       }
     }
   }
