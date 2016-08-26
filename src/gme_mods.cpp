@@ -1474,14 +1474,15 @@ DWORD WINAPI GME_ModsMake_Th(void* args)
   ubyte* data;
 
   std::string a_name;
+  std::string f_name;
 
   zip_root->initTraversal();
   while(zip_root->nextChild()) {
 
-    a_name = GME_StrToMbs(zip_root->currChild()->getPath());
+    GME_StrToMbs(a_name, zip_root->currChild()->getPath());
     a_name.erase(0,1); /* remove the first \ at the begining of the path */
     /* convert from MS standard path separator \ to THE STANDARD */
-    std::replace( a_name.begin(), a_name.end(), '\\', '/');
+    std::replace(a_name.begin(), a_name.end(), '\\', '/');
 
     if(zip_root->currChild()->isDir()) {
       a_name += "/";
@@ -1501,7 +1502,8 @@ DWORD WINAPI GME_ModsMake_Th(void* args)
     } else {
       /* read source file */
       if(!zip_root->currChild()->getSource().empty()) {
-        if(!mz_zip_writer_add_file(&za, a_name.c_str(), GME_StrToMbs(zip_root->currChild()->getSource()).c_str(), NULL, 0, arg->zip_level)) {
+        GME_StrToMbs(f_name, zip_root->currChild()->getSource());
+        if(!mz_zip_writer_add_file(&za, a_name.c_str(), f_name.c_str(), NULL, 0, arg->zip_level)) {
           mz_zip_writer_end(&za);
           delete zip_root;
           delete arg;

@@ -214,7 +214,7 @@ std::string GME_StrToMbs(const std::wstring& str)
   return mbs;
 }
 
-inline void GME_StrToMbs(std::string& mbs, const std::wstring& str)
+void GME_StrToMbs(std::string& mbs, const std::wstring& str)
 {
   size_t s = str.length()*2;
   char* buff = new char[s];
