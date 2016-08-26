@@ -8,6 +8,8 @@ OvGME 1.6.3, 2016-20-08
 - Fixed some Cancel button logic
 - Added compression level option for Make Mod-Archive
 - Fixed Undo Mod inconsistent warning log output
+- Backup cleaning optimization
+- Added Mod Process safe Cancel and Undo logic
 
 OvGME 1.6.2, 2016-20-08
 

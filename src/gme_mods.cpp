@@ -103,122 +103,6 @@ bool GME_ModsListIsEmpty()
 }
 
 /*
-  function to update backup archive according installed mods dependencies
-  (this is the vital backup process)
-*/
-inline bool GME_ModsUpdBackup()
-{
-  std::wstring conf_path = GME_GameGetCurConfPath();
-  std::wstring back_path = GME_GameGetCurBackPath();
-  std::wstring game_path = GME_GameGetCurRoot();
-
-  /* the backup dependency list */
-  std::vector<std::wstring> dpend_list;
-  std::vector<std::wstring> backd_list;
-
-  /* temporary to read/write file data */
-  FILE* fp;
-
-  /* temporary for backentry dat path */
-  std::wstring bck_file;
-
-  /* backup entry */
-  GME_BckEntry_Struct bckentry;
-
-  /* temporary unsigned entry count */
-  unsigned c;
-
-  /* open all backup entry data files and gather dependencies */
-  std::wstring gbck_srch = conf_path + L"\\*.bck";
-  WIN32_FIND_DATAW fdw;
-  HANDLE hnd = FindFirstFileW(gbck_srch.c_str(), &fdw);
-  if(hnd != INVALID_HANDLE_VALUE) {
-    do {
-      if(!(fdw.dwFileAttributes & FILE_ATTRIBUTE_DIRECTORY)) {
-        /* read backup entry dat file */
-        bck_file = conf_path + L"\\" + fdw.cFileName;
-        if(NULL != (fp = _wfopen(bck_file.c_str(), L"rb"))) {
-          /* first 4 bytes is count of entries */
-          fread(&c, 1, 4, fp);
-          for(unsigned i = 0; i < c; i++) {
-            fread(&bckentry, 1, sizeof(GME_BckEntry_Struct), fp);
-            if(bckentry.action == GME_BCK_RESTORE_SWAP && !bckentry.isdir) {
-              dpend_list.push_back(bckentry.path);
-            }
-          }
-          fclose(fp);
-        } else {
-          GME_Logs(GME_LOG_ERROR, "GME_ModsUpdBackup", "Unable to open backup data", GME_StrToMbs(bck_file).c_str());
-        }
-      }
-    } while(FindNextFileW(hnd, &fdw));
-  }
-  FindClose(hnd);
-
-  /* temporary for split path */
-  std::vector<std::wstring> path_split;
-
-  std::wstring dst_path;
-  std::wstring src_path;
-
-  bool got_error = false;
-
-  /* create node tree from backup folder tree */
-  GMEnode* back_tree = new GMEnode();
-  GME_TreeBuildFromDir(back_tree, back_path);
-
-  /* pass the depend list in upper case to prevent
-    case sensitive naming problems */
-  for(unsigned i = 0; i < dpend_list.size(); i++) {
-    GME_StrToUpper(dpend_list[i]);
-  }
-
-  /* remove files no longer needed */
-  bool is_depend;
-  back_tree->initTraversal();
-  while(back_tree->nextChild()) {
-    if(!back_tree->currChild()->isDir()) {
-      /* upper case to prevent case sensitive problems... */
-      dst_path = GME_StrToUpper(back_tree->currChild()->getPath(true));
-      is_depend = false;
-      for(unsigned i = 0; i < dpend_list.size(); i++) {
-        if(dst_path == dpend_list[i]) {
-          is_depend = true;
-          break;
-        }
-      }
-      if(!is_depend) {
-        dst_path = back_path + back_tree->currChild()->getPath(true);
-        if(!DeleteFileW(dst_path.c_str())) {
-          GME_Logs(GME_LOG_ERROR, "GME_ModsUpdBackup", "Unable to delete file", GME_StrToMbs(dst_path).c_str());
-          got_error = true;
-        }
-      }
-    } else {
-      /* keep folder path list for cleaning later */
-      backd_list.push_back(back_tree->currChild()->getPath(true));
-    }
-  }
-
-  /* clean empty folders */
-  unsigned i = backd_list.size();
-  while(i--) {
-    dst_path = back_path + backd_list[i];
-    if(PathIsDirectoryEmptyW(dst_path.c_str())) {
-      if(!RemoveDirectoryW(dst_path.c_str())) {
-        GME_Logs(GME_LOG_ERROR, "GME_ModsUpdBackup", "Unable to delete directory", GME_StrToMbs(dst_path).c_str());
-        got_error = true;
-      }
-    }
-  }
-
-  delete back_tree;
-
-  return !got_error;
-}
-
-
-/*
   function to undo Mod installation, same as Restore, but without error messages
 */
 void GME_ModsUndoMod(HWND hpb, const std::vector<GME_BckEntry_Struct>& bckentry_list)
@@ -276,10 +160,8 @@ void GME_ModsUndoMod(HWND hpb, const std::vector<GME_BckEntry_Struct>& bckentry_
     }
   }
 
-  /* update backup archive, this will remove no long needed file from archive */
-  if(!GME_ModsUpdBackup()) {
-    GME_Logs(GME_LOG_ERROR, "GME_ModsUndoMod", "GME_ModsUpdBackup failed", "...");
-  }
+  /* clean backup files */
+  GME_ModsCleanBackup();
 
   SendMessage(hpb, PBM_SETPOS, (WPARAM)0, 0);
 }
@@ -498,6 +380,14 @@ void GME_ModsApplyMod(HWND hpb, const std::wstring& name, int type)
     }
     wcscpy(bckentry.path, rel_path.c_str());
     bckentry_list.push_back(bckentry);
+
+    if(g_ModsProc_Cancel) {
+      GME_Logs(GME_LOG_WARNING, "GME_ModsApplyMod", "Mod apply cancelled by user", GME_StrToMbs(name).c_str());
+      delete mod_tree;
+      SendMessage(hpb, PBM_SETPOS, (WPARAM)0, 0);
+      GME_ModsUndoMod(hpb, bckentry_list);
+      return;
+    }
   }
 
   /* write the backup entry data */
@@ -532,7 +422,9 @@ void GME_ModsApplyMod(HWND hpb, const std::wstring& name, int type)
 
   mod_tree->initTraversal();
   while(mod_tree->nextChild()) {
+
     dst_path = game_path + mod_tree->currChild()->getPath(true);
+
     if(mod_tree->currChild()->isDir()) {
       /* create new directory */
       if(!GME_IsDir(dst_path)) {
@@ -570,18 +462,24 @@ void GME_ModsApplyMod(HWND hpb, const std::wstring& name, int type)
       /* step progress bar */
       SendMessage(hpb, PBM_STEPIT, 0, 0);
     }
+
+    if(g_ModsProc_Cancel) {
+      GME_Logs(GME_LOG_WARNING, "GME_ModsApplyMod", "Mod apply cancelled by user", GME_StrToMbs(name).c_str());
+      if(is_zip_mod) mz_zip_reader_end(&za);
+      delete mod_tree;
+      SendMessage(hpb, PBM_SETPOS, (WPARAM)0, 0);
+      DeleteFileW(bck_file.c_str());
+      GME_ModsUndoMod(hpb, bckentry_list);
+      return;
+    }
   }
 
-  if(is_zip_mod) {
-    mz_zip_reader_end(&za);
-  }
+  if(is_zip_mod) mz_zip_reader_end(&za);
 
   delete mod_tree;
 
   SendMessage(hpb, PBM_SETPOS, (WPARAM)0, 0);
 }
-
-
 
 
 /*
@@ -595,9 +493,13 @@ void GME_ModsRestoreMod(HWND hpb, const std::wstring& name)
   std::wstring game_path = GME_GameGetCurRoot();
   std::wstring conf_path = GME_GameGetCurConfPath();
 
+  /* read the backup entry data */
+  std::wstring bck_file = conf_path + L"\\" + name + L".bck";
+
   /* check backup file */
-  if(!GME_IsFile(conf_path + L"\\" + name + L".bck")) {
+  if(!GME_IsFile(bck_file)) {
     /* no backup file, no restore */
+    GME_Logs(GME_LOG_WARNING, "GME_ModsRestoreMod", "Request restore for backup that does not exists", GME_StrToMbs(bck_file).c_str());
     return;
   }
 
@@ -608,8 +510,6 @@ void GME_ModsRestoreMod(HWND hpb, const std::wstring& name)
   GME_BckEntry_Struct bckentry;
   std::vector<GME_BckEntry_Struct> bckentry_list;
 
-  /* read the backup entry data */
-  std::wstring bck_file = conf_path + L"\\" + name + L".bck";
   fp = _wfopen(bck_file.c_str(), L"rb");
   if(fp) {
     /* first 4 bytes is count of entries */
@@ -673,16 +573,116 @@ void GME_ModsRestoreMod(HWND hpb, const std::wstring& name)
 
   DeleteFileW(bck_file.c_str()); /* delete .bck file */
 
-  /* update backup archive, this will remove no long needed file from archive */
-  if(!GME_ModsUpdBackup()) {
-    GME_Logs(GME_LOG_ERROR, "GME_ModsRestoreMod", "GME_ModsUpdBackup failed", GME_StrToMbs(name).c_str());
-    got_error = true;
-  }
-
   SendMessage(hpb, PBM_SETPOS, (WPARAM)0, 0);
 
   if(got_error) {
-    GME_DialogWarning(g_hwndMain, L"Error encountered while restoring backup for mod '" + name + L"'.");
+    GME_DialogWarning(g_hwndMain, L"One or more error was encountered during restore process for Mod '" + name + L"', please see log text for more details.");
+  }
+}
+
+
+/*
+  function to clean backup files according installed mods dependencies
+*/
+void GME_ModsCleanBackup()
+{
+  std::wstring conf_path = GME_GameGetCurConfPath();
+  std::wstring back_path = GME_GameGetCurBackPath();
+
+  /* the backup dependency list */
+  std::vector<std::wstring> dpend_list;
+
+  /* temporary to read/write file data */
+  FILE* fp;
+
+  /* temporary for backup entry .bck file path */
+  std::wstring bck_file;
+
+  /* temporary backup entry struct */
+  GME_BckEntry_Struct bckentry;
+
+  /* temporary unsigned backup entry count */
+  unsigned c;
+
+  /* open all backup entry data files and gather dependencies */
+  std::wstring gbck_srch = conf_path + L"\\*.bck";
+  WIN32_FIND_DATAW fdw;
+  HANDLE hnd = FindFirstFileW(gbck_srch.c_str(), &fdw);
+  if(hnd != INVALID_HANDLE_VALUE) {
+    do {
+      if(!(fdw.dwFileAttributes & FILE_ATTRIBUTE_DIRECTORY)) {
+        /* read backup entry .bck file */
+        bck_file = conf_path + L"\\" + fdw.cFileName;
+        if(NULL != (fp = _wfopen(bck_file.c_str(), L"rb"))) {
+          /* first 4 bytes is count of entries */
+          fread(&c, 1, 4, fp);
+          for(unsigned i = 0; i < c; i++) {
+            fread(&bckentry, 1, sizeof(GME_BckEntry_Struct), fp);
+            if(bckentry.action == GME_BCK_RESTORE_SWAP && !bckentry.isdir) {
+              /* name to upper case to avoid case sensitive */
+              dpend_list.push_back(GME_StrToUpper(bckentry.path));
+            }
+          }
+          fclose(fp);
+        } else {
+          GME_Logs(GME_LOG_ERROR, "GME_ModsUpdBackup", "Unable to open backup file", GME_StrToMbs(bck_file).c_str());
+        }
+      }
+    } while(FindNextFileW(hnd, &fdw));
+  }
+  FindClose(hnd);
+
+
+  /* list for directory to be removed if empty */
+  std::vector<std::wstring> rmdir_list;
+
+  std::wstring dst_path;
+  std::wstring src_path;
+
+  bool is_depend; /* depend file flag */
+
+  /* create node tree from backup folder tree */
+  GMEnode* back_tree = new GMEnode();
+  GME_TreeBuildFromDir(back_tree, back_path);
+
+  /* remove files no longer needed */
+  back_tree->initTraversal();
+  while(back_tree->nextChild()) {
+    if(!back_tree->currChild()->isDir()) {
+      /* upper case to prevent case sensitive problems... */
+      dst_path = GME_StrToUpper(back_tree->currChild()->getPath(true));
+      /* check if backup file is in the depend list */
+      is_depend = false;
+      for(unsigned i = 0; i < dpend_list.size(); i++) {
+        if(dst_path == dpend_list[i]) {
+          is_depend = true; break;
+        }
+      }
+      /* backup file is no longer in the depend list, we should remove it */
+      if(!is_depend) {
+        dst_path = back_path + back_tree->currChild()->getPath(true);
+        if(!DeleteFileW(dst_path.c_str())) {
+          GME_Logs(GME_LOG_WARNING, "GME_ModsUpdBackup", "Unable to delete file", GME_StrToMbs(dst_path).c_str());
+        }
+      }
+    } else {
+      /* keep directory path in list for cleaning  */
+      rmdir_list.push_back(back_tree->currChild()->getPath(true));
+    }
+  }
+
+  delete back_tree;
+
+  /* check if directories are empty and remove
+    all in backward to invert depth-first order */
+  unsigned i = rmdir_list.size();
+  while(i--) {
+    dst_path = back_path + rmdir_list[i];
+    if(PathIsDirectoryEmptyW(dst_path.c_str())) {
+      if(!RemoveDirectoryW(dst_path.c_str())) {
+        GME_Logs(GME_LOG_WARNING, "GME_ModsUpdBackup", "Unable to delete directory", GME_StrToMbs(dst_path).c_str());
+      }
+    }
   }
 }
 
@@ -1795,6 +1795,8 @@ DWORD WINAPI GME_ModsProc_Th(void* args)
   /* enable cancel */
   EnableWindow(GetDlgItem(g_hwndMain, BTN_MODCANCEL), true);
 
+  /* to check if backup cleaning is needed */
+  bool bck_restored = false;
 
   for(unsigned i = 0; i < g_ModsProc_ArgList.size(); i++) {
     if(g_ModsProc_Cancel) {
@@ -1805,12 +1807,16 @@ DWORD WINAPI GME_ModsProc_Th(void* args)
       GME_ModsListQuickEnable(g_ModsProc_ArgList[i].name, true);
     }
     if(g_ModsProc_ArgList[i].action == MODS_DISABLE) {
+      bck_restored = true;
       GME_ModsRestoreMod(GetDlgItem(g_hwndMain, PBM_MODPROC), g_ModsProc_ArgList[i].name);
       GME_ModsListQuickEnable(g_ModsProc_ArgList[i].name, false);
     }
   }
-
   g_ModsProc_ArgList.clear();
+
+  /* do not miss to clean backup files if some backup was restored */
+  if(bck_restored)
+    GME_ModsCleanBackup();
 
   GME_ModsUpdList();
 

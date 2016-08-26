@@ -23,10 +23,10 @@
 #define MODS_DISABLE 0
 #define MODS_TOGGLE -1
 
-bool GME_ModsUpdBackup();
-void GME_ModsApplyMod(HWND hpb, const std::wstring& name, int type);
 void GME_ModsUndoMod(HWND hpb, const std::wstring& name);
+void GME_ModsApplyMod(HWND hpb, const std::wstring& name, int type);
 void GME_ModsRestoreMod(HWND hpb, const std::wstring& name);
+void GME_ModsCleanBackup();
 bool GME_ModsToggleSel(int action);
 bool GME_ModsToggleAll(int action);
 bool GME_ModsImport();
