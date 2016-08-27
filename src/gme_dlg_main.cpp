@@ -97,12 +97,66 @@ void GME_MainPopMenuMods()
   POINT mouse_p;
   GetCursorPos(&mouse_p);
 
+
+  HWND hlv = GetDlgItem(g_hwndMain, LVM_MODSLIST);
+
+  bool single = (1 == SendMessage(hlv, LVM_GETSELECTEDCOUNT, 0, 0));
+
+  /* get single selected Mod type */
+  int type = -1;
+
+  if(single) {
+    wchar_t name_buff[255];
+
+    LV_ITEMW lvitm;
+    memset(&lvitm, 0, sizeof(LV_ITEMW));
+    lvitm.mask = LVIF_TEXT|LVIF_IMAGE;
+    lvitm.cchTextMax = 255;
+    lvitm.pszText = name_buff;
+
+    bool found = false;
+
+    unsigned c = SendMessageW(hlv, LVM_GETITEMCOUNT, 0, 0);
+    for(unsigned i = 0; i < c; i++) {
+      if(SendMessageW(hlv, LVM_GETITEMSTATE, i, LVIS_SELECTED)) {
+        lvitm.iItem = i;
+        SendMessageW(hlv ,LVM_GETITEMW, 0, (LPARAM)&lvitm);
+        type = lvitm.iImage;
+        found = true;
+        break; // single selection
+      }
+    }
+  }
+
   HMENU hMenuPopup = CreatePopupMenu();
-  AppendMenu(hMenuPopup, MF_STRING, POP_TOGGLE, "Toggle selected");
-  AppendMenu(hMenuPopup, MF_STRING, POP_ENABLE, "Enable selected");
-  AppendMenu(hMenuPopup, MF_STRING, POP_DISABLE, "Disable selected");
-  AppendMenu(hMenuPopup, MFT_SEPARATOR, MFT_SEPARATOR, "---");
-  AppendMenu(hMenuPopup, MF_STRING, POP_OPENDIR, "Explore...");
+  if(single) {
+    AppendMenu(hMenuPopup, MF_STRING, POP_TOGGLE, "Toggle");
+    AppendMenu(hMenuPopup, MFT_SEPARATOR, MFT_SEPARATOR, "---");
+    AppendMenu(hMenuPopup, MF_STRING, POP_OPENDIR, "Explore...");
+    AppendMenu(hMenuPopup, MF_STRING, POP_MODDELETE, "Delete...");
+    AppendMenu(hMenuPopup, MFT_SEPARATOR, MFT_SEPARATOR, "---");
+    AppendMenu(hMenuPopup, MF_STRING, POP_MODCREATE, "Make Mod-Archive...");
+  } else {
+    AppendMenu(hMenuPopup, MF_STRING, POP_TOGGLE, "Toggle selected");
+    AppendMenu(hMenuPopup, MF_STRING, POP_ENABLE, "Enable selected");
+    AppendMenu(hMenuPopup, MF_STRING, POP_DISABLE, "Disable selected");
+  }
+
+  switch(type)
+  {
+  case 0:
+    break;
+  case 1:
+    EnableMenuItem(hMenuPopup, POP_MODCREATE, MF_GRAYED);
+    break;
+  case 2:
+    EnableMenuItem(hMenuPopup, POP_MODCREATE, MF_GRAYED);
+    EnableMenuItem(hMenuPopup, POP_MODDELETE, MF_GRAYED);
+    EnableMenuItem(hMenuPopup, POP_OPENDIR, MF_GRAYED);
+    EnableMenuItem(hMenuPopup, POP_MODEDIT, MF_GRAYED);
+    break;
+  }
+
   TrackPopupMenu(hMenuPopup, TPM_TOPALIGN|TPM_LEFTALIGN, mouse_p.x, mouse_p.y, 0, g_hwndMain, NULL);
 }
 
@@ -259,12 +313,20 @@ BOOL CALLBACK GME_DlgMain(HWND hwndDlg, UINT uMsg, WPARAM wParam, LPARAM lParam)
       }
       return true;
 
-    case POP_OPENDIR:
-      GME_ModsExploreSrc();
-      return true;
-
     case POP_TOGGLE:
       GME_ModsToggleSel(MODS_TOGGLE);
+      return true;
+
+    case POP_OPENDIR:
+      GME_ModsExploreCur();
+      return true;
+
+    case POP_MODCREATE:
+      DialogBox(g_hInst, MAKEINTRESOURCE(DLG_MOD_QMAKE), hwndDlg, (DLGPROC)GME_DlgModsQuickMake);
+      return true;
+
+    case POP_MODDELETE:
+      GME_ModsDeleteCur();
       return true;
     }
   }

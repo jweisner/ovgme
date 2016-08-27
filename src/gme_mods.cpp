@@ -68,6 +68,7 @@ std::vector<GME_ModsProc_Arg_Struct> g_ModsProc_ArgList;
 /* structure for mod make thread arguments */
 struct GME_ModsMake_Arg_Struct
 {
+  bool end_exit;
   GMEnode* zip_root;
   wchar_t zip_path[260];
   int zip_level;
@@ -936,7 +937,7 @@ bool GME_ModsChkDesc()
 /*
   function to display mod description when single selection is made
 */
-void GME_ModsExploreSrc()
+void GME_ModsExploreCur()
 {
   HWND hlv = GetDlgItem(g_hwndMain, LVM_MODSLIST);
 
@@ -958,12 +959,12 @@ void GME_ModsExploreSrc()
       SendMessageW(hlv ,LVM_GETITEMW, 0, (LPARAM)&lvitm);
       name_list.push_back(lvitm.pszText);
       type_list.push_back(lvitm.iImage);
+      break; // single selection
     }
   }
 
-  /* if it is a single selection */
+  /* ready for multiple selection, but, dangerous but only one is authorised */
   for(unsigned i = 0; i < name_list.size(); i++) {
-
 
     std::wstring mod_path = GME_GameGetCurModsPath() + L"\\" + name_list[i];
     switch(type_list[i])
@@ -987,6 +988,60 @@ void GME_ModsExploreSrc()
     }
   }
 }
+
+/*
+  function to remove Mod (to trash)
+*/
+void GME_ModsDeleteCur()
+{
+  HWND hlv = GetDlgItem(g_hwndMain, LVM_MODSLIST);
+
+  /* get current mod list selection */
+  std::vector<std::wstring> name_list;
+  std::vector<int> type_list;
+  wchar_t name_buff[255];
+
+  LV_ITEMW lvitm;
+  memset(&lvitm, 0, sizeof(LV_ITEMW));
+  lvitm.mask = LVIF_TEXT|LVIF_IMAGE;
+  lvitm.cchTextMax = 255;
+  lvitm.pszText = name_buff;
+
+  unsigned c = SendMessageW(hlv, LVM_GETITEMCOUNT, 0, 0);
+  for(unsigned i = 0; i < c; i++) {
+    if(SendMessageW(hlv, LVM_GETITEMSTATE, i, LVIS_SELECTED)) {
+      lvitm.iItem = i;
+      SendMessageW(hlv ,LVM_GETITEMW, 0, (LPARAM)&lvitm);
+      name_list.push_back(lvitm.pszText);
+      type_list.push_back(lvitm.iImage);
+      break; // single selection
+    }
+  }
+
+  /* ready for multiple selection, but, dangerous but only one is authorised */
+  for(unsigned i = 0; i < name_list.size(); i++) {
+
+    std::wstring mod_path = GME_GameGetCurModsPath() + L"\\" + name_list[i];
+    switch(type_list[i])
+    {
+    case 0:
+      if(IDCANCEL != GME_DialogWarningConfirm(g_hwndMain, L"Are you sure you want to move the Mod '" + name_list[i] + L"' to Recycle Bin ?")){
+        GME_DirRemToTrash(mod_path);
+      }
+      break;
+    case 1:
+      if(IDCANCEL != GME_DialogWarningConfirm(g_hwndMain, L"Are you sure you want to move the Mod '" + name_list[i] + L"' to Recycle Bin ?")){
+        mod_path += L".zip";
+        GME_DirRemToTrash(mod_path);
+      }
+      break;
+    case 2:
+      GME_DialogWarning(g_hwndMain, L"Please disable the Mod before...");
+      break;
+    }
+  }
+}
+
 
 
 /*
@@ -1390,31 +1445,6 @@ void GME_ModsUninstall()
   DialogBox(g_hInst, MAKEINTRESOURCE(DLG_UNINSTALL), g_hwndMain, (DLGPROC)GME_DlgUninst);
 }
 
-/*
-  function to reset dialog after mod make
-*/
-void GME_ModsMakeRstDialog()
-{
-  EnableWindow(GetDlgItem(g_hwndNewAMod, ENT_SRC), true);
-  SetDlgItemText(g_hwndNewAMod, ENT_SRC, "");
-  EnableWindow(GetDlgItem(g_hwndNewAMod, BTN_BROWSESRC), true);
-  SetDlgItemText(g_hwndNewAMod, ENT_DST, "");
-  EnableWindow(GetDlgItem(g_hwndNewAMod, ENT_DST), true);
-  EnableWindow(GetDlgItem(g_hwndNewAMod, BTN_BROWSEDST), true);
-  SetDlgItemText(g_hwndNewAMod, ENT_VERSMAJOR, "0");
-  EnableWindow(GetDlgItem(g_hwndNewAMod, ENT_VERSMAJOR), true);
-  SetDlgItemText(g_hwndNewAMod, ENT_VERSMINOR, "0");
-  EnableWindow(GetDlgItem(g_hwndNewAMod, ENT_VERSMINOR), true);
-  SetDlgItemText(g_hwndNewAMod, ENT_VERSREVIS, "0");
-  EnableWindow(GetDlgItem(g_hwndNewAMod, ENT_VERSREVIS), true);
-  SetDlgItemText(g_hwndNewAMod, ENT_MODDESC, "");
-  EnableWindow(GetDlgItem(g_hwndNewAMod, ENT_MODDESC), true);
-  // disable Add button
-  EnableWindow(GetDlgItem(g_hwndNewAMod, BTN_CREATE), false);
-  EnableWindow(GetDlgItem(g_hwndNewAMod, IDCANCEL), false);
-  EnableWindow(GetDlgItem(g_hwndNewAMod, BTN_CLOSE), true);
-  SendMessage(GetDlgItem(g_hwndNewAMod, PBM_MAKE), PBM_SETPOS, (WPARAM)0, 0);
-}
 
 /*
   mod creation thread function
@@ -1422,6 +1452,8 @@ void GME_ModsMakeRstDialog()
 DWORD WINAPI GME_ModsMake_Th(void* args)
 {
   g_ModsMake_Running = true;
+
+  GME_ModsMake_Arg_Struct* arg = static_cast<GME_ModsMake_Arg_Struct*>(args);
 
   HWND hpb = GetDlgItem(g_hwndNewAMod, PBM_MAKE);
 
@@ -1437,7 +1469,6 @@ DWORD WINAPI GME_ModsMake_Th(void* args)
   EnableWindow(GetDlgItem(g_hwndNewAMod, IDCANCEL), true);
   EnableWindow(GetDlgItem(g_hwndNewAMod, BTN_CLOSE), false);
 
-  GME_ModsMake_Arg_Struct* arg = static_cast<GME_ModsMake_Arg_Struct*>(args);
 
   GMEnode* zip_root = arg->zip_root;
   std::wstring zip_path = arg->zip_path;
@@ -1593,10 +1624,32 @@ DWORD WINAPI GME_ModsMake_Th(void* args)
 
   GME_DialogInfo(g_hwndNewAMod, L"The Mod-Archive '" + zip_path + L".zip' was successfully created.");
 
-  GME_ModsMakeRstDialog();
-
   /* just update the mod list now... */
   GME_ModsUpdList();
+
+  if(arg->end_exit) {
+    EndDialog(g_hwndNewAMod, 0);
+  }
+
+  EnableWindow(GetDlgItem(g_hwndNewAMod, ENT_SRC), true);
+  SetDlgItemText(g_hwndNewAMod, ENT_SRC, "");
+  EnableWindow(GetDlgItem(g_hwndNewAMod, BTN_BROWSESRC), true);
+  SetDlgItemText(g_hwndNewAMod, ENT_DST, "");
+  EnableWindow(GetDlgItem(g_hwndNewAMod, ENT_DST), true);
+  EnableWindow(GetDlgItem(g_hwndNewAMod, BTN_BROWSEDST), true);
+  SetDlgItemText(g_hwndNewAMod, ENT_VERSMAJOR, "0");
+  EnableWindow(GetDlgItem(g_hwndNewAMod, ENT_VERSMAJOR), true);
+  SetDlgItemText(g_hwndNewAMod, ENT_VERSMINOR, "0");
+  EnableWindow(GetDlgItem(g_hwndNewAMod, ENT_VERSMINOR), true);
+  SetDlgItemText(g_hwndNewAMod, ENT_VERSREVIS, "0");
+  EnableWindow(GetDlgItem(g_hwndNewAMod, ENT_VERSREVIS), true);
+  SetDlgItemText(g_hwndNewAMod, ENT_MODDESC, "");
+  EnableWindow(GetDlgItem(g_hwndNewAMod, ENT_MODDESC), true);
+  // disable Add button
+  EnableWindow(GetDlgItem(g_hwndNewAMod, BTN_CREATE), false);
+  EnableWindow(GetDlgItem(g_hwndNewAMod, IDCANCEL), false);
+  EnableWindow(GetDlgItem(g_hwndNewAMod, BTN_CLOSE), true);
+  SendMessage(GetDlgItem(g_hwndNewAMod, PBM_MAKE), PBM_SETPOS, (WPARAM)0, 0);
 
   g_ModsMake_Running = false;
 
@@ -1680,6 +1733,107 @@ void GME_ModsMakeArchive(const std::wstring& src_dir, const std::wstring& dst_pa
   th_args->zip_root = zip_root;
   wcscpy(th_args->zip_path, zip_path.c_str());
   th_args->zip_level = zlevel;
+  th_args->end_exit = false;
+
+  g_ModsMake_Cancel = false;
+  g_ModsMake_hT = CreateThread(NULL,0,GME_ModsMake_Th,th_args,0,&g_ModsMake_iT);
+
+  return;
+}
+
+
+/*
+  function to Make Mod-Archive from current selected
+*/
+void GME_ModsMakeArchiveCur(const std::wstring& desc, int vmaj, int vmin, int vrev, int zlevel)
+{
+  HWND hlv = GetDlgItem(g_hwndMain, LVM_MODSLIST);
+
+  /* get current mod list selection */
+  std::wstring name;
+  int type;
+  wchar_t name_buff[255];
+
+  LV_ITEMW lvitm;
+  memset(&lvitm, 0, sizeof(LV_ITEMW));
+  lvitm.mask = LVIF_TEXT|LVIF_IMAGE;
+  lvitm.cchTextMax = 255;
+  lvitm.pszText = name_buff;
+
+  bool found = false;
+
+  unsigned c = SendMessageW(hlv, LVM_GETITEMCOUNT, 0, 0);
+  for(unsigned i = 0; i < c; i++) {
+    if(SendMessageW(hlv, LVM_GETITEMSTATE, i, LVIS_SELECTED)) {
+      lvitm.iItem = i;
+      SendMessageW(hlv ,LVM_GETITEMW, 0, (LPARAM)&lvitm);
+      name = lvitm.pszText;
+      type = lvitm.iImage;
+      found = true;
+      break; // single selection
+    }
+  }
+
+  if(!found) {
+    GME_DialogWarning(g_hwndMain, L"No Mod selected.");
+    return;
+  }
+
+  std::wstring src_dir = GME_GameGetCurModsPath() + L"\\" + name;
+  std::wstring dst_path = GME_GameGetCurModsPath();
+
+  if(!GME_IsDir(src_dir)) {
+    GME_DialogWarning(g_hwndMain, L"Mod '" + name + L"' is not a Directory-Mod.");
+    return;
+  }
+
+  std::wstring mod_name = GME_DirPathToName(src_dir);
+  std::wstring zip_name = mod_name + L".zip";
+  std::wstring txt_name = L"README.txt";
+  std::wstring ver_name = L"VERSION.txt";
+  std::wstring zip_path = dst_path + L"\\" + zip_name;
+  std::string txt_data;
+  if(!desc.empty()) txt_data = GME_StrToMbs(desc);
+  std::string ver_data;
+  char vbuff[64];
+  sprintf(vbuff, "%d.%d.%d", vmaj, vmin, vrev);
+  ver_data = vbuff;
+
+
+  if(GME_IsFile(zip_path)) {
+    if(IDCANCEL == GME_DialogQuestionConfirm(g_hwndNewAMod, L"The destination file '" + zip_path + L"' already exists, do you want to overwrite ?"))
+      return;
+  }
+
+  /* node tree for data structure */
+  GMEnode* zip_root = new GMEnode();
+
+  /* mod folder */
+  GMEnode* mod_tree = new GMEnode();
+  GME_TreeBuildFromDir(mod_tree, src_dir);
+  mod_tree->setName(mod_name);
+  mod_tree->setParent(zip_root);
+
+  /* add the description txt node */
+  if(!txt_data.empty()) {
+    GMEnode* txt_node = new GMEnode(txt_name, false);
+    txt_node->setData(txt_data.c_str(), txt_data.size());
+    txt_node->setParent(zip_root);
+  }
+
+  /* add the version txt node */
+  if(!ver_data.empty()) {
+    GMEnode* ver_node = new GMEnode(ver_name, false);
+    ver_node->setData(ver_data.c_str(), ver_data.size());
+    ver_node->setParent(zip_root);
+  }
+
+  GME_ModsMake_Arg_Struct* th_args = new GME_ModsMake_Arg_Struct;
+  memset(th_args, 0, sizeof(GME_ModsMake_Arg_Struct));
+  th_args->zip_root = zip_root;
+  wcscpy(th_args->zip_path, zip_path.c_str());
+  th_args->zip_level = zlevel;
+  th_args->end_exit = true;
 
   g_ModsMake_Cancel = false;
   g_ModsMake_hT = CreateThread(NULL,0,GME_ModsMake_Th,th_args,0,&g_ModsMake_iT);

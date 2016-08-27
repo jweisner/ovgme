@@ -47,6 +47,7 @@ void GME_FileListRecursive(const wchar_t* origin, std::vector<std::wstring>* lst
 bool GME_IsFile(const std::wstring& path);
 bool GME_IsDir(const std::wstring& path);
 bool GME_DirRemRecursive(const std::wstring& path);
+bool GME_DirRemToTrash(const std::wstring& path);
 size_t GME_FileSize(const std::wstring& src);
 bool GME_FileRead(ubyte* data, size_t size, const std::wstring& src);
 bool GME_FileWrite(const ubyte* data, size_t size, const std::wstring& dst, bool overwrite);

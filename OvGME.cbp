@@ -23,6 +23,9 @@
 					<Add option="-std=c++11" />
 					<Add option="-g" />
 				</Compiler>
+				<ResourceCompiler>
+					<Add option="-DDEBUG" />
+				</ResourceCompiler>
 			</Target>
 			<Target title="rel 32">
 				<Option output="bin/32/rel/OvGME" prefix_auto="1" extension_auto="1" />
@@ -46,6 +49,9 @@
 					<Add option="-std=c++11" />
 					<Add option="-g" />
 				</Compiler>
+				<ResourceCompiler>
+					<Add option="-DDEBUG" />
+				</ResourceCompiler>
 			</Target>
 			<Target title="rel 64">
 				<Option output="bin/64/rel/OvGME" prefix_auto="1" extension_auto="1" />
@@ -76,6 +82,9 @@
 			<Add library="Ws2_32" />
 			<Add library="Comdlg32" />
 		</Linker>
+		<Unit filename="CHANGELOG.txt" />
+		<Unit filename="README.md" />
+		<Unit filename="README.txt" />
 		<Unit filename="include/gme.h" />
 		<Unit filename="include/gme_conf.h" />
 		<Unit filename="include/gme_dlg_about.h" />

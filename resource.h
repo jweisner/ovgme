@@ -26,6 +26,7 @@
 #define DLG_REPOS_LST                           160
 #define DLG_REPOS_UPD                           164
 #define DLG_REPOS_XML                           166
+#define DLG_MOD_QMAKE                           168
 #define BTN_ADD                                 40000
 #define BTN_APPLY                               40000
 #define CMB_GAMELIST                            40000
@@ -110,3 +111,6 @@
 #define POP_TOGGLE                              40065
 #define POP_ENABLE                              40066
 #define POP_DISABLE                             40067
+#define POP_MODCREATE                           40068
+#define POP_MODDELETE                           40069
+#define POP_MODEDIT                             40070

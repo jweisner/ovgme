@@ -23,6 +23,25 @@ int APIENTRY WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, char* argv, i
   g_hInst = hInstance;
   InitCommonControls();
 
+  const char* readme = "Ceci est un text de readme\r\nBLAH!\r\n";
+
+  mz_zip_archive za; // Zip archive struct
+  mz_zip_archive_file_stat zf; // Zip file stat struct;
+
+  memset(&za, 0, sizeof(mz_zip_archive));
+  if(!mz_zip_reader_init_file(&za, "D:\\README.zip", 0)) {
+    std::cout << "caca\n";
+  }
+
+  if(!mz_zip_writer_init_from_reader(&za, "D:\\README.zip")) {
+    std::cout << "caca\n";
+  }
+
+  mz_zip_writer_add_mem(&za, "README.txt", readme, strlen(readme), 6);
+
+  mz_zip_writer_finalize_archive(&za);
+  mz_zip_writer_end(&za);
+
   /* search for uninstall parameter */
   if(strstr(argv, "/uninstall")) {
     /* go uninstall and exit */

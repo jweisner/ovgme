@@ -367,6 +367,25 @@ bool GME_DirRemRecursive(const std::wstring& path)
 
 
 /*
+  function to move folder to trash
+*/
+bool GME_DirRemToTrash(const std::wstring& path)
+{
+  wchar_t buffer[262];
+  wcscpy(buffer, path.c_str());
+  buffer[path.size()+1] = 0;
+
+  SHFILEOPSTRUCTW fop;
+  memset(&fop, 0, sizeof(SHFILEOPSTRUCTW));
+  fop.pFrom = buffer;
+  fop.wFunc = FO_DELETE;
+  fop.fFlags = FOF_NO_UI|FOF_ALLOWUNDO;
+
+  return SHFileOperationW(&fop);
+}
+
+
+/*
   custom generic function to get file size.
 */
 size_t GME_FileSize(const std::wstring& src)
@@ -708,8 +727,7 @@ bool GME_ZipIsValidMod(const std::wstring& zip)
         return false;
       }
       dir_name = zf.m_filename;
-      dir_name.erase(dir_name.size()-1, 1); /* remove the final '/' */
-      if(mod_name == dir_name) {
+      if(mod_name == dir_name.substr(0, dir_name.size()-1)) {
         mz_zip_reader_end(&za);
         return true;
       }
@@ -730,15 +748,8 @@ bool GME_ZipGetModDesc(const std::wstring& zip, std::wstring* desc)
   std::vector<std::string> txt_name;
 
   /* standard supported filename for description */
-  txt_name.push_back(mod_name + ".txt");
-  txt_name.push_back("description.txt");
   txt_name.push_back("readme.txt");
-
-  /* to discard case sensitive */
-  std::string cap_name;
-  for(unsigned i = 0; i < txt_name.size(); i++) {
-    GME_StrToUpper(txt_name[i]);
-  }
+  txt_name.push_back(mod_name + ".txt");
 
   mz_zip_archive za; // Zip archive struct
   mz_zip_archive_file_stat zf; // Zip file stat struct;
@@ -747,32 +758,24 @@ bool GME_ZipGetModDesc(const std::wstring& zip, std::wstring* desc)
   if(!mz_zip_reader_init_file(&za, zip_name.c_str(), 0)) {
     return false;
   }
-  unsigned c = mz_zip_reader_get_num_files(&za);
-  for(unsigned i = 0; i < c; i++) {
-    if(!mz_zip_reader_is_file_a_directory(&za, i)) {
-      if(!mz_zip_reader_file_stat(&za, i, &zf)){
-        mz_zip_reader_end(&za);
-        return false;
+
+  char* buff;
+  size_t s;
+  int i;
+
+  for(unsigned k = 0; k < txt_name.size(); k++) {
+    i = mz_zip_reader_locate_file(&za, txt_name[k].c_str(), "", 0);
+    if(i != -1) {
+      buff = (char*)mz_zip_reader_extract_to_heap(&za, i, &s, 0);
+      if(buff) {
+        buff[s] = 0;
+        *desc = GME_StrToWcs(buff);
       }
-      cap_name = GME_StrToUpper(zf.m_filename);
-      /* text for compatibles filenames */
-      for(unsigned k = 0; k < txt_name.size(); k++) {
-        if(cap_name == txt_name[k]) {
-          char* buffer =  new char[zf.m_uncomp_size+1];
-          if(!mz_zip_reader_extract_to_mem(&za, i, buffer, zf.m_uncomp_size, 0)) {
-            mz_zip_reader_end(&za);
-            delete [] buffer;
-            return false;
-          }
-          buffer[zf.m_uncomp_size] = 0;
-          *desc = GME_StrToWcs(buffer);
-          delete [] buffer;
-          mz_zip_reader_end(&za);
-          return true;
-        }
-      }
+      mz_zip_reader_end(&za);
+      return true;
     }
   }
+
   mz_zip_reader_end(&za);
   return false;
 }
@@ -787,15 +790,8 @@ bool GME_ZipGetModVers(const std::wstring& zip, std::wstring* vers)
   std::vector<std::string> txt_name;
 
   /* standard supported filename for description */
-  txt_name.push_back(mod_name + ".ver");
   txt_name.push_back("version.txt");
-  txt_name.push_back("ver.txt");
-
-  /* to discard case sensitive */
-  std::string cap_name;
-  for(unsigned i = 0; i < txt_name.size(); i++) {
-    GME_StrToUpper(txt_name[i]);
-  }
+  txt_name.push_back(mod_name + ".ver");
 
   mz_zip_archive za; // Zip archive struct
   mz_zip_archive_file_stat zf; // Zip file stat struct;
@@ -804,32 +800,24 @@ bool GME_ZipGetModVers(const std::wstring& zip, std::wstring* vers)
   if(!mz_zip_reader_init_file(&za, zip_name.c_str(), 0)) {
     return false;
   }
-  unsigned c = mz_zip_reader_get_num_files(&za);
-  for(unsigned i = 0; i < c; i++) {
-    if(!mz_zip_reader_is_file_a_directory(&za, i)) {
-      if(!mz_zip_reader_file_stat(&za, i, &zf)){
-        mz_zip_reader_end(&za);
-        return false;
+
+  char* buff;
+  size_t s;
+  int i;
+
+  for(unsigned k = 0; k < txt_name.size(); k++) {
+    i = mz_zip_reader_locate_file(&za, txt_name[k].c_str(), "", 0);
+    if(i != -1) {
+      buff = (char*)mz_zip_reader_extract_to_heap(&za, i, &s, 0);
+      if(buff) {
+        buff[s] = 0;
+        *vers = GME_StrToWcs(buff);
       }
-      cap_name = GME_StrToUpper(zf.m_filename);
-      /* text for compatibles filenames */
-      for(unsigned k = 0; k < txt_name.size(); k++) {
-        if(cap_name == txt_name[k]) {
-          char* buffer =  new char[zf.m_uncomp_size+1];
-          if(!mz_zip_reader_extract_to_mem(&za, i, buffer, zf.m_uncomp_size, 0)) {
-            mz_zip_reader_end(&za);
-            delete [] buffer;
-            return false;
-          }
-          buffer[zf.m_uncomp_size] = 0;
-          *vers = GME_StrToWcs(buffer);
-          delete [] buffer;
-          mz_zip_reader_end(&za);
-          return true;
-        }
-      }
+      mz_zip_reader_end(&za);
+      return true;
     }
   }
+
   mz_zip_reader_end(&za);
   return false;
 }

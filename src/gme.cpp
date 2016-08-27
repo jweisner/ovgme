@@ -26,6 +26,7 @@ HMENU       g_hmnuMain = NULL;
 HWND        g_hwndAddGame = NULL;
 HWND        g_hwndEdiGame = NULL;
 HWND        g_hwndNewAMod = NULL;
+HWND        g_hwndNewAModQ = NULL;
 HWND        g_hwndSnapNew = NULL;
 HWND        g_hwndSnapCmp = NULL;
 HWND        g_hwndRepConf = NULL;

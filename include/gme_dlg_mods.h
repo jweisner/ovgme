@@ -19,5 +19,6 @@
 #include "gme.h"
 
 BOOL CALLBACK GME_DlgModsMake(HWND hwndDlg, UINT uMsg, WPARAM wParam, LPARAM lParam);
+BOOL CALLBACK GME_DlgModsQuickMake(HWND hwndDlg, UINT uMsg, WPARAM wParam, LPARAM lParam);
 
 #endif // GME_DLG_MODS_H_INCLUDED

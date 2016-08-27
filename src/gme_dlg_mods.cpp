@@ -15,6 +15,7 @@
 
 
 #include "gme.h"
+#include "gme_game.h"
 #include "gme_mods.h"
 #include "gme_tools.h"
 #include "gme_logs.h"
@@ -38,6 +39,42 @@ void GME_DlgModsMakeInit()
   SendMessage(GetDlgItem(g_hwndNewAMod, ENT_MODDESC), WM_SETFONT, (WPARAM)Lucida, 1);
 }
 
+void GME_DglModsQuickMakeInit()
+{
+  HWND hlv = GetDlgItem(g_hwndMain, LVM_MODSLIST);
+
+  /* get current mod list selection */
+  std::wstring name;
+  int type;
+  wchar_t name_buff[255];
+
+  LV_ITEMW lvitm;
+  memset(&lvitm, 0, sizeof(LV_ITEMW));
+  lvitm.mask = LVIF_TEXT|LVIF_IMAGE;
+  lvitm.cchTextMax = 255;
+  lvitm.pszText = name_buff;
+
+  bool found = false;
+
+  unsigned c = SendMessageW(hlv, LVM_GETITEMCOUNT, 0, 0);
+  for(unsigned i = 0; i < c; i++) {
+    if(SendMessageW(hlv, LVM_GETITEMSTATE, i, LVIS_SELECTED)) {
+      lvitm.iItem = i;
+      SendMessageW(hlv ,LVM_GETITEMW, 0, (LPARAM)&lvitm);
+      name = lvitm.pszText;
+      type = lvitm.iImage;
+      found = true;
+      break; // single selection
+    }
+  }
+
+  if(!found) {
+    return;
+  }
+
+  SetDlgItemTextW(g_hwndNewAMod, ENT_SRC, name.c_str());
+}
+
 /*
   message callback for Create Mod dialog window
 */
@@ -52,7 +89,7 @@ BOOL CALLBACK GME_DlgModsMake(HWND hwndDlg, UINT uMsg, WPARAM wParam, LPARAM lPa
     EnableWindow(GetDlgItem(g_hwndNewAMod, ENT_SRC), true);
     SetDlgItemText(hwndDlg, ENT_SRC, "");
     EnableWindow(GetDlgItem(g_hwndNewAMod, BTN_BROWSESRC), true);
-    SetDlgItemText(hwndDlg, ENT_DST, "");
+    SetDlgItemTextW(hwndDlg, ENT_DST, GME_GameGetCurModsPath().c_str());
     EnableWindow(GetDlgItem(g_hwndNewAMod, ENT_DST), true);
     EnableWindow(GetDlgItem(g_hwndNewAMod, BTN_BROWSEDST), true);
     SetDlgItemText(hwndDlg, ENT_VERSMAJOR, "0");
@@ -114,7 +151,6 @@ BOOL CALLBACK GME_DlgModsMake(HWND hwndDlg, UINT uMsg, WPARAM wParam, LPARAM lPa
 
       tmp_idx = SendMessage(GetDlgItem(g_hwndNewAMod, CB_ZIPLEVEL), CB_GETCURSEL, 0, 0);
       tmp_zlvl = SendMessage(GetDlgItem(g_hwndNewAMod, CB_ZIPLEVEL), CB_GETITEMDATA, tmp_idx, 0);
-      std::cout << "tmp_zlvl = " << tmp_zlvl << "\n";
       GME_ModsMakeArchive(tmp_ssrc, tmp_sdst, tmp_sdesc, tmp_vmaj, tmp_vmin, tmp_vrev, tmp_zlvl);
       delete[] tmp_sdesc;
       return true;
@@ -142,6 +178,86 @@ BOOL CALLBACK GME_DlgModsMake(HWND hwndDlg, UINT uMsg, WPARAM wParam, LPARAM lPa
       } else {
         EnableWindow(GetDlgItem(hwndDlg, BTN_CREATE), false);
       }
+      return true;
+    }
+  }
+  return false;
+}
+
+
+
+/*
+  message callback for Create Mod dialog window
+*/
+BOOL CALLBACK GME_DlgModsQuickMake(HWND hwndDlg, UINT uMsg, WPARAM wParam, LPARAM lParam)
+{
+  switch(uMsg)
+  {
+  case WM_INITDIALOG:
+    SendMessage(hwndDlg, WM_SETICON, ICON_BIG, (LPARAM)g_hicnMain);
+    g_hwndNewAMod = hwndDlg;
+    GME_DlgModsMakeInit();
+    GME_DglModsQuickMakeInit();
+    SetDlgItemText(hwndDlg, ENT_VERSMAJOR, "0");
+    EnableWindow(GetDlgItem(g_hwndNewAMod, ENT_VERSMAJOR), true);
+    SetDlgItemText(hwndDlg, ENT_VERSMINOR, "0");
+    EnableWindow(GetDlgItem(g_hwndNewAMod, ENT_VERSMINOR), true);
+    SetDlgItemText(hwndDlg, ENT_VERSREVIS, "0");
+    EnableWindow(GetDlgItem(g_hwndNewAMod, ENT_VERSREVIS), true);
+    SetDlgItemText(hwndDlg, ENT_MODDESC, "");
+    EnableWindow(GetDlgItem(g_hwndNewAMod, ENT_MODDESC), true);
+    EnableWindow(GetDlgItem(g_hwndNewAMod, IDCANCEL), false);
+    // disable Add button
+    EnableWindow(GetDlgItem(hwndDlg, BTN_CREATE), true);
+    // add compression levels
+    SendMessage(GetDlgItem(g_hwndNewAMod, CB_ZIPLEVEL), CB_ADDSTRING, 0, (LPARAM)"Best Compression");
+    SendMessage(GetDlgItem(g_hwndNewAMod, CB_ZIPLEVEL), CB_SETITEMDATA, 0, (LPARAM)MZ_BEST_COMPRESSION);
+    SendMessage(GetDlgItem(g_hwndNewAMod, CB_ZIPLEVEL), CB_ADDSTRING, 1, (LPARAM)"Default Level");
+    SendMessage(GetDlgItem(g_hwndNewAMod, CB_ZIPLEVEL), CB_SETITEMDATA, 1, (LPARAM)MZ_DEFAULT_LEVEL);
+    SendMessage(GetDlgItem(g_hwndNewAMod, CB_ZIPLEVEL), CB_ADDSTRING, 2, (LPARAM)"Best Speed");
+    SendMessage(GetDlgItem(g_hwndNewAMod, CB_ZIPLEVEL), CB_SETITEMDATA, 2, (LPARAM)MZ_BEST_SPEED);
+    SendMessage(GetDlgItem(g_hwndNewAMod, CB_ZIPLEVEL), CB_ADDSTRING, 3, (LPARAM)"No Compression");
+    SendMessage(GetDlgItem(g_hwndNewAMod, CB_ZIPLEVEL), CB_SETITEMDATA, 3, (LPARAM)MZ_NO_COMPRESSION);
+    SendMessage(GetDlgItem(g_hwndNewAMod, CB_ZIPLEVEL), CB_SETCURSEL, 1, 0);
+    return true;
+
+  case WM_CLOSE:
+    GME_ModsMakeCancel();
+    EndDialog(hwndDlg, 0);
+    return true;
+
+  case WM_COMMAND:
+    switch(LOWORD(wParam))
+    {
+    case BTN_CREATE:
+      GetDlgItemTextW(hwndDlg, ENT_DST, tmp_sdst, 260);
+      GetDlgItemTextW(hwndDlg, ENT_SRC, tmp_ssrc, 260);
+      tmp_desc_size = GetWindowTextLength(GetDlgItem(hwndDlg, ENT_MODDESC))+1;
+      try {
+        tmp_sdesc = new wchar_t[tmp_desc_size+1];
+      } catch (const std::bad_alloc&) {
+        GME_Logs(GME_LOG_ERROR, "GME_DlgModsQuickMake", "Bad alloc", std::to_string(tmp_desc_size+1).c_str());
+        return true;
+      }
+      GetDlgItemTextW(hwndDlg, ENT_MODDESC, tmp_sdesc, tmp_desc_size);
+
+      tmp_vmaj = GetDlgItemInt(hwndDlg, ENT_VERSMAJOR, &tmp_res, true);
+      tmp_vmin = GetDlgItemInt(hwndDlg, ENT_VERSMINOR, &tmp_res, true);
+      tmp_vrev = GetDlgItemInt(hwndDlg, ENT_VERSREVIS, &tmp_res, true);
+
+      tmp_idx = SendMessage(GetDlgItem(g_hwndNewAMod, CB_ZIPLEVEL), CB_GETCURSEL, 0, 0);
+      tmp_zlvl = SendMessage(GetDlgItem(g_hwndNewAMod, CB_ZIPLEVEL), CB_GETITEMDATA, tmp_idx, 0);
+      GME_ModsMakeArchiveCur(tmp_sdesc, tmp_vmaj, tmp_vmin, tmp_vrev, tmp_zlvl);
+      delete[] tmp_sdesc;
+      return true;
+
+    case IDCANCEL:
+      GME_ModsMakeCancel();
+      return true;
+
+    case BTN_CLOSE:
+      GME_ModsMakeCancel();
+      EndDialog(hwndDlg, 0);
       return true;
     }
   }

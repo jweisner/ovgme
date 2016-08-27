@@ -1,4 +1,10 @@
-OvGME 1.6.3, 2016-20-08
+OvGME 1.6.4, 2016-30-08
+
+- Added delete Mod on right-click menu
+- Added quick make Mod-Archive on right-click menu
+- Fixed need "Run As administrator" to write files
+
+OvGME 1.6.3, 2016-26-08
 
 - Fixed Make Mod-Archive bug when created in Mod stock folder
 - Fixed bad optimization on Mod overlap check
