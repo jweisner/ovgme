@@ -663,10 +663,9 @@
 1471626667 f:\dev\cpp\proj\ovgme\include\gme_dlg_game.h
 	"gme.h"
 
-1472315465 source:d:\dev\cpp\proj\ovgme\main.cpp
+1472328379 source:d:\dev\cpp\proj\ovgme\main.cpp
 	"gme.h"
 	"gme_uins.h"
-	"gme_netw.h"
 	"gme_dlg_main.h"
 
 1472318523 source:d:\dev\cpp\proj\ovgme\resource.rc
@@ -746,7 +745,7 @@
 1471626666 d:\dev\cpp\proj\ovgme\include\gme_game.h
 	"gme.h"
 
-1472310450 source:d:\dev\cpp\proj\ovgme\src\gme_dlg_main.cpp
+1472328170 source:d:\dev\cpp\proj\ovgme\src\gme_dlg_main.cpp
 	"gme.h"
 	"gme_tools.h"
 	"gme_game.h"
