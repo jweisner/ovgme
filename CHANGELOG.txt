@@ -1,6 +1,7 @@
 OvGME 1.6.5, 2016-31-08
 
 - Added ability to keeps configuration files during uninstall.
+- Fix uninstall process don't clean backup data.
 - Fix some dialog text spelling and sentences.
 - "Game" is now a generic "Configuration".
 - Help updated and corrected.
