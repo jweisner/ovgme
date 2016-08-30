@@ -21,7 +21,7 @@ OvGME implements the following key features:
 
 	- Support for multiple destination folder (game, software, etc.) through the main GUI.
 	- Custom Mods and Backup folder for each destination folder.
-	- Game file tree snapshot and comparison based on xxHash.
+	- Destination folder file tree snapshot and comparison based on xxHash.
 	- Zipped Mods files (Mod-Archives).
 	- Mods description (readme.txt).
 	- Mods versioning.
