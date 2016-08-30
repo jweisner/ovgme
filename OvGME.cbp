@@ -20,11 +20,13 @@
 				<Option object_output="obj/32/dbg" />
 				<Option type="1" />
 				<Option compiler="gnu_gcc_w64_mingw_i686" />
-				<Option projectCompilerOptionsRelation="-1" />
-				<Option projectLinkerOptionsRelation="-1" />
-				<Option projectIncludeDirsRelation="-1" />
-				<Option projectResourceIncludeDirsRelation="-1" />
-				<Option projectLibDirsRelation="-1" />
+				<Compiler>
+					<Add option="-std=c++11" />
+					<Add option="-g" />
+				</Compiler>
+				<ResourceCompiler>
+					<Add option="-DDEBUG" />
+				</ResourceCompiler>
 				<MakeCommands>
 					<Build command="" />
 					<CompileFile command="" />
