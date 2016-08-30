@@ -676,7 +676,7 @@
 
 1472496374 d:\dev\cpp\proj\ovgme\resource.h
 
-1472328029 d:\dev\cpp\proj\ovgme\include\gme.h
+1472555733 d:\dev\cpp\proj\ovgme\include\gme.h
 	<stdio.h>
 	<stdlib.h>
 	<iostream>
@@ -737,7 +737,7 @@
 1471626673 source:d:\dev\cpp\proj\ovgme\src\gme_dlg_about.cpp
 	"gme.h"
 
-1471626673 source:d:\dev\cpp\proj\ovgme\src\gme_dlg_game.cpp
+1472536618 source:d:\dev\cpp\proj\ovgme\src\gme_dlg_game.cpp
 	"gme.h"
 	"gme_game.h"
 	"gme_tools.h"
@@ -790,18 +790,18 @@
 	"gme_tools.h"
 	"gme_logs.h"
 
-1471626673 source:d:\dev\cpp\proj\ovgme\src\gme_dlg_repo.cpp
+1472536861 source:d:\dev\cpp\proj\ovgme\src\gme_dlg_repo.cpp
 	"gme.h"
 	"gme_repo.h"
 	"gme_tools.h"
 
-1471626673 source:d:\dev\cpp\proj\ovgme\src\gme_dlg_snap.cpp
+1472536778 source:d:\dev\cpp\proj\ovgme\src\gme_dlg_snap.cpp
 	"gme.h"
 	"gme_snap.h"
 
 1471626667 d:\dev\cpp\proj\ovgme\include\gme_snap.h
 
-1472157403 source:d:\dev\cpp\proj\ovgme\src\gme_game.cpp
+1472536592 source:d:\dev\cpp\proj\ovgme\src\gme_game.cpp
 	"gme_conf.h"
 	"gme_game.h"
 	"gme_mods.h"
@@ -812,7 +812,7 @@
 	"gme_logs.h"
 	"gme_tools.h"
 
-1472308924 source:d:\dev\cpp\proj\ovgme\src\gme_mods.cpp
+1472536011 source:d:\dev\cpp\proj\ovgme\src\gme_mods.cpp
 	"gme_tools.h"
 	"gme_game.h"
 	"gme_mods.h"
@@ -834,7 +834,7 @@
 
 1471626667 d:\dev\cpp\proj\ovgme\include\thirdparty\pugixml\pugiconfig.hpp
 
-1472157486 source:d:\dev\cpp\proj\ovgme\src\gme_repo.cpp
+1472536072 source:d:\dev\cpp\proj\ovgme\src\gme_repo.cpp
 	"gme_game.h"
 	"gme_mods.h"
 	"gme_repo.h"
@@ -843,16 +843,16 @@
 	"gme_logs.h"
 	"pugixml.hpp"
 
-1472157514 source:d:\dev\cpp\proj\ovgme\src\gme_snap.cpp
+1472534757 source:d:\dev\cpp\proj\ovgme\src\gme_snap.cpp
 	"gme_snap.h"
 	"gme_game.h"
 	"gme_tools.h"
 
-1472314711 source:d:\dev\cpp\proj\ovgme\src\gme_tools.cpp
+1472533982 source:d:\dev\cpp\proj\ovgme\src\gme_tools.cpp
 	"gme_tools.h"
 	"gme_logs.h"
 
-1471626673 source:d:\dev\cpp\proj\ovgme\src\gme_uins.cpp
+1472534468 source:d:\dev\cpp\proj\ovgme\src\gme_uins.cpp
 	"gme_uins.h"
 	"gme_mods.h"
 	"gme_game.h"

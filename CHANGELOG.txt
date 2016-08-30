@@ -1,4 +1,11 @@
-OvGME 1.6.4, 2016-30-08
+OvGME 1.6.5, 2016-31-08
+
+- Added ability to keeps configuration files during uninstall.
+- Fix some dialog text spelling and sentences.
+- "Game" is now a generic "Configuration".
+- Help updated and corrected.
+
+OvGME 1.6.4, 2016-28-08
 
 - Added delete Mod on right-click menu
 - Added quick make Mod-Archive on right-click menu
