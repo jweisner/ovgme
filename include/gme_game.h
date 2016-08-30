@@ -48,6 +48,7 @@ std::wstring GME_GameGetCurBackPath();
 std::wstring GME_GameGetCurConfPath();
 bool GME_GameGetCurUseCustBack();
 int GME_GameGetCurId();
+void GME_GameSetCurId(unsigned id);
 unsigned GME_GameGetCfgCount();
 GME_GameCfg_Struct& GME_GameGetCfg(unsigned id);
 void GME_GameClean();

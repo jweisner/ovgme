@@ -164,21 +164,21 @@ bool GME_GameNewCfg(const std::wstring& title, const std::wstring& root, const s
 
   /* check if game cfg already exists */
   if(GME_IsDir(conf_path)) {
-    GME_DialogWarning(g_hwndAddGame, L"Game configuration for '" + root + L"' already exists.");
+    GME_DialogWarning(g_hwndAddGame, L"Config for '" + root + L"' already exists.");
     return false;
   }
 
   /* check if game title already exists */
   for(unsigned i = 0; i < g_GameCfg_List.size(); i++) {
     if(title == g_GameCfg_List[i].title) {
-      GME_DialogWarning(g_hwndAddGame, L"Game title '" + title + L"' already exists.");
+      GME_DialogWarning(g_hwndAddGame, L"Config title '" + title + L"' already exists.");
       return false;
     }
   }
 
   /* check if game folder exists */
   if(!GME_IsDir(root)) {
-    GME_DialogWarning(g_hwndAddGame, L"The game path '" + root + L"' is invalid.");
+    GME_DialogWarning(g_hwndAddGame, L"The root path '" + root + L"' is invalid.");
     return false;
   }
 
@@ -228,12 +228,12 @@ bool GME_GameNewCfg(const std::wstring& title, const std::wstring& root, const s
   if(!GME_IsDir(conf_path)) {
     /* create game config dir */
     if(!CreateDirectoryW(conf_path.c_str(), NULL)) {
-      GME_DialogError(g_hwndAddGame, L"Unable to create game configuration folder.");
+      GME_DialogError(g_hwndAddGame, L"Unable to create configuration folder.");
       return false;
     }
     /* write config file */
     if(!GME_GameWritCfg(conf_path, &data)) {
-      GME_DialogError(g_hwndAddGame, L"Unable to write game configuration file.");
+      GME_DialogError(g_hwndAddGame, L"Unable to write configuration file.");
       return false;
     }
     /* create backups dir */
@@ -258,7 +258,7 @@ bool GME_GameNewCfg(const std::wstring& title, const std::wstring& root, const s
 bool GME_GameRemCurCfg()
 {
   /* confirmation dialog */
-  if(IDCANCEL == GME_DialogWarningConfirm(g_hwndMain, L"Are you sure you want to remove game '" + GME_GameGetCurTitle() + L"' from management list ?")) {
+  if(IDCANCEL == GME_DialogWarningConfirm(g_hwndMain, L"Are you sure you want to remove config '" + GME_GameGetCurTitle() + L"' from management list ?")) {
     return false;
   }
 
@@ -291,7 +291,7 @@ bool GME_GameEditCurCfg(const std::wstring& title, const std::wstring& mods, boo
   for(int i = 0; i < (int)g_GameCfg_List.size(); i++) {
     if(i != g_GameCur_Id) {
       if(title == g_GameCfg_List[i].title) {
-        GME_DialogWarning(g_hwndEdiGame, L"Game title '" + title + L"' already exists.");
+        GME_DialogWarning(g_hwndEdiGame, L"Config title '" + title + L"' already exists.");
         return false;
       }
     }
@@ -342,14 +342,14 @@ bool GME_GameEditCurCfg(const std::wstring& title, const std::wstring& mods, boo
 
   /* if the backup path changed, we restore all backup */
   if(GME_GameGetCurBackPath() != data.back_dir) {
-    GME_DialogWarning(g_hwndEdiGame, L"Backup folder changed for  '" + GME_GameGetCurTitle() + L"', all enabled mod will be disabled to empty old backup folder.");
+    GME_DialogWarning(g_hwndEdiGame, L"Backup folder changed for  '" + GME_GameGetCurTitle() + L"', all enabled Mod(s) will be disabled to empty old backup folder.");
     /* uninstall process */
     GME_ModsUninstall();
   }
 
   /* write config file */
   if(!GME_GameWritCfg(conf_path, &data)) {
-    GME_DialogError(g_hwndEdiGame, L"Unable to write game configuration file.");
+    GME_DialogError(g_hwndEdiGame, L"Unable to write configuration file.");
     return true;
   }
 
@@ -386,12 +386,12 @@ bool GME_GameSelectCfg(const std::wstring& title)
   if(g_GameCfg_List.empty()) {
     /* update mods list */
     GME_ModsUpdList();
-    GME_DialogInfo(g_hwndMain, L"The game management list is empty.");
+    GME_DialogInfo(g_hwndMain, L"The config management list is empty.");
     return false;
   }
 
   for(unsigned i = 0; i < g_GameCfg_List.size(); i++) {
-    /* search for last selected game */
+    /* search for game by title */
     if(title == g_GameCfg_List[i].title) {
       g_GameCur_Id = i;
       GME_ConfSetLastGame(GME_Md5(GME_GameGetCurRoot()));
@@ -556,6 +556,14 @@ bool GME_GameGetCurUseCustBack()
 int GME_GameGetCurId()
 {
   return g_GameCur_Id;
+}
+
+/*
+  function to get current selected game id
+*/
+void GME_GameSetCurId(unsigned id)
+{
+  g_GameCur_Id = id;
 }
 
 /*

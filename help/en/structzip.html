@@ -17,9 +17,9 @@
     <br>
     
 The Mod-Archive is, so to say, only a zipped version of a valid Directory-Mod. However, 
-because OvGME needs to correctly align Mod file tree with game file tree and deduct 
-where to seek for data, a valid Mod-Archive must follow some simple rules. If these 
-rules are not respected, the zip file will not be seen as Mod-Archive.<br>
+because OvGME needs to correctly align Mod file tree with destination root (root path) 
+file tree and deduct where to seek for data, a valid Mod-Archive must follow some 
+simple rules. If these rules are not respected, the zip file will not be seen as Mod-Archive.<br>
 <br>
 <ul>
 <li>
@@ -34,8 +34,8 @@ rules are not respected, the zip file will not be seen as Mod-Archive.<br>
   "<i>My Super Mod.zip</i>", it must contain the folder named "<i>My Super Mod</i>" 
   where Mod files are stored. This is because OvGME can't guess which folder into the 
   zip archive must be considered as the root folder and because Mod-Archives can include 
-  some other files than only the modified game files, it seek for a folder named exactly 
-  according the zip file name itself. This is a convention.<br><br>
+  some other files than only the modified destination root (root path) files, it seek for a 
+  folder named exactly according the zip file name itself. This is a convention.<br><br>
 </li>
 <li>
   <b>The zip file can optionally contain a description file.</b><br>
@@ -53,7 +53,7 @@ rules are not respected, the zip file will not be seen as Mod-Archive.<br>
   follow the format as described in the Mod versioning chapter.<br><br>
 </li>
 </ul>
-For example, if the game file tree is the following:<br>
+For example, if the destination root file tree is the following:<br>
 <br>
 <blockquote>
 <span style="font-family:Courier;">
@@ -85,11 +85,11 @@ follow:
 </span>
 </blockquote>
 Then, the "<i>My Texture Mod.zip</i>" file must be copier in the Mods stock folder for 
-this game or imported using the import function.<br>
+this configuration or imported using the import function.<br>
 <br>
 <i>Note: To create a Mod-Archive, you also can use the tool provided by OvGME, which 
 generates for you the correct zip file with proper structure from an existing 
-Directory-Mod folder (See the Mods creation chapter).</i>
+Directory-Mod folder (See the <a href="modsmake.html">Mods creation</a> chapter).</i>
 
   </body>
 </html>

@@ -557,7 +557,7 @@ int GME_DialogWarningConfirm(HWND hwnd, std::wstring message)
 */
 int GME_DialogQuestionConfirm(HWND hwnd, std::wstring message)
 {
-  return MessageBoxW(hwnd, message.c_str(), L"OvGME Choose Your Destiny", MB_OKCANCEL|MB_ICONQUESTION);
+  return MessageBoxW(hwnd, message.c_str(), L"OvGME Choose Your Destiny", MB_YESNO|MB_ICONQUESTION);
 }
 
 /*

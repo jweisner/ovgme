@@ -1,54 +1,57 @@
 <html>
 <head>
-  <title>Ajouter un jeu</title>
+  <title>Ajouter une config</title>
   
-  <meta name="keywords"  content="game,add" ></head>
+  <meta name="keywords"  content="config,add" ></head>
   
   <body style="font-family:arial; font-size:10pt;">
     <table bgcolor="#000" border="0" width="100%">
       <tbody>
         <tr>
           <td style="color:#fff; font-size:14pt;"> 
-            <b>Ajouter un jeu</b>
+            <b>Ajouter une config</b>
           </td>
         </tr>
       </tbody>
     </table>
     <br>
-    Pour gérer les Mods pour un jeu, vous devez ajouter un jeu dans la
-    list de gestion d'OvGME. Pour ajouter un jeu, vous pouvez cliquer sur
-    le bouton "<b>Add Game</b>" ou aller dans le menu "<b>Game</b>", puis sélectionner
-    "<b>Add...</b>". La boite de dialogue appropriée vous invite à spécifier les
-    informations de configuration du jeu à ajouter.
+    Pour gérer et installer des Mods pour un jeu, un logiciel ou un 
+    dossier de destination, vous devez créer une nouvelle configuration 
+    dans la list de gestion d'OvGME. Pour créer une nouvelle configuration, 
+    vous pouvez cliquer sur le bouton "<b>New Config</b>" ou aller dans le 
+    menu "<b>Config</b>", puis sélectionner "<b>New...</b>". Une nouvelle 
+    fenetre de dialogue vous invite alors à spécifier les informations 
+    pour la nouvelle configuration à créer.
     
     <blockquote> 
-      <b>Game Title</b><br>
-      C'est le titre qui identifie le jeu dans la liste de gestion. Ce 
+      <b>Config Title</b><br>
+      C'est le titre qui identifie la configuration dans la liste de gestion. Ce 
       titre peut être ce que vous souhaitez et peut être modifié plus tard.<br>
       <br>
-      <b>Game Path</b><br>
-      Ce doit être le chemin vers le dossier racine d'installation du jeu
-      que vous voulez gérer. OvGME utilisera ce chemin pour identifier le
-      jeu et construire les arborescences de fichier pour appliquer les Mods
-      et créer les données de sauvegarde pour ce jeu.<br>
+      <b>Root Path</b><br>
+      Ce doit être le chemin vers le dossier destination racine. 
+      Il s'agit générallement du dossier d'installation du jeu
+      ou du logiciel.<br>
       <br>
       <b>Mods Path</b><br>
-      Ce doit être le chemin vers un dossier existant de stock de Mods où OvGME
-      regardera pour recueillir la liste des Mods disponibles pour ce jeu.<br>
+      Ce doit être le chemin vers un dossier existant de stock de Mods, 
+      c'est là que OvGME recherchera la liste des Mods disponibles pour 
+      cette configuration.<br>
       <br>
       <b>Use custom backup folder</b><br>
-      Vous pouvez choisir un dossier de sauvegarde personnalisé. Ce dossier
-      contiendra tous les fichiers de sauvegarde pour ce jeu.<br>
+      Vous pouvez choisir un dossier de sauvegarde personnalisé au lieu
+      de l'emplacement de sauvegarde par defaut d'OvGME.<br>
       <br>
       <b>Back Path</b><br>
-      Ce doit être le chemin vers un dossier existant où OvGME sauvegardera
-      les fichiers originaux du jeu.<br>
+      Ce doit être le chemin vers un dossier existant, ce dossier 
+      contiendra l'arborescence des fichiers de sauvegarde pour
+      cette configuration.<br>
     </blockquote>
     
-    Pour activer un jeu, vous devez simplement sélectionner l'entrée désirée
-    dans la liste déroulante du gestionnaire de jeux. Une fois le jeu activé, 
-    la dossier de stock de Mods configuré est analysé pour recueillir les Mods
-    disponibles, ainsi que les données de sauvegarde qui sont vérifiés pour 
-    afficher les Mods que vous pouvez désactiver.
+    Pour activer une configuration, vous devez simplement sélectionner 
+    l'entrée désirée dans la liste déroulante du gestionnaire. Une fois 
+    la configuration activée, le dossier stock de Mods et le dossier de 
+    sauvegarde sont analysés pour recueillir les Mods disponibles pour 
+    l'installation ou la restauration.
   </body>
 </html>

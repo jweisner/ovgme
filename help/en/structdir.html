@@ -16,17 +16,18 @@
     </table>
     <br>
 A Directory-Mod must be a folder which contain the file tree with sub-folders that 
-mirror the game's files and sub-folders hierarchy. This folder must be placed in the 
-Mods stock folder, OvGME will take it as the Mod root directory.<br> 
+mirror the destination root (root path) files and sub-folders hierarchy. This 
+folder must be placed in the Mods stock folder, OvGME will take it as the 
+Mod root directory.<br> 
 <br> 
 Obviously, a Directory-Mod does not have to include all file tree, folders and 
-sub-folder of the targeted game. Only the needed ones to respect the game file tree 
-comparison between already existing files and modified files should be added. However, 
-a Mod can also include files or folders that does not already exists in the game file 
-tree, they will be added as new files or folders (then deleted once the Mod is disabled) 
-in the game file tree.<br> 
+sub-folder of the targeted destination root (root path). Only the needed ones to respect the root 
+destination file tree comparison between already existing files and modified files 
+should be added. However, a Mod can also include files or folders that does not 
+already exists in the destination root file tree, they will be added as new files or folders 
+(then deleted once the Mod is disabled).<br> 
 <br>
-For example, if the game file tree is the following:<br>
+For example, if the destination root file tree is the following:<br>
 <br>
 <blockquote>
 <span style="font-family:Courier;">
@@ -53,11 +54,11 @@ follow:
 </span>
 </blockquote>
 Then, the "My Texture Mod" folder must be copier in the Mods stock folder of 
-this game te be recognized as a valid Directory-Mod.<br>
+this configuration te be recognized as a valid Directory-Mod.<br>
 <br>
 <i>Note: The Directory-Mod root folder should not contain files that are not intented to be
-copied into the game file tree, such as readme.txt file or any other extra file, since
-OvGME will considering them as part of the Mod, then, copying them into the game
+copied into the destination root file tree, such as readme.txt file or any other extra file, since
+OvGME will considering them as part of the Mod, then, copying them into the destination root
 file tree.</i>
   </body>
 </html>

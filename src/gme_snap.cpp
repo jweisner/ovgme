@@ -435,7 +435,7 @@ void GME_SnapCancel()
 bool GME_SnapCreate()
 {
   if(GME_GameGetCurId() == -1) {
-    GME_DialogWarning(g_hwndSnapNew, L"No game selected.");
+    GME_DialogWarning(g_hwndSnapNew, L"No config selected.");
     return false;
   }
 
@@ -453,12 +453,12 @@ bool GME_SnapCreate()
 bool GME_SnapCompare()
 {
   if(GME_GameGetCurId() == -1) {
-    GME_DialogWarning(g_hwndSnapCmp, L"No game selected.");
+    GME_DialogWarning(g_hwndSnapCmp, L"No config selected.");
     return false;
   }
 
   if(!GME_IsFile(GME_GameGetCurConfPath() + L"\\snapshot.dat")) {
-    GME_DialogWarning(g_hwndSnapCmp, L"No snapshot available for this game.");
+    GME_DialogWarning(g_hwndSnapCmp, L"No snapshot available for this config.");
     return false;
   }
 

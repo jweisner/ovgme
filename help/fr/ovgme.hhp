@@ -15,6 +15,7 @@ Default Topic=introduction.html
 
 [FILES]
 introduction.html
+gameintro.html
 gameadd.html
 gameedit.html
 gamerem.html

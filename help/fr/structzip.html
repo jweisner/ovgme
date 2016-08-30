@@ -17,9 +17,9 @@
     <br>
 Le Mod-Archive est, pour ainsi dire, simplement une version zippé d'un Directory-Mod valide.
 Cependant, parce-que OvGME a besoin de correctement aligner l'arborescence des fichiers du Mod
-avec ceux du jeu et déduire où chercher les données, un Mod-Archive valide doit suivre certaines
-règles simples. Si ces règles ne sont pas respectées, le fichier zip n'est pas vu comme 
-un Mod-Archive.<br>
+avec ceux de la destination racine (root path) et déduire où chercher les données, un Mod-Archive 
+valide doit suivre certaines règles simples. Si ces règles ne sont pas respectées, le fichier zip 
+n'est pas vu comme un Mod-Archive.<br>
 <br>
 <ul>
 <li>
@@ -33,8 +33,9 @@ un Mod-Archive.<br>
   mais sans l'extension .zip. Par exemple, si vous avez un Mod-Archive nommé "<i>My Super Mod.zip</i>",
   il doit contenir un dossier nommé "<i>My Super Mod</i>" où sont rangés les fichiers modifiés du jeu.
   Ceci, car OvGME ne peut pas deviner quel dossier dans l'archive doit être considéré comme le dossier 
-  racine et parce-que les Mod-Archives peuvent inclure d'autres fichiers que ceux du jeu, il cherche
-  un dossier nommé exactement comme le fichier zip lui-même. C'est une convention.<br><br>
+  racine et parce-que les Mod-Archives peuvent inclure d'autres fichiers que ceux de la destination 
+  racine (root path), il cherche un dossier nommé exactement comme le fichier zip lui-même. C'est 
+  une convention.<br><br>
 </li>
 <li>
   <b>Le fichier zip peut optionnellement contenir un fichier de description</b><br>
@@ -52,7 +53,7 @@ un Mod-Archive.<br>
   doit respecter le format décrits dans le chapitre Versioning de Mod.<br><br>
 </li>
 </ul>
-Par exemple, si l'arborescence de fichiers d'un jeu est comme suit:<br>
+Par exemple, si l'arborescence de fichiers de la destination racine est comme suit:<br>
 <br>
 <blockquote>
 <span style="font-family:Courier;">
@@ -84,12 +85,11 @@ structuré comme suit:
 </span>
 </blockquote>
 Ainsi, le fichier "<i>My Texture Mod.zip</i>" doit être copié dans le dossier
-de stock de Mods pour ce jeu, ou être importé en utilisant la fonction d'importation
-de Mods.<br>
+de stock de Mods pour cette configuration, ou être importé en utilisant la 
+fonction d'importation de Mods.<br>
 <br>
 <i>Note: Pour créer un Mod-Archive, vous pouvez également utiliser l'outils
 fournit par OvGME, qui génère pour vous un fichier zip correctement structuré 
-depuis un Directory-Mod existant (voir le chapitre Création de Mod).</i>
-
+depuis un Directory-Mod existant (voir le chapitre <a href="modsmake.html">Création de Mod</a>).</i>
   </body>
 </html>

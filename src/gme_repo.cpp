@@ -969,7 +969,7 @@ void GME_RepoDownloadSel()
   }
 
   if(!reject_list.empty()) {
-    std::wstring msg = L"Mod(s) already up to date will not be donwloaded.\n\n";
+    std::wstring msg = L"Mod(s) already up to date will not be downloaded.\n\n";
     for(unsigned i = 0; i < reject_list.size(); i++) {
       msg += reject_list[i] + L"\n";
     }
@@ -1018,7 +1018,7 @@ void GME_RepoDownloadAll()
   }
 
   if(!reject_list.empty()) {
-    std::wstring msg = L"Mod(s) already up to date will not be donwloaded.\n\n";
+    std::wstring msg = L"Mod(s) already up to date will not be downloaded.\n\n";
     for(unsigned i = 0; i < reject_list.size(); i++) {
       msg += reject_list[i] + L"\n";
     }

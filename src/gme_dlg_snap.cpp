@@ -32,7 +32,7 @@ BOOL CALLBACK GME_DlgSnapNew(HWND hwndDlg, UINT uMsg, WPARAM wParam, LPARAM lPar
     ShowWindow(GetDlgItem(hwndDlg, TXT_COMMENT), false);
     ShowWindow(GetDlgItem(hwndDlg, PBM_SNAP_NEW), false);
     EnableWindow(GetDlgItem(hwndDlg, IDOK), true);
-    SetDlgItemTextW(hwndDlg, TXT_TITLE, L"You are about to create a snapshot of game current file tree, this can take a long time. Are you ready ?");
+    SetDlgItemTextW(hwndDlg, TXT_TITLE, L"You are about to create a snapshot of the current config root file tree, this can take a long time. Are you ready ?");
     return true;
 
   case WM_CLOSE:
@@ -54,7 +54,7 @@ BOOL CALLBACK GME_DlgSnapNew(HWND hwndDlg, UINT uMsg, WPARAM wParam, LPARAM lPar
       return true;
 
     case IDOK:
-      SetDlgItemTextW(hwndDlg, TXT_TITLE, L"Creating game file tree snapshot, please wait...");
+      SetDlgItemTextW(hwndDlg, TXT_TITLE, L"Creating file tree snapshot, please wait...");
       ShowWindow(GetDlgItem(hwndDlg, TXT_STATUS), true);
       ShowWindow(GetDlgItem(hwndDlg, TXT_COMMENT), true);
       ShowWindow(GetDlgItem(hwndDlg, PBM_SNAP_NEW), true);
@@ -92,7 +92,7 @@ BOOL CALLBACK GME_DlgSnapComp(HWND hwndDlg, UINT uMsg, WPARAM wParam, LPARAM lPa
     ShowWindow(GetDlgItem(hwndDlg, TXT_COMMENT), false);
     ShowWindow(GetDlgItem(hwndDlg, PBM_SNAP_CMP), false);
     EnableWindow(GetDlgItem(hwndDlg, IDOK), true);
-    SetDlgItemTextW(hwndDlg, TXT_TITLE, L"You are about to compare the snapshot with the current game file tree, this can take a long time. Are you ready ?");
+    SetDlgItemTextW(hwndDlg, TXT_TITLE, L"You are about to compare the snapshot with the current config root file tree, this can take a long time. Are you ready ?");
     return true;
 
   case WM_CLOSE:
@@ -114,7 +114,7 @@ BOOL CALLBACK GME_DlgSnapComp(HWND hwndDlg, UINT uMsg, WPARAM wParam, LPARAM lPa
       return true;
 
     case IDOK:
-      SetDlgItemTextW(hwndDlg, TXT_TITLE, L"Comparing game file tree with snapshot, please wait...");
+      SetDlgItemTextW(hwndDlg, TXT_TITLE, L"Comparing file tree with snapshot, please wait...");
       ShowWindow(GetDlgItem(hwndDlg, TXT_STATUS), true);
       ShowWindow(GetDlgItem(hwndDlg, TXT_COMMENT), true);
       ShowWindow(GetDlgItem(hwndDlg, PBM_SNAP_CMP), true);

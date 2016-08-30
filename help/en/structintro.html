@@ -15,14 +15,15 @@
       </tbody>
     </table>
     <br>
-OvGME works by copying (either by replacing or adding) Mod file tree into the game file 
-tree. To be correctly accomplished, the Mod file tree must have a specific structure. 
-Indeed, OvGME does not uses file database to know which modifications a Mod should apply 
-to a game. The database, is the Mod file tree itself.<br>
+OvGME works by copying (either by replacing or adding) Mod file tree into the root 
+destination (root path) file tree. To be correctly accomplished, the Mod file tree 
+must have a specific structure. Indeed, OvGME does not uses file database to know 
+which modifications a Mod should apply to a destination root (root path). 
+The database, is the Mod file tree itself.<br>
 <br>
 For this reason, a Mod should mirror the exact file tree (folder hierarchies) already 
-present in the game, so OvGME can deduct what files are to be replaced, added, and saved 
-as backup.<br>
+present in the destination root, so OvGME can deduct what files are to be replaced, 
+added, and saved as backup.<br>
 <br>
 OvGME supports two Mod structure. The Directory-Mod, which is a simple directory, and 
 the Mod-Archives, which is a zipped version of a Directory-Mod. The Mod-Archives 

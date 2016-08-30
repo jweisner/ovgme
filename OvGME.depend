@@ -668,13 +668,13 @@
 	"gme_uins.h"
 	"gme_dlg_main.h"
 
-1472318523 source:d:\dev\cpp\proj\ovgme\resource.rc
+1472496433 source:d:\dev\cpp\proj\ovgme\resource.rc
 	<windows.h>
 	<commctrl.h>
 	<richedit.h>
 	"resource.h"
 
-1472318482 d:\dev\cpp\proj\ovgme\resource.h
+1472496374 d:\dev\cpp\proj\ovgme\resource.h
 
 1472328029 d:\dev\cpp\proj\ovgme\include\gme.h
 	<stdio.h>
@@ -742,7 +742,7 @@
 	"gme_game.h"
 	"gme_tools.h"
 
-1471626666 d:\dev\cpp\proj\ovgme\include\gme_game.h
+1472497387 d:\dev\cpp\proj\ovgme\include\gme_game.h
 	"gme.h"
 
 1472328170 source:d:\dev\cpp\proj\ovgme\src\gme_dlg_main.cpp

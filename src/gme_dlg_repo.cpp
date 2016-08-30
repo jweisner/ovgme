@@ -51,7 +51,6 @@ BOOL CALLBACK GME_DlgRepConf(HWND hwndDlg, UINT uMsg, WPARAM wParam, LPARAM lPar
     g_hwndRepConf = hwndDlg;
     EnableWindow(GetDlgItem(hwndDlg, BTN_REPOADD), false);
     FUCK_MICROSOFT = true;
-    //GME_RepoUpdList(); /* this is useless to do that here... */
     return true;
 
   case WM_PAINT:

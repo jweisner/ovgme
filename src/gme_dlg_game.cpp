@@ -171,7 +171,7 @@ BOOL CALLBACK GME_DlgGameAdd(HWND hwndDlg, UINT uMsg, WPARAM wParam, LPARAM lPar
     SendMessage(hwndDlg, WM_SETICON, ICON_BIG, (LPARAM)g_hicnMain);
     g_hwndAddGame = hwndDlg;
     // set defaut entries
-    SetDlgItemTextW(hwndDlg, ENT_NAME, L"New Game");
+    SetDlgItemTextW(hwndDlg, ENT_NAME, L"New Config");
     // disable Add button
     EnableWindow(GetDlgItem(hwndDlg, BTN_ADD), false);
     SendMessage(GetDlgItem(hwndDlg, CHK_CUSTBACKUP), BM_SETCHECK, BST_UNCHECKED, 0);

@@ -213,7 +213,7 @@ void GME_ModsApplyMod(HWND hpb, const std::wstring& name, int type)
     mod_tree = new GMEnode();
     /* create mod tree from zip file */
     if(!GME_TreeBuildFromZip(mod_tree, mods_path + L"\\" + name + L".zip")) {
-      GME_DialogError(g_hwndMain, L"Mod archive extraction failed. Aborting.");
+      GME_DialogError(g_hwndMain, L"Mod-Archive '" + name + L"' extraction failed, the Mod cannot be installed.");
       delete mod_tree;
       SendMessage(hpb, PBM_SETPOS, (WPARAM)0, 0);
       GME_Logs(GME_LOG_ERROR, "GME_ModsApplyMod", "GME_TreeBuildFromZip failed", GME_StrToMbs(name).c_str());
@@ -266,6 +266,7 @@ void GME_ModsApplyMod(HWND hpb, const std::wstring& name, int type)
 
   /* path for bck file, used just below and after */
   std::wstring bck_file;
+  std::wstring olap_msg;
 
   /* search for each .bck file in current game config folder */
   std::wstring bck_srch = conf_path + L"\\*.bck";
@@ -306,21 +307,17 @@ void GME_ModsApplyMod(HWND hpb, const std::wstring& name, int type)
         if(!olap_flist.empty()) {
 
           /* create LE message... */
-          std::wstring le_message = L"The '" + name + L"' mod files overlap with the already installed '" + GME_FilePathToName(fdw.cFileName) + L"' mod.";
-
-          le_message += L"\n\nOverlaped file(s):\n";
-          for(unsigned i = 0; i < olap_flist.size(); i++)
-            le_message += L"  " + olap_flist[i] + L"\n";
-
-          le_message += L"\nThis can cause problems if you disable a mod without the other: The backup process restores the original game files, then corrupt the installed mod files (backed data are not affected)";
-          le_message += L"\n\nDo you want to continue anyway ?";
+          olap_msg = L"The Mod '" + name + L"' files overlap with the already installed Mod: '" + GME_FilePathToName(fdw.cFileName) + L"'.";
+          olap_msg += L"\n\nOverlapped file(s):\n";
+          for(unsigned k = 0; k < olap_flist.size(); k++) olap_msg += L"  " + olap_flist[k] + L"\n";
+          olap_msg += L"\nThis will alter already installed Mod files, do you want to install it anyway ?";
 
           /* show confirmation dialog */
-          if(IDCANCEL == GME_DialogWarningConfirm(g_hwndMain, le_message)) {
+          if(IDCANCEL == GME_DialogWarningConfirm(g_hwndMain, olap_msg)) {
             delete mod_tree;
             FindClose(hnd);
             SendMessage(hpb, PBM_SETPOS, (WPARAM)0, 0);
-            GME_Logs(GME_LOG_WARNING, "GME_ModsApplyMod", "Mod apply cancelled by user", GME_StrToMbs(name).c_str());
+            GME_Logs(GME_LOG_WARNING, "GME_ModsApplyMod", "Mod apply canceled by user", GME_StrToMbs(name).c_str());
             return;
           }
         }
@@ -348,7 +345,7 @@ void GME_ModsApplyMod(HWND hpb, const std::wstring& name, int type)
         bckentry.action = GME_BCK_RESTORE_SWAP;
         if(!GME_IsDir(dst_path)) {
           if(!CreateDirectoryW(dst_path.c_str(), 0)) {
-            GME_DialogError(g_hwndMain, L"Error on backup for Mod '" + name + L"'. Aborting.");
+            GME_DialogError(g_hwndMain, L"Backup creation error for Mod '" + name + L"', the Mod cannot be installed.");
             GME_Logs(GME_LOG_ERROR, "GME_ModsApplyMod", "Unable to backup directory", GME_StrToMbs(dst_path).c_str());
             GME_ModsUndoMod(hpb, bckentry_list);
             delete mod_tree;
@@ -367,7 +364,7 @@ void GME_ModsApplyMod(HWND hpb, const std::wstring& name, int type)
         src_path = game_path + rel_path;
         /* copy file, no overwrite dest */
         if(!GME_FileCopy(src_path, dst_path, false)) {
-          GME_DialogError(g_hwndMain, L"Error on backup for Mod '" + name + L"'. Aborting.");
+          GME_DialogError(g_hwndMain, L"Backup creation error for Mod '" + name + L"', the Mod cannot be installed.");
           GME_Logs(GME_LOG_ERROR, "GME_ModsApplyMod", "Unable to backup file", GME_StrToMbs(src_path).c_str());
           GME_ModsUndoMod(hpb, bckentry_list);
           delete mod_tree;
@@ -383,7 +380,7 @@ void GME_ModsApplyMod(HWND hpb, const std::wstring& name, int type)
     bckentry_list.push_back(bckentry);
 
     if(g_ModsProc_Cancel) {
-      GME_Logs(GME_LOG_WARNING, "GME_ModsApplyMod", "Mod apply cancelled by user", GME_StrToMbs(name).c_str());
+      GME_Logs(GME_LOG_WARNING, "GME_ModsApplyMod", "Mod apply canceled by user", GME_StrToMbs(name).c_str());
       delete mod_tree;
       SendMessage(hpb, PBM_SETPOS, (WPARAM)0, 0);
       GME_ModsUndoMod(hpb, bckentry_list);
@@ -412,7 +409,7 @@ void GME_ModsApplyMod(HWND hpb, const std::wstring& name, int type)
   if(is_zip_mod) {
     memset(&za, 0, sizeof(mz_zip_archive));
     if(!mz_zip_reader_init_file(&za, GME_StrToMbs(mods_path + L"\\" + name + L".zip").c_str(), 0)) {
-      GME_DialogError(g_hwndMain, L"Mod archive extraction failed for mod '" + name + L"'. Aborting.");
+      GME_DialogError(g_hwndMain, L"Mod-Archive '" + name + L"' extraction error, the Mod cannot be installed.");
       GME_Logs(GME_LOG_ERROR, "GME_ModsApplyMod", "mz_zip_reader_init_file failed", GME_StrToMbs(name).c_str());
       delete mod_tree;
       SendMessage(hpb, PBM_SETPOS, (WPARAM)0, 0);
@@ -438,7 +435,7 @@ void GME_ModsApplyMod(HWND hpb, const std::wstring& name, int type)
         /* extract to file */
         if(!mz_zip_reader_extract_to_file(&za, mod_tree->currChild()->getId(), GME_StrToMbs(dst_path).c_str(), 0)) {
           mz_zip_reader_end(&za);
-          GME_DialogError(g_hwndMain, L"Mod archive extraction failed for mod '" + name + L"'. Aborting.");
+          GME_DialogError(g_hwndMain, L"Mod-Archive '" + name + L"' extraction error, the Mod cannot be installed.");
           GME_Logs(GME_LOG_ERROR, "GME_ModsApplyMod", "mz_zip_reader_extract_to_file failed", GME_StrToMbs(name).c_str());
           delete mod_tree;
           SendMessage(hpb, PBM_SETPOS, (WPARAM)0, 0);
@@ -451,7 +448,7 @@ void GME_ModsApplyMod(HWND hpb, const std::wstring& name, int type)
         /* copy with overwrite */
         if(!GME_FileCopy(mod_tree->currChild()->getSource(), dst_path, true)) {
           mz_zip_reader_end(&za);
-          GME_DialogError(g_hwndMain, L"Unable to copy files for mod '" + name + L"'. Aborting.");
+          GME_DialogError(g_hwndMain, L"File copy error for Mod '" + name + L"', the Mod cannot be installed.");
           GME_Logs(GME_LOG_ERROR, "GME_ModsApplyMod", "Unable to copy file", GME_StrToMbs(dst_path).c_str());
           delete mod_tree;
           SendMessage(hpb, PBM_SETPOS, (WPARAM)0, 0);
@@ -465,7 +462,7 @@ void GME_ModsApplyMod(HWND hpb, const std::wstring& name, int type)
     }
 
     if(g_ModsProc_Cancel) {
-      GME_Logs(GME_LOG_WARNING, "GME_ModsApplyMod", "Mod apply cancelled by user", GME_StrToMbs(name).c_str());
+      GME_Logs(GME_LOG_WARNING, "GME_ModsApplyMod", "Mod apply canceled by user", GME_StrToMbs(name).c_str());
       if(is_zip_mod) mz_zip_reader_end(&za);
       delete mod_tree;
       SendMessage(hpb, PBM_SETPOS, (WPARAM)0, 0);
@@ -577,7 +574,7 @@ void GME_ModsRestoreMod(HWND hpb, const std::wstring& name)
   SendMessage(hpb, PBM_SETPOS, (WPARAM)0, 0);
 
   if(got_error) {
-    GME_DialogWarning(g_hwndMain, L"One or more error was encountered during restore process for Mod '" + name + L"', please see log text for more details.");
+    GME_DialogWarning(g_hwndMain, L"Restore process for Mod '" + name + L"' encountered one or more error, please see log text for more details.");
   }
 }
 
@@ -759,7 +756,7 @@ bool GME_ModsToggleSel(int action)
 bool GME_ModsToggleAll(int action)
 {
   if(!GME_ModsProc_IsReady()) {
-    GME_DialogWarning(g_hwndMain, L"Mod(s) installation is currently processing, please wait until current process finish before enabling or disabling mod(s).");
+    GME_DialogWarning(g_hwndMain, L"Mod(s) installation is currently processing, please wait until current process finish before enabling or disabling Mod(s).");
     return false;
   }
 
@@ -864,7 +861,7 @@ bool GME_ModsImport()
         GME_Logs(GME_LOG_ERROR, "GME_ModsImport", "Unable to copy file ", GME_StrToMbs(dst).c_str());
       }
     } else {
-      GME_DialogWarning(g_hwndMain, L"The file '" + fmod_list[i] + L"' is not a valid mod archive and will not be imported.");
+      GME_DialogWarning(g_hwndMain, L"The file '" + fmod_list[i] + L"' is not a valid Mod-Archive and will not be imported.");
     }
   }
 
@@ -1121,7 +1118,7 @@ void GME_ModsProfileSave()
 bool GME_ModsProfileApply()
 {
   if(!GME_ModsProc_IsReady()) {
-    GME_DialogWarning(g_hwndMain, L"Mod(s) installation is currently processing, please wait until current process finish before enabling or disabling mod(s).");
+    GME_DialogWarning(g_hwndMain, L"Mod(s) installation is currently processing, please wait until current process finish before enabling or disabling Mod(s).");
     return false;
   }
 
@@ -1257,7 +1254,7 @@ bool GME_ModsUpdList()
 
   /* check if mods dir exists in game root */
   if(!GME_IsDir(GME_GameGetCurModsPath())) {
-    GME_DialogWarning(g_hwndMain, L"The mods stock folder '" + GME_GameGetCurModsPath() + L"' does not exists, you should create it.");
+    GME_DialogWarning(g_hwndMain, L"The Mods stock folder '" + GME_GameGetCurModsPath() + L"' does not exists, you should create it.");
   }
 
   std::wstring conf_path = GME_GameGetCurConfPath();
@@ -1391,7 +1388,7 @@ bool GME_ModsUpdList()
 */
 DWORD WINAPI GME_ModsUninstall_Th(void* args)
 {
-  std::wstring status = L"restoring backups for game '" + GME_GameGetCurTitle() + L"'...";
+  std::wstring status = L"restoring backups for config '" + GME_GameGetCurTitle() + L"'...";
   SetDlgItemTextW(g_hwndUninst, TXT_UNINST_GAME, status.c_str());
 
   /* get .bck file list */
@@ -1673,7 +1670,7 @@ void GME_ModsMakeCancel()
 void GME_ModsMakeArchive(const std::wstring& src_dir, const std::wstring& dst_path, const std::wstring& desc, int vmaj, int vmin, int vrev, int zlevel)
 {
   if(g_ModsMake_Running) {
-    GME_DialogWarning(g_hwndNewAMod, L"Make archive process already running, please wait.");
+    GME_DialogWarning(g_hwndNewAMod, L"Make Mod-Archive process already running, please wait.");
     return;
   }
 
@@ -1973,7 +1970,7 @@ void GME_ModsProc_Launch()
     g_ModsProc_Cancel = false;
     g_ModsProc_hT = CreateThread(NULL,0,GME_ModsProc_Th,NULL,0,&g_ModsProc_iT);
   } else {
-    GME_DialogWarning(g_hwndMain, L"Mod(s) installation is currently processing, please wait until current process finish before enabling or disabling mod(s).");
+    GME_DialogWarning(g_hwndMain, L"Mod(s) installation is currently processing, please wait until current process finish before enabling or disabling Mod(s).");
   }
 }
 

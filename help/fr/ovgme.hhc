@@ -11,13 +11,14 @@
 </OBJECT>
 <UL> 
 <LI> <OBJECT type="text/sitemap">	<PARAM name="Name" value="Introduction"><PARAM name="Local" value="introduction.html"><PARAM name="ImageNumber" value="0"></OBJECT>
-<LI> <OBJECT type="text/sitemap"><PARAM name="Name" value="Gestion de jeu"> <PARAM name="ImageNumber" value="0">	</OBJECT>
+<LI> <OBJECT type="text/sitemap"><PARAM name="Name" value="Gestion des configurations"> <PARAM name="ImageNumber" value="0">	</OBJECT>
 <UL>
-<LI> <OBJECT type="text/sitemap">	<PARAM name="Name" value="Ajouter un jeu"> <PARAM name="Local" value="gameadd.html"> <PARAM name="ImageNumber" value="0"> </OBJECT>
-<LI> <OBJECT type="text/sitemap"> <PARAM name="Name" value="Editer un jeu"> <PARAM name="Local" value="gameedit.html"> <PARAM name="ImageNumber" value="0"> </OBJECT>
-<LI> <OBJECT type="text/sitemap"> <PARAM name="Name" value="Supprimer un jeu"> <PARAM name="Local" value="gamerem.html"> <PARAM name="ImageNumber" value="0"> </OBJECT>
+<LI> <OBJECT type="text/sitemap">	<PARAM name="Name" value="Introduction"> <PARAM name="Local" value="gameintro.html"> <PARAM name="ImageNumber" value="0"> </OBJECT>
+<LI> <OBJECT type="text/sitemap">	<PARAM name="Name" value="Ajouter une configuration"> <PARAM name="Local" value="gameadd.html"> <PARAM name="ImageNumber" value="0"> </OBJECT>
+<LI> <OBJECT type="text/sitemap"> <PARAM name="Name" value="Editer une configuration"> <PARAM name="Local" value="gameedit.html"> <PARAM name="ImageNumber" value="0"> </OBJECT>
+<LI> <OBJECT type="text/sitemap"> <PARAM name="Name" value="Supprimer une configuration"> <PARAM name="Local" value="gamerem.html"> <PARAM name="ImageNumber" value="0"> </OBJECT>
 </UL>
-<LI> <OBJECT type="text/sitemap"> <PARAM name="Name" value="Snapshot de jeu"> <PARAM name="ImageNumber" value="0"> </OBJECT>
+<LI> <OBJECT type="text/sitemap"> <PARAM name="Name" value="Snapshot de racine"> <PARAM name="ImageNumber" value="0"> </OBJECT>
 <UL>
 <LI> <OBJECT type="text/sitemap"> <PARAM name="Name" value="Introduction"> <PARAM name="Local" value="snapintro.html"> <PARAM name="ImageNumber" value="0"> </OBJECT>
 <LI> <OBJECT type="text/sitemap"> <PARAM name="Name" value="Créer un snapshot"> <PARAM name="Local" value="snapnew.html"> <PARAM name="ImageNumber" value="0"> </OBJECT>

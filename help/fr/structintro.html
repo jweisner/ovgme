@@ -16,14 +16,15 @@
     </table>
     <br>
 OvGME fonctionne en copiant (soit remplaçant ou ajoutant) les fichiers du Mod dans
-l'arborescence de fichier du jeu. Pour être correctement accomplis, l'arborescence des
-fichiers du Mod doit avoir une structure spécifique. En effet, OvGME n'utilise pas de
-base de donnée pour savoir quelles modification un Mod doit appliquer à un jeu. La base
-de donnée, c'est l'arborescence des fichiers et dossiers du Mod lui-même<br>
+l'arborescence de fichier de la destination racine (root path). Pour être correctement 
+accomplis, l'arborescence des fichiers du Mod doit avoir une structure spécifique. 
+En effet, OvGME n'utilise pas de base de donnée pour savoir quelles modification un 
+Mod doit appliquer à une destination racine. La base de donnée, c'est l'arborescence 
+des fichiers et dossiers du Mod lui-même<br>
 <br>
 Pour cette raison, un Mod doit refléter fidèlement l'arborescence (hiérarchie des dossiers)
-déjà existant dans le jeu, ainsi OvGME peut déduire quel fichier sont à remplacer, ajouter et
-sauvegarder.<br>
+déjà existant dans la destination racine, ainsi OvGME peut déduire quel fichier 
+sont à remplacer, ajouter et sauvegarder.<br>
 <br>
 OvGME prend en charge deux structures de Mod. Le Directory-Mod, qui est un simple 
 répertoire, et le Mod-Archive, qui est une version zippé d'un Directory-Mod. La 

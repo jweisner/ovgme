@@ -1,48 +1,48 @@
 <html>
 <head>
-  <title>Editer un jeu</title>
-  <meta name="keywords"  content="game,edit," >
+  <title>Editer une config</title>
+  <meta name="keywords"  content="config,edit," >
 </head>
 <body style="font-family:arial; font-size:10pt;">
   <table bgcolor="#000" border="0" width="100%">
     <tbody>
       <tr>
         <td style="color:#fff; font-size:14pt;"> 
-          <b>Editer un jeu</b>
+          <b>Editer une config</b>
         </td>
       </tr>
     </tbody>
   </table>
   <br>
-Vous pouvez éditer la configuration du jeu actuellement sélectionné. Pour éditer
-La configuration du jeu en cours, allez dans le menu "<b>Game</b>", puis sélectionnez
-"<b>Edit current...</b>". La boite de dialogue approprié apparaît.<br>
+Pour éditer la configuration actuellement activée, allez dans le menu 
+"<b>Config</b>", puis sélectionnez "<b>Edit current...</b>". Une nouvelle 
+fenetre de dialogue vous invite alors à spécifier les informations 
+pour modifier la configuration actuelle.<br>
 <br>
 
-<blockquote> 
-<b>Game Title</b><br>
-C'est l'identifiant principal pour le gestionnaire de jeux. Ce titre peut être ce que vous voulez.<br>
-<br>
-<b>Mods Path</b><br>
-Ce doit être un chemin vers un dossier existant de stock de Mods où OvGME ira 
-regarder pour recueillir la liste des Mods disponibles pour ce jeu.<br>
-<br>
-<b>Use custom backup folder</b><br>
-Vous pouvez choisir un dossier de sauvegarde personnalisé. Ce dossier contiendra
-les fichiers sauvegardés pour ce jeu.<br>
-<br>
-<b>Back Path</b><br>
-Ce doit être le chemin vers un dossier existant où OvGME sauvegardera les fichiers
-originaux du jeu.<br>
-<br>
-</blockquote> 
+    <blockquote> 
+      <b>Config Title</b><br>
+      C'est le titre qui identifie la configuration dans la liste de gestion. Ce 
+      titre peut être ce que vous souhaitez et peut être modifié plus tard.<br>
+      <br>
+      <b>Mods Path</b><br>
+      Ce doit être le chemin vers un dossier existant de stock de Mods, 
+      c'est là que OvGME recherchera la liste des Mods disponibles pour 
+      cette configuration.<br>
+      <br>
+      <b>Use custom backup folder</b><br>
+      Vous pouvez choisir un dossier de sauvegarde personnalisé au lieu
+      de l'emplacement de sauvegarde par defaut d'OvGME.<br>
+      <br>
+      <b>Back Path</b><br>
+      Ce doit être le chemin vers un dossier existant, ce dossier 
+      contiendra l'arborescence des fichiers de sauvegarde pour
+      cette configuration.<br>
+    </blockquote> 
 
-<i>Note: Vous ne pouvez pas changer le dossier racine pour un jeu existant dans 
-le gestionnaire de jeu, étant donné que le chemin vers le dossier racine du jeu
-doit être unique (pour éviter le chevauchement des Mods et des sauvegardes, vous
-ne pouvez pas créer plus entrée pour le même jeux dans le gestionnaire de jeux)
-et est l'identifiant principal de configuration de jeu. Si vous avez créé un jeu
-avec le mauvais chemin racine du jeu, vous devez le supprimer et réer une nouvelle
-entrée.</i>
+<i>Note: Vous ne pouvez pas changer le chemin de destination racine 
+(root path) pour une configuration existante. Si vous avez créé une 
+configuration avec le mauvais chemin de dossier racine (root path), 
+vous devez supprimer cette configuration et en créer une nouvelle.</i>
 </body>
 </html>

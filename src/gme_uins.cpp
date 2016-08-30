@@ -23,20 +23,26 @@
 */
 void GME_Uninstall()
 {
-  /* this is the uninstall process, it restore all backups */
-  GME_DialogWarning(NULL, L"All enabled mods will be disabled to restore original game files.");
-
   /* create the available game list */
   GME_GameUpdList();
-  /* for each game*/
-  for(unsigned g = 0; g < GME_GameGetCfgCount(); g++) {
-    /* set the game as current selected */
-    GME_GameSelectCfg(GME_GameGetCfg(g).title);
-    /* uninstall process */
-    GME_ModsUninstall();
-    /* remove game directory */
-    GME_DirRemRecursive(GME_GetAppdataPath() + L"\\" + GME_Md5(GME_GameGetCurRoot()));
+
+  if(GME_GameGetCfgCount()) {
+
+    bool keep_conf = false;
+    if(IDYES == GME_DialogQuestionConfirm(NULL, L"Do you want to keep OvGME setting and configuration files for a new future installation ?")) {
+      keep_conf = true;
+    }
+
+    /* for each game*/
+    for(unsigned i = 0; i < GME_GameGetCfgCount(); i++) {
+      /* set the game as current selected */
+      GME_GameSetCurId(i);
+      /* uninstall process */
+      GME_ModsUninstall();
+      /* remove game directory */
+      if(!keep_conf) GME_DirRemRecursive(GME_GetAppdataPath() + L"\\" + GME_Md5(GME_GameGetCurRoot()));
+    }
+    /* remove config file */
+    if(!keep_conf) GME_DirRemRecursive(GME_GetAppdataPath().c_str());
   }
-  /* remove config file */
-  DeleteFileW(std::wstring(GME_GetAppdataPath()+L"\\ovgme.dat").c_str());
 }
