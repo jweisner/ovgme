@@ -275,7 +275,9 @@ bool GME_GameRemCurCfg()
   g_GameCur_Id = -1;
 
   /* update game list */
-  GME_GameUpdList();
+  if(!GME_GameUpdList()) {
+    GME_DialogInfo(g_hwndMain, L"The configuration list is empty.");
+  }
 
   /* remove game config directory and return */
   return true;
@@ -386,7 +388,7 @@ bool GME_GameSelectCfg(const std::wstring& title)
   if(g_GameCfg_List.empty()) {
     /* update mods list */
     GME_ModsUpdList();
-    GME_DialogInfo(g_hwndMain, L"The config management list is empty.");
+    GME_DialogWarning(g_hwndMain, L"The configuration list is empty.");
     return false;
   }
 
@@ -459,6 +461,8 @@ bool GME_GameUpdList()
   /* check if list is empty */
   if(g_GameCfg_List.empty()) {
     SendMessageW(hcb, CB_SETCURSEL, 0, 0); /* select first item in combo box */
+    /* update mods list */
+    GME_ModsUpdList();
     /* update menus */
     GME_GameUpdMenu();
     return false;

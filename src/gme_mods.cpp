@@ -1413,6 +1413,9 @@ DWORD WINAPI GME_ModsUninstall_Th(void* args)
     GME_ModsRestoreMod(GetDlgItem(g_hwndUninst, PBM_UNINST), back_list[m]);
   }
 
+  /* do not miss to clean backup files */
+  GME_ModsCleanBackup();
+
   EndDialog(g_hwndUninst, 0);
 
   return 0;

@@ -801,7 +801,7 @@
 
 1471626667 d:\dev\cpp\proj\ovgme\include\gme_snap.h
 
-1472536592 source:d:\dev\cpp\proj\ovgme\src\gme_game.cpp
+1472561530 source:d:\dev\cpp\proj\ovgme\src\gme_game.cpp
 	"gme_conf.h"
 	"gme_game.h"
 	"gme_mods.h"
@@ -812,7 +812,7 @@
 	"gme_logs.h"
 	"gme_tools.h"
 
-1472536011 source:d:\dev\cpp\proj\ovgme\src\gme_mods.cpp
+1472562286 source:d:\dev\cpp\proj\ovgme\src\gme_mods.cpp
 	"gme_tools.h"
 	"gme_game.h"
 	"gme_mods.h"
@@ -852,8 +852,9 @@
 	"gme_tools.h"
 	"gme_logs.h"
 
-1472534468 source:d:\dev\cpp\proj\ovgme\src\gme_uins.cpp
+1472561940 source:d:\dev\cpp\proj\ovgme\src\gme_uins.cpp
 	"gme_uins.h"
+	"gme_logs.h"
 	"gme_mods.h"
 	"gme_game.h"
 	"gme_tools.h"

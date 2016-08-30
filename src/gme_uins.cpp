@@ -14,6 +14,7 @@
  */
 
 #include "gme_uins.h"
+#include "gme_logs.h"
 #include "gme_mods.h"
 #include "gme_game.h"
 #include "gme_tools.h"
@@ -23,15 +24,12 @@
 */
 void GME_Uninstall()
 {
+  GME_LogsInit();
+
   /* create the available game list */
   GME_GameUpdList();
 
   if(GME_GameGetCfgCount()) {
-
-    bool keep_conf = false;
-    if(IDYES == GME_DialogQuestionConfirm(NULL, L"Do you want to keep OvGME setting and configuration files for a new future installation ?")) {
-      keep_conf = true;
-    }
 
     /* for each game*/
     for(unsigned i = 0; i < GME_GameGetCfgCount(); i++) {
@@ -39,10 +37,10 @@ void GME_Uninstall()
       GME_GameSetCurId(i);
       /* uninstall process */
       GME_ModsUninstall();
-      /* remove game directory */
-      if(!keep_conf) GME_DirRemRecursive(GME_GetAppdataPath() + L"\\" + GME_Md5(GME_GameGetCurRoot()));
     }
-    /* remove config file */
-    if(!keep_conf) GME_DirRemRecursive(GME_GetAppdataPath().c_str());
+
+    if(IDYES == GME_DialogQuestionConfirm(NULL, L"Do you want also remove all OvGME settings and configurations ?")) {
+      GME_DirRemRecursive(GME_GetAppdataPath());
+    }
   }
 }
