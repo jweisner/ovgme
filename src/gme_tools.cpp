@@ -754,6 +754,8 @@ bool GME_ZipGetModDesc(const std::wstring& zip, std::wstring* desc)
   mz_zip_archive za; // Zip archive struct
   mz_zip_archive_file_stat zf; // Zip file stat struct;
 
+  desc->clear();
+
   memset(&za, 0, sizeof(mz_zip_archive));
   if(!mz_zip_reader_init_file(&za, zip_name.c_str(), 0)) {
     return false;
@@ -795,6 +797,8 @@ bool GME_ZipGetModVers(const std::wstring& zip, std::wstring* vers)
 
   mz_zip_archive za; // Zip archive struct
   mz_zip_archive_file_stat zf; // Zip file stat struct;
+
+  vers->clear();
 
   memset(&za, 0, sizeof(mz_zip_archive));
   if(!mz_zip_reader_init_file(&za, zip_name.c_str(), 0)) {

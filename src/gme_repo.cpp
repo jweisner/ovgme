@@ -1049,9 +1049,9 @@ std::string GME_ReposXmlEncode(const std::wstring& desc)
   char* buf;
 
   try {
-    char* buf = new char[desc.size() * 3 + 1];
+    buf = new char[mbs.size() * 3 + 1];
   } catch (const std::bad_alloc&) {
-    GME_Logs(GME_LOG_ERROR, "GME_ReposXmlEncode", "Bad alloc", std::to_string(desc.size() * 3 + 1).c_str());
+    GME_Logs(GME_LOG_ERROR, "GME_ReposXmlEncode", "Bad alloc", std::to_string(mbs.size() * 3 + 1).c_str());
     return std::string();
   }
 
@@ -1164,10 +1164,10 @@ std::string GME_RepoMakeXml(const char* url_str, bool cust_path, const wchar_t* 
 
 bool GME_RepoSaveXml()
 {
-  char* xml_src;
+  unsigned char* xml_src;
   size_t xml_src_size;
 
-  xml_src_size = GetWindowTextLength(GetDlgItem(g_hwndRepXml, ENT_OUTPUT)) + 1;
+  xml_src_size = GetWindowTextLength(GetDlgItem(g_hwndRepXml, ENT_OUTPUT));
 
   if(xml_src_size < 2) {
     GME_DialogWarning(g_hwndRepXml, L"The XML source buffer is empty.");
@@ -1187,15 +1187,13 @@ bool GME_RepoSaveXml()
   if(fp) {
 
     try {
-      xml_src = new char[xml_src_size+1];
+      xml_src = new unsigned char[xml_src_size+1];
     } catch(const std::bad_alloc&) {
       fclose(fp);
       return false;
     }
 
-    GetDlgItemText(g_hwndRepXml, ENT_OUTPUT, xml_src, xml_src_size);
-
-    xml_src[xml_src_size] = 0;
+    GetDlgItemText(g_hwndRepXml, ENT_OUTPUT, (char*)xml_src, xml_src_size+1);
 
     if(fwrite(xml_src, 1, xml_src_size, fp) != xml_src_size) {
       fclose(fp);
