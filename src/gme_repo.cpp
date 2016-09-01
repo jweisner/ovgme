@@ -1044,42 +1044,28 @@ void GME_RepoQueryCancel()
 */
 std::string GME_ReposXmlEncode(const std::wstring& desc)
 {
-  std::string mbs = GME_StrToMbs(desc);
-  const char* pstr = mbs.c_str();
-  char* buf;
+  std::string source;
+  std::string encode;
+  GME_StrToMbs(source, desc);
 
-  try {
-    buf = new char[mbs.size() * 3 + 1];
-  } catch (const std::bad_alloc&) {
-    GME_Logs(GME_LOG_ERROR, "GME_ReposXmlEncode", "Bad alloc", std::to_string(mbs.size() * 3 + 1).c_str());
-    return std::string();
-  }
+  encode.append("    ");
 
-  char* pbuf = buf;
-
-  while(*pstr) {
-
-    if(*pstr == '\r' || *pstr == '\n') {
-      *pbuf++ = '&'; *pbuf++ = '#';
-      if(*pstr == '\r') {
-        *pbuf++ = '1'; *pbuf++ = '3';
+  unsigned i = 0;
+  for(unsigned i = 0; i < source.size(); i++) {
+    if(source[i] == '\r' || source[i] == '\n') {
+      encode.append("&#");
+      if(source[i] == '\r') {
+        encode.append("13;");
       }
-      if(*pstr == '\n') {
-        *pbuf++ = '1'; *pbuf++ = '0';
+      if(source[i] == '\n') {
+        encode.append("10;\r\n    ");
       }
-      *pbuf++ = ';';
     } else {
-      *pbuf++ = *pstr;
+      encode.append(1, source[i]);
     }
-
-    pstr++;
   }
-  *pbuf = '\0';
 
-  std::string encoded = buf;
-  delete[] buf;
-
-  return encoded;
+  return encode;
 }
 
 std::string GME_RepoMakeXml(const char* url_str, bool cust_path, const wchar_t* path_str)
@@ -1105,9 +1091,9 @@ std::string GME_RepoMakeXml(const char* url_str, bool cust_path, const wchar_t* 
   std::wstring srch_path;
   if(cust_path) {
     srch_path = path_str;
-    srch_path += L"\\*";
+    srch_path += L"\\*.zip";
   } else {
-    srch_path = GME_GameGetCurModsPath() + L"\\*";
+    srch_path = GME_GameGetCurModsPath() + L"\\*.zip";
   }
 
   WIN32_FIND_DATAW fdw;
@@ -1137,10 +1123,11 @@ std::string GME_RepoMakeXml(const char* url_str, bool cust_path, const wchar_t* 
   }
 
   std::string xml_ascii;
-  xml_ascii = "<mod_list>\r\n";
+  xml_ascii = "<?xml version=\"1.0\"?>\r\n";
+  xml_ascii += "<mod_list>\r\n";
 
   for(unsigned i = 0; i < name_list.size(); i++) {
-    xml_ascii += " <mod name=\"";
+    xml_ascii += "  <mod name=\"";
     xml_ascii += GME_StrToMbs(name_list[i]);
     xml_ascii += "\" version=\"";
     xml_ascii += GME_StrToMbs(vers_list[i]);
@@ -1151,7 +1138,7 @@ std::string GME_RepoMakeXml(const char* url_str, bool cust_path, const wchar_t* 
       xml_ascii += GME_ReposXmlEncode(desc_list[i]);
       xml_ascii += "\r\n";
     }
-    xml_ascii += " </mod>\r\n";
+    xml_ascii += "  </mod>\r\n";
   }
 
   xml_ascii += "</mod_list>";
@@ -1164,7 +1151,7 @@ std::string GME_RepoMakeXml(const char* url_str, bool cust_path, const wchar_t* 
 
 bool GME_RepoSaveXml()
 {
-  unsigned char* xml_src;
+  char* xml_src = NULL;
   size_t xml_src_size;
 
   xml_src_size = GetWindowTextLength(GetDlgItem(g_hwndRepXml, ENT_OUTPUT));
@@ -1187,8 +1174,14 @@ bool GME_RepoSaveXml()
   if(fp) {
 
     try {
-      xml_src = new unsigned char[xml_src_size+1];
+      xml_src = new char[xml_src_size+1];
     } catch(const std::bad_alloc&) {
+      GME_Logs(GME_LOG_ERROR, "GME_RepoSaveXml", "Bad alloc", std::to_string(xml_src_size+1).c_str());
+      fclose(fp);
+      return false;
+    }
+    if(xml_src == NULL) {
+      GME_Logs(GME_LOG_ERROR, "GME_RepoSaveXml", "Bad alloc (* == NULL)", std::to_string(xml_src_size+1).c_str());
       fclose(fp);
       return false;
     }

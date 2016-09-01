@@ -137,10 +137,15 @@ BOOL CALLBACK GME_DlgModsMake(HWND hwndDlg, UINT uMsg, WPARAM wParam, LPARAM lPa
       GetDlgItemTextW(hwndDlg, ENT_DST, tmp_sdst, 260);
       GetDlgItemTextW(hwndDlg, ENT_SRC, tmp_ssrc, 260);
       tmp_desc_size = GetWindowTextLength(GetDlgItem(hwndDlg, ENT_MODDESC))+1;
+      tmp_sdesc = NULL;
       try {
         tmp_sdesc = new wchar_t[tmp_desc_size+1];
       } catch (const std::bad_alloc&) {
         GME_Logs(GME_LOG_ERROR, "GME_DlgModsMake", "Bad alloc", std::to_string(tmp_desc_size+1).c_str());
+        return true;
+      }
+      if(tmp_sdesc == NULL) {
+        GME_Logs(GME_LOG_ERROR, "GME_DlgModsMake", "Bad alloc (* == NULL)", std::to_string(tmp_desc_size+1).c_str());
         return true;
       }
       GetDlgItemTextW(hwndDlg, ENT_MODDESC, tmp_sdesc, tmp_desc_size);
@@ -233,10 +238,15 @@ BOOL CALLBACK GME_DlgModsQuickMake(HWND hwndDlg, UINT uMsg, WPARAM wParam, LPARA
       GetDlgItemTextW(hwndDlg, ENT_DST, tmp_sdst, 260);
       GetDlgItemTextW(hwndDlg, ENT_SRC, tmp_ssrc, 260);
       tmp_desc_size = GetWindowTextLength(GetDlgItem(hwndDlg, ENT_MODDESC))+1;
+      tmp_sdesc = NULL;
       try {
         tmp_sdesc = new wchar_t[tmp_desc_size+1];
       } catch (const std::bad_alloc&) {
         GME_Logs(GME_LOG_ERROR, "GME_DlgModsQuickMake", "Bad alloc", std::to_string(tmp_desc_size+1).c_str());
+        return true;
+      }
+      if(tmp_sdesc == NULL) {
+        GME_Logs(GME_LOG_ERROR, "GME_DlgModsQuickMake", "Bad alloc (* == NULL)", std::to_string(tmp_desc_size+1).c_str());
         return true;
       }
       GetDlgItemTextW(hwndDlg, ENT_MODDESC, tmp_sdesc, tmp_desc_size);

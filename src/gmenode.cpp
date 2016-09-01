@@ -14,6 +14,7 @@
  */
 
 #include "gmenode.h"
+#include "gme_logs.h"
 
 GMEnode::GMEnode()
 {
@@ -110,9 +111,16 @@ bool GMEnode::allocData(size_t size)
   try {
     _data = new ubyte[size];
   } catch (const std::bad_alloc&) {
+    GME_Logs(GME_LOG_ERROR, "GMEnode::allocData", "Bad alloc", std::to_string(size).c_str());
     _data = NULL;
     return false;
   }
+
+  if(_data == NULL) {
+    GME_Logs(GME_LOG_ERROR, "GMEnode::allocData", "Bad alloc (* == NULL)", std::to_string(size).c_str());
+    return false;
+  }
+
   if(_data) {
     _data_size = size;
   }
@@ -129,9 +137,16 @@ bool GMEnode::setData(const void* data, size_t size)
   try {
     _data = new ubyte[size];
   } catch (const std::bad_alloc&) {
+    GME_Logs(GME_LOG_ERROR, "GMEnode::setData", "Bad alloc", std::to_string(size).c_str());
     _data = NULL;
     return false;
   }
+
+  if(_data == NULL) {
+    GME_Logs(GME_LOG_ERROR, "GMEnode::setData", "Bad alloc (* == NULL)", std::to_string(size).c_str());
+    return false;
+  }
+
   if(_data) {
     _data_size = size;
     memcpy(_data, data, _data_size);

@@ -510,17 +510,34 @@ size_t GME_FileGetAsciiContent(const std::wstring& path, std::wstring* content)
 {
   size_t r = 0;
   long fs = 0;
+  char* buff = NULL;
 
   FILE* fp = _wfopen(path.c_str(), L"rb");
   if(fp) {
+
     fseek(fp, 0, SEEK_END);
     fs = ftell(fp);
     fseek(fp, 0, SEEK_SET);
-    char* buffer = new char[fs+1];
-    r += fread(buffer, 1, fs, fp);
-    buffer[fs] = 0;
-    *content = GME_StrToWcs(buffer);
-    delete [] buffer;
+
+    try {
+      buff = new char[fs+1];
+    } catch(const std::bad_alloc&) {
+      GME_Logs(GME_LOG_ERROR, "GME_FileGetAsciiContent", "Bad alloc", std::to_string(fs+1).c_str());
+      fclose(fp);
+      return false;
+    }
+    if(buff == NULL) {
+      GME_Logs(GME_LOG_ERROR, "GME_FileGetAsciiContent", "Bad alloc (* == NULL)", std::to_string(fs+1).c_str());
+      fclose(fp);
+      return false;
+    }
+
+    r += fread(buff, 1, fs, fp);
+    buff[fs] = '\0';
+
+    *content = GME_StrToWcs(buff);
+    delete [] buff;
+
     fclose(fp);
   }
   return r;
@@ -761,19 +778,37 @@ bool GME_ZipGetModDesc(const std::wstring& zip, std::wstring* desc)
     return false;
   }
 
-  char* buff;
-  size_t s;
+  char* buff = NULL;
   int i;
 
   for(unsigned k = 0; k < txt_name.size(); k++) {
     i = mz_zip_reader_locate_file(&za, txt_name[k].c_str(), "", 0);
     if(i != -1) {
-      buff = (char*)mz_zip_reader_extract_to_heap(&za, i, &s, 0);
-      if(buff) {
-        buff[s] = 0;
-        *desc = GME_StrToWcs(buff);
+      if(!mz_zip_reader_file_stat(&za, i, &zf)){
+        mz_zip_reader_end(&za);
+        return false;
       }
+      try {
+        buff = new char[zf.m_uncomp_size+1];
+      } catch(const std::bad_alloc&) {
+        GME_Logs(GME_LOG_ERROR, "GME_ZipGetModDesc", "Bad alloc", std::to_string(zf.m_uncomp_size+1).c_str());
+        mz_zip_reader_end(&za);
+        return false;
+      }
+      if(buff == NULL) {
+        GME_Logs(GME_LOG_ERROR, "GME_ZipGetModDesc", "Bad alloc (* == NULL)", std::to_string(zf.m_uncomp_size+1).c_str());
+        mz_zip_reader_end(&za);
+        return false;
+      }
+      if(!mz_zip_reader_extract_to_mem(&za, i, buff, zf.m_uncomp_size+1, 0)) {
+        mz_zip_reader_end(&za);
+        delete[] buff;
+        return false;
+      }
+      buff[zf.m_uncomp_size] = '\0';
+      *desc = GME_StrToWcs(buff);
       mz_zip_reader_end(&za);
+      delete[] buff;
       return true;
     }
   }
@@ -806,18 +841,36 @@ bool GME_ZipGetModVers(const std::wstring& zip, std::wstring* vers)
   }
 
   char* buff;
-  size_t s;
   int i;
 
   for(unsigned k = 0; k < txt_name.size(); k++) {
     i = mz_zip_reader_locate_file(&za, txt_name[k].c_str(), "", 0);
     if(i != -1) {
-      buff = (char*)mz_zip_reader_extract_to_heap(&za, i, &s, 0);
-      if(buff) {
-        buff[s] = 0;
-        *vers = GME_StrToWcs(buff);
+      if(!mz_zip_reader_file_stat(&za, i, &zf)){
+        mz_zip_reader_end(&za);
+        return false;
       }
+      try {
+        buff = new char[zf.m_uncomp_size+1];
+      } catch(const std::bad_alloc&) {
+        GME_Logs(GME_LOG_ERROR, "GME_ZipGetModVers", "Bad alloc", std::to_string(zf.m_uncomp_size+1).c_str());
+        mz_zip_reader_end(&za);
+        return false;
+      }
+      if(buff == NULL) {
+        GME_Logs(GME_LOG_ERROR, "GME_ZipGetModVers", "Bad alloc (* == NULL)", std::to_string(zf.m_uncomp_size+1).c_str());
+        mz_zip_reader_end(&za);
+        return false;
+      }
+      if(!mz_zip_reader_extract_to_mem(&za, i, buff, zf.m_uncomp_size+1, 0)) {
+        mz_zip_reader_end(&za);
+        delete[] buff;
+        return false;
+      }
+      buff[zf.m_uncomp_size] = '\0';
+      *vers = GME_StrToWcs(buff);
       mz_zip_reader_end(&za);
+      delete[] buff;
       return true;
     }
   }

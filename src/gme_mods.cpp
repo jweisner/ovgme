@@ -901,7 +901,7 @@ bool GME_ModsChkDesc()
   /* if it is a single selection */
   if(name_list.size() == 1) {
 
-    std::wstring content = L"No description available.";
+    std::wstring content;
 
     switch(type_list[0])
     {
@@ -921,6 +921,9 @@ bool GME_ModsChkDesc()
       }
     }
 
+    if(content.empty())
+      content = L"No description available.";
+
     SendMessageW(het, WM_SETTEXT, 0, (LPARAM)content.c_str());
 
   } else {
@@ -932,7 +935,7 @@ bool GME_ModsChkDesc()
 
 
 /*
-  function to display mod description when single selection is made
+  function to explore folder or zip file
 */
 void GME_ModsExploreCur()
 {

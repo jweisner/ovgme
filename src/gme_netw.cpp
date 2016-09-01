@@ -52,28 +52,28 @@ std::string GME_NetwEncodeUrl(const char* url)
 
   char hex[] = "0123456789abcdef";
 
-  const char* pstr = url;
-  char* buf = new char[strlen(url) * 3 + 1];
-  char* pbuf = buf;
+  std::string encode;
+  size_t s = strlen(url);
 
-  while(*pstr) {
+  for(unsigned i = 0; i < s; i++) {
 
-    if(isalnum(*pstr) || *pstr == '-' || *pstr == '_' || *pstr == '.' || *pstr == '~' || *pstr == '/' || *pstr == ':' || *pstr == '?' || *pstr == '%') {
-      *pbuf++ = *pstr;
+    if(isalnum(url[i]) || url[i] == '-'
+                       || url[i] == '_'
+                       || url[i] == '.'
+                       || url[i] == '~'
+                       || url[i] == '/'
+                       || url[i] == ':'
+                       || url[i] == '?'
+                       || url[i] == '%') {
+      encode.append(1, url[i]);
     } else {
-      *pbuf++ = '%';
-      *pbuf++ = hex[(*pstr >> 4) & 15];
-      *pbuf++ = hex[*pstr & 15];
+      encode.append(1, '%');
+      encode.append(1, hex[(url[i] >> 4) & 15]);
+      encode.append(1, hex[url[i] & 15]);
     }
-
-    pstr++;
   }
-  *pbuf = '\0';
 
-  std::string encoded = buf;
-  delete[] buf;
-
-  return encoded;
+  return encode;
 }
 
 
@@ -89,28 +89,28 @@ std::string GME_NetwEncodeUrl(const std::string& url)
 
   char hex[] = "0123456789abcdef";
 
-  const char* pstr = url.c_str();
-  char* buf = new char[url.size() * 3 + 1];
-  char* pbuf = buf;
+  std::string encode;
+  size_t s = url.size();
 
-  while(*pstr) {
+  for(unsigned i = 0; i < s; i++) {
 
-    if(isalnum(*pstr) || *pstr == '-' || *pstr == '_' || *pstr == '.' || *pstr == '~' || *pstr == '/' || *pstr == ':' || *pstr == '?' || *pstr == '%') {
-      *pbuf++ = *pstr;
+    if(isalnum(url[i]) || url[i] == '-'
+                       || url[i] == '_'
+                       || url[i] == '.'
+                       || url[i] == '~'
+                       || url[i] == '/'
+                       || url[i] == ':'
+                       || url[i] == '?'
+                       || url[i] == '%') {
+      encode.append(1, url[i]);
     } else {
-      *pbuf++ = '%';
-      *pbuf++ = hex[(*pstr >> 4) & 15];
-      *pbuf++ = hex[*pstr & 15];
+      encode.append(1, '%');
+      encode.append(1, hex[(url[i] >> 4) & 15]);
+      encode.append(1, hex[url[i] & 15]);
     }
-
-    pstr++;
   }
-  *pbuf = '\0';
 
-  std::string encoded = buf;
-  delete[] buf;
-
-  return encoded;
+  return encode;
 }
 
 
@@ -124,31 +124,25 @@ std::string GME_NetwDecodeUrl(const char* url)
     thanks to the author....
   */
 
-  const char *pstr = url;
-  char* buf = new char[strlen(url) + 1];
-  char* pbuf = buf;
   char t1, t2;
 
-  while(*pstr) {
+  std::string decode;
+  size_t s = strlen(url);
 
-    if(*pstr == '%') {
-      if(pstr[1] && pstr[2]) {
-        t1 = isdigit(pstr[1]) ? pstr[1]-'0' : tolower(pstr[1])-'a'+10;
-        t2 = isdigit(pstr[2]) ? pstr[2]-'0' : tolower(pstr[2])-'a'+10;
-        *pbuf++ = t1 << 4 | t2;
-        pstr += 2;
+  for(unsigned i = 0; i < s; i++) {
+    if(url[i] == '%') {
+      if(url[i+1] && url[i+2]) {
+        t1 = isdigit(url[i+1]) ? url[i+1]-'0' : tolower(url[i+1])-'a'+10;
+        t2 = isdigit(url[i+2]) ? url[i+2]-'0' : tolower(url[i+2])-'a'+10;
+        decode.append(1, t1 << 4 | t2);
+        i += 2;
       }
     } else {
-      *pbuf++ = *pstr;
+      decode.append(1, url[i]);
     }
-    pstr++;
   }
-  *pbuf = '\0';
 
-  std::string decoded = buf;
-  delete[] buf;
-
-  return decoded;
+  return decode;
 }
 
 
@@ -162,31 +156,25 @@ std::string GME_NetwDecodeUrl(const std::string& url)
     thanks to the author....
   */
 
-  const char *pstr = url.c_str();
-  char* buf = new char[url.size() + 1];
-  char* pbuf = buf;
   char t1, t2;
 
-  while(*pstr) {
+  std::string decode;
+  size_t s = url.size();
 
-    if(*pstr == '%') {
-      if(pstr[1] && pstr[2]) {
-        t1 = isdigit(pstr[1]) ? pstr[1]-'0' : tolower(pstr[1])-'a'+10;
-        t2 = isdigit(pstr[2]) ? pstr[2]-'0' : tolower(pstr[2])-'a'+10;
-        *pbuf++ = t1 << 4 | t2;
-        pstr += 2;
+  for(unsigned i = 0; i < s; i++) {
+    if(url[i] == '%') {
+      if(url[i+1] && url[i+2]) {
+        t1 = isdigit(url[i+1]) ? url[i+1]-'0' : tolower(url[i+1])-'a'+10;
+        t2 = isdigit(url[i+2]) ? url[i+2]-'0' : tolower(url[i+2])-'a'+10;
+        decode.append(1, t1 << 4 | t2);
+        i += 2;
       }
     } else {
-      *pbuf++ = *pstr;
+      decode.append(1, url[i]);
     }
-    pstr++;
   }
-  *pbuf = '\0';
 
-  std::string decoded = buf;
-  delete[] buf;
-
-  return decoded;
+  return decode;
 }
 
 /*
@@ -325,15 +313,19 @@ GME_Http_Head_Struct GME_NetwHttpParseHead(const char* recv_buff, size_t recv_si
   std::vector<std::string> head_entry;
 
   /* copy in a new buffer to make a string */
-  char *cstr;
+  char *cstr = NULL;
   try {
     cstr = new char[recv_size+1];
-  } catch (const std::bad_alloc&) {
+  } catch(const std::bad_alloc&) {
     GME_Logs(GME_LOG_ERROR, "GME_NetwHttpParseHead", "Bad alloc", std::to_string(recv_size+1).c_str());
     return header;
   }
+  if(cstr == NULL) {
+    GME_Logs(GME_LOG_ERROR, "GME_NetwHttpParseHead", "Bad alloc (* == NULL)", std::to_string(recv_size+1).c_str());
+    return header;
+  }
   memcpy(cstr, recv_buff, recv_size);
-  cstr[recv_size] = 0;
+  cstr[recv_size] = '\0';
   std::string recv_str = cstr;
   delete[] cstr;
 
@@ -573,10 +565,10 @@ int GME_NetwHttpGET(const char* url_str, const GME_NetwGETOnErr on_err, const GM
   /* we begin download */
   int pct, bps;
   size_t body_size = 0;
-  char* body_data;
+  char* body_data = NULL;
   clock_t t = clock(); /* start clock for download speed */
 
-  /* alloc memory safely... */
+  /* alloc memory safely... VERY safely */
   try {
     body_data = new char[header.content_length];
   } catch(const std::bad_alloc&) {
@@ -585,7 +577,12 @@ int GME_NetwHttpGET(const char* url_str, const GME_NetwGETOnErr on_err, const GM
     GME_Logs(GME_LOG_ERROR, "GME_NetwHttpGET", "Bad alloc", std::to_string(header.content_length).c_str());
     return GME_HTTPGET_ERR_BAL;
   }
-
+  if(body_data == NULL) {
+    closesocket(sock); WSACleanup();
+    if(on_err) on_err(url_str);
+    GME_Logs(GME_LOG_ERROR, "GME_NetwHttpGET", "Bad alloc (* == NULL)", std::to_string(header.content_length).c_str());
+    return GME_HTTPGET_ERR_BAL;
+  }
   /* first part of body received with header */
   recv_size -= (header.size+4);
   if(recv_size) memcpy(body_data, &recv_buff[header.size+4], recv_size);
@@ -734,7 +731,8 @@ int GME_NetwHttpGET(const char* url_str, const GME_NetwGETOnErr on_err, const GM
 
   /* open temporary file for writing */
   std::wstring file_path = path + L"\\";
-  file_path += GME_StrToWcs(GME_NetwDecodeUrl(url.file));
+  //file_path += GME_StrToWcs(GME_NetwDecodeUrl(url.file));
+  file_path += GME_StrToWcs(url.file);
   file_path += L".down";
 
   FILE* fp = _wfopen(file_path.c_str(), L"wb");
