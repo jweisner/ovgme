@@ -469,13 +469,19 @@ bool GME_FileWrite(const ubyte* data, size_t size, const std::wstring& dst, bool
 */
 bool GME_FileCopy(const std::wstring& src, const std::wstring& dst, bool overwrite)
 {
-  ubyte buff[8192];
-  size_t n;
-
   if(!overwrite) {
     if(GetFileAttributesW(dst.c_str()) != INVALID_FILE_ATTRIBUTES)
       return true; /* we do not write, but this is not a error */
   }
+
+  if(!CopyFileW(src.c_str(),dst.c_str(), false)) {
+    GME_Logs(GME_LOG_ERROR, "GME_FileCopy", "CopyFileW failed", GME_StrToMbs(src).c_str());
+    return false;
+  }
+  return true;
+/*
+  ubyte buff[8192];
+  size_t n;
 
   FILE* fr = _wfopen(src.c_str(), L"rb");
   FILE* fw = _wfopen(dst.c_str(), L"wb");
@@ -501,6 +507,7 @@ bool GME_FileCopy(const std::wstring& src, const std::wstring& dst, bool overwri
   fclose(fw);
 
   return true;
+*/
 }
 
 /*
