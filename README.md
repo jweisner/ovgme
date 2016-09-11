@@ -34,3 +34,7 @@ OvGME implements the following key features:
 ###If you already use JSGME
 Please read carefully the "OvGME and JSGME" chapter in the embedded help before doing
 anything.
+
+Screenshots
+----------------------------------------------------------------------------------------
+![OvGME Screenshot](snaps/screenshot.png)
