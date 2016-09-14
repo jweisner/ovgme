@@ -34,6 +34,12 @@ void GME_GameUpdMenu()
     }
 
     EnableMenuItem(g_hmnuMain, MNU_REPOSCONFIG, MF_BYCOMMAND);
+    /* check if repos file exists */
+    if(GME_IsFile(GME_GameGetCurConfPath() + L"\\repos.dat")) {
+      EnableMenuItem(g_hmnuMain, MNU_REPOSQUERY, MF_BYCOMMAND);
+    } else {
+      EnableMenuItem(g_hmnuMain, MNU_REPOSQUERY, MF_GRAYED);
+    }
 
     if(GME_ModsListIsEmpty()) {
       EnableMenuItem(g_hmnuMain, MNU_MODENAALL, MF_GRAYED);
@@ -42,19 +48,12 @@ void GME_GameUpdMenu()
       EnableMenuItem(g_hmnuMain, MNU_MODDIS, MF_GRAYED);
       EnableMenuItem(g_hmnuMain, MNU_PROFILSAVE, MF_GRAYED);
       EnableMenuItem(g_hmnuMain, MNU_PROFILELOAD, MF_GRAYED);
-      EnableMenuItem(g_hmnuMain, MNU_REPOSQUERY, MF_GRAYED);
     } else {
       EnableMenuItem(g_hmnuMain, MNU_MODENAALL, MF_BYCOMMAND);
       EnableMenuItem(g_hmnuMain, MNU_MODDISALL, MF_BYCOMMAND);
       EnableMenuItem(g_hmnuMain, MNU_MODENA, MF_BYCOMMAND);
       EnableMenuItem(g_hmnuMain, MNU_MODDIS, MF_BYCOMMAND);
       EnableMenuItem(g_hmnuMain, MNU_PROFILSAVE, MF_BYCOMMAND);
-      /* check if repos file exists */
-      if(GME_IsFile(GME_GameGetCurConfPath() + L"\\repos.dat")) {
-        EnableMenuItem(g_hmnuMain, MNU_REPOSQUERY, MF_BYCOMMAND);
-      } else {
-        EnableMenuItem(g_hmnuMain, MNU_REPOSQUERY, MF_GRAYED);
-      }
       /* check if profile file exists */
       if(GME_IsFile(GME_GameGetCurConfPath() + L"\\profile.dat")) {
         EnableMenuItem(g_hmnuMain, MNU_PROFILELOAD, MF_BYCOMMAND);
