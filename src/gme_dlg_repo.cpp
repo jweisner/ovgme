@@ -22,6 +22,7 @@ char tmp_srurl[256];
 wchar_t tmp_spath[260];
 unsigned tmp_idummy;
 
+
 /* Ok guys, let me tell you a story... One day, Microsoft implemented
  a treeview control with checkboxes. But Microsoft implemented this
  thing so badly that, if we set the checkbox status to Enabled BEFORE
@@ -315,3 +316,43 @@ BOOL CALLBACK GME_DlgRepXml(HWND hwndDlg, UINT uMsg, WPARAM wParam, LPARAM lPara
   return false;
 }
 
+void GME_DlgRepXtsInit()
+{
+    HFONT courier = CreateFont(14,0,0,0,FW_DONTCARE,FALSE,FALSE,FALSE,DEFAULT_CHARSET,OUT_OUTLINE_PRECIS,
+                            CLIP_DEFAULT_PRECIS,CLEARTYPE_QUALITY,VARIABLE_PITCH,TEXT("Courier New"));
+
+    SendMessage(GetDlgItem(g_hwndRepXts, ENT_OUTPUT), WM_SETFONT, (WPARAM)courier, 1);
+}
+
+
+/*
+  message callback for repositories XML test
+*/
+BOOL CALLBACK GME_DlgRepXts(HWND hwndDlg, UINT uMsg, WPARAM wParam, LPARAM lParam)
+{
+  switch(uMsg)
+  {
+  case WM_INITDIALOG:
+    SendMessage(hwndDlg, WM_SETICON, ICON_BIG, (LPARAM)g_hicnMain);
+    g_hwndRepXts = hwndDlg;
+    GME_DlgRepXtsInit();
+    if(GME_DialogFileOpen(g_hwndRepXts, tmp_spath, 260, &tmp_idummy, L"XML file (*.xml)\0*.XML;\0", L"Choose XML file")) {
+      GME_RepoTestXml(tmp_spath, tmp_idummy);
+    }
+    return true;
+
+  case WM_CLOSE:
+    EndDialog(hwndDlg, 0);
+    return true;
+
+  case WM_COMMAND:
+    switch(LOWORD(wParam))
+    {
+    case BTN_CLOSE:
+      EndDialog(hwndDlg, 0);
+      return true;
+    }
+  }
+
+  return false;
+}

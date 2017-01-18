@@ -529,6 +529,82 @@ bool GME_RepoChkDesc()
   return true;
 }
 
+bool GME_RepoParseXml(const std::wstring& xml, std::vector<GME_ReposMod_Struct>* reposmod_list)
+{
+  GME_ReposMod_Struct reposmod;
+
+
+
+  xml_document xmldoc;
+  xmldoc.load(xml.c_str(), xml.size());
+
+  // search the first <mod_list> child
+  xml_node mod_list;
+  for(xml_node child = xmldoc.first_child(); child; child = child.next_sibling()) {
+    if(!wcscmp(child.name(), L"mod_list")) {
+      mod_list = child;
+      break;
+    }
+  }
+
+  if(mod_list.empty()) {
+    GME_DialogWarning(g_hwndRepUpd, L"Repository XML parse error: no <mod_list> child found.");
+    return false;
+  }
+
+  // get all children of mod_list
+  bool is_unique;
+  for(xml_node child = mod_list.first_child(); child; child = child.next_sibling()) {
+
+    if(wcslen(child.name())) {
+
+      if(!child.attribute(L"name")) {
+        GME_DialogWarning(g_hwndRepUpd, L"Repository XML parse error: 'name' attribute not found.");
+        continue;
+      }
+      if(!child.attribute(L"url")) {
+        GME_DialogWarning(g_hwndRepUpd, L"Repository XML parse error: 'url' attribute not found.");
+        continue;
+      }
+      if(!child.attribute(L"version")) {
+        GME_DialogWarning(g_hwndRepUpd, L"Repository XML parse error: 'version' attribute not found.");
+        continue;
+      }
+
+      reposmod.clear();
+
+      wcscpy(reposmod.name, child.attribute(L"name").value());
+      wcstombs(reposmod.url, child.attribute(L"url").value(), wcslen(child.attribute(L"url").value()));
+      reposmod.version = GME_RepoParseVers(child.attribute(L"version").value());
+
+      /* check for description */
+      if(!child.first_child().empty()) {
+        reposmod.desc = GME_ReposXmlDecode(child.child_value()); // this is content between <mod> <mod/>
+      } else {
+        reposmod.desc = "No description available.";
+      }
+
+      /* check if mod is unique */
+      is_unique = true;
+      for(unsigned i = 0; i < reposmod_list->size(); i++) {
+        if(!wcscmp(reposmod.name, reposmod_list->at(i).name)) {
+          //reposmod_list->push_back(reposmod);
+          is_unique = false;
+          if(reposmod.version > reposmod_list->at(i).version) {
+            /* replace the old by the new */
+            reposmod_list->at(i) = reposmod;
+          }
+        }
+      }
+      if(is_unique)
+        reposmod_list->push_back(reposmod);
+    }
+  }
+
+  return true;
+}
+
+/*
 bool GME_RepoParseXml(const std::wstring& xml)
 {
   GME_ReposMod_Struct reposmod;
@@ -561,20 +637,20 @@ bool GME_RepoParseXml(const std::wstring& xml)
       wcstombs(reposmod.url, child.attribute(L"url").value(), wcslen(child.attribute(L"url").value()));
       reposmod.version = GME_RepoParseVers(child.attribute(L"version").value());
 
-      /* check for description */
+      // check for description
       if(!child.first_child().empty()) {
-        reposmod.desc = GME_StrToMbs(child.child_value()); // this is content between <m> <m/>
+        reposmod.desc = GME_StrToMbs(child.child_value()); // this is content between <mod> <mod/>
       } else {
         reposmod.desc = "No description available.";
       }
-      /* check if mod is unique */
+      // check if mod is unique
       is_unique = true;
       for(unsigned i = 0; i < g_GME_ReposMod_List.size(); i++) {
         if(!wcscmp(reposmod.name, g_GME_ReposMod_List[i].name)) {
           g_GME_ReposMod_List.push_back(reposmod);
           is_unique = false;
           if(reposmod.version > g_GME_ReposMod_List[i].version) {
-            /* replace the old by the new */
+            // replace the old by the new
             g_GME_ReposMod_List[i] = reposmod;
           }
         }
@@ -590,7 +666,7 @@ bool GME_RepoParseXml(const std::wstring& xml)
 
   return true;
 }
-
+*/
 
 void GME_RepoDnl_SetItemStatus(const wchar_t* name, const wchar_t* status)
 {
@@ -792,7 +868,8 @@ void GME_RepoUpd_OnEnd(const char* body, size_t body_size)
 {
   HWND hpb = GetDlgItem(g_hwndRepUpd, PBM_REPOQRY);
   SendMessage(hpb, PBM_SETPOS, (WPARAM)100, 0);
-  GME_RepoParseXml(GME_StrToWcs(body));
+  //GME_RepoParseXml(GME_StrToWcs(body));
+  GME_RepoParseXml(GME_StrToWcs(body), &g_GME_ReposMod_List);
 }
 
 DWORD WINAPI GME_RepoQueryUpd_Th(void* args)
@@ -1042,30 +1119,58 @@ void GME_RepoQueryCancel()
 /*
   function to replace CR and LF by valid XML codes
 */
-std::string GME_ReposXmlEncode(const std::wstring& desc)
+std::string GME_ReposXmlEncode(const std::wstring& src)
 {
   std::string source;
   std::string encode;
-  GME_StrToMbs(source, desc);
+  GME_StrToMbs(source, src);
 
-  encode.append("    ");
-
-  unsigned i = 0;
   for(unsigned i = 0; i < source.size(); i++) {
-    if(source[i] == '\r' || source[i] == '\n') {
+    if(source[i] == '\r' || source[i] == '\n' || source[i] == '&') {
       encode.append("&#");
       if(source[i] == '\r') {
         encode.append("13;");
       }
       if(source[i] == '\n') {
-        encode.append("10;\r\n    ");
+        encode.append("10;");
+      }
+      if(source[i] == '&') {
+        encode.append("26;");
       }
     } else {
       encode.append(1, source[i]);
     }
   }
-
   return encode;
+}
+
+std::string GME_ReposXmlDecode(const std::wstring& src)
+{
+  std::string source;
+  std::string decode;
+  GME_StrToMbs(source, src);
+
+  char ccode[16];
+  unsigned icode;
+  unsigned n;
+
+  for(unsigned i = 0; i < source.size(); i++) {
+    if(source[i] == '&') {
+      i+=2; // #
+      for(n = 0; source[i] != ';'; n++, i++) {
+        ccode[n] = source[i];
+      }
+      ccode[n] = '\0';
+      icode = strtol(ccode, NULL, 10);
+      if(icode == 13) { decode.append(1, '\r'); continue; }
+      if(icode == 10) { decode.append(1, '\n'); continue; }
+      if(icode == 26) { decode.append(1, '&'); continue; }
+    } else {
+      decode.append(1, source[i]);
+    }
+  }
+
+  return decode;
 }
 
 std::string GME_RepoMakeXml(const char* url_str, bool cust_path, const wchar_t* path_str)
@@ -1133,15 +1238,15 @@ std::string GME_RepoMakeXml(const char* url_str, bool cust_path, const wchar_t* 
     xml_ascii += GME_StrToMbs(vers_list[i]);
     xml_ascii += "\" url=\"";
     xml_ascii += GME_NetwEncodeUrl(base_url + GME_StrToMbs(name_list[i]));
-    xml_ascii += ".zip\">\r\n";
+    xml_ascii += ".zip\">";
     if(!desc_list[i].empty()) {
+      //xml_ascii += "    ";
       xml_ascii += GME_ReposXmlEncode(desc_list[i]);
-      xml_ascii += "\r\n";
+      //xml_ascii += "\r\n";
     }
-    xml_ascii += "  </mod>\r\n";
+    xml_ascii += "</mod>\r\n";
   }
-
-  xml_ascii += "</mod_list>";
+  xml_ascii += "</mod_list>\r\n";
 
   SetDlgItemText(g_hwndRepXml, ENT_OUTPUT, xml_ascii.c_str());
 
@@ -1170,18 +1275,24 @@ bool GME_RepoSaveXml()
 
   std::wstring file_path = buffer;
 
+  if(GME_IsFile(file_path)) {
+    if(!GME_DialogQuestionConfirm(g_hwndRepXml, L"The file '" + file_path + L"' already exists, do you want to overwrite it ?")) {
+      return false;
+    }
+  }
+
   FILE* fp = _wfopen(file_path.c_str(), L"wb");
   if(fp) {
 
     try {
-      xml_src = new char[xml_src_size+1];
+      xml_src = new char[xml_src_size+2];
     } catch(const std::bad_alloc&) {
-      GME_Logs(GME_LOG_ERROR, "GME_RepoSaveXml", "Bad alloc", std::to_string(xml_src_size+1).c_str());
+      GME_Logs(GME_LOG_ERROR, "GME_RepoSaveXml", "Bad alloc", std::to_string(xml_src_size+2).c_str());
       fclose(fp);
       return false;
     }
     if(xml_src == NULL) {
-      GME_Logs(GME_LOG_ERROR, "GME_RepoSaveXml", "Bad alloc (* == NULL)", std::to_string(xml_src_size+1).c_str());
+      GME_Logs(GME_LOG_ERROR, "GME_RepoSaveXml", "Bad alloc (* == NULL)", std::to_string(xml_src_size+2).c_str());
       fclose(fp);
       return false;
     }
@@ -1191,12 +1302,13 @@ bool GME_RepoSaveXml()
     if(fwrite(xml_src, 1, xml_src_size, fp) != xml_src_size) {
       fclose(fp);
       delete[] xml_src;
+      GME_Logs(GME_LOG_ERROR, "GME_RepoSaveXml", "Write error", GME_StrToMbs(file_path).c_str());
       return false;
     }
 
     fclose(fp);
     delete[] xml_src;
-
+    GME_DialogInfo(g_hwndRepXml, L"XML repository file '" + file_path + L"' successfully saved.");
     return true;
   }
 
@@ -1205,3 +1317,39 @@ bool GME_RepoSaveXml()
   return false;
 }
 
+bool GME_RepoTestXml(const wchar_t* path, unsigned offst)
+{
+  std::string output;
+  std::wstring content;
+  std::wstring file_path = path;
+
+  if(GME_FileGetAsciiContent(file_path, &content) > 0) {
+
+    std::vector<GME_ReposMod_Struct> reposmod_list;
+
+    if(!GME_RepoParseXml(content, &reposmod_list)) {
+      return false;
+    }
+
+    SetDlgItemText(g_hwndRepXts, TXT_MESSAGE, "XML repository file parsing succeed, the repository XML source file appear valid.");
+
+    for(unsigned i = 0; i < reposmod_list.size(); i++) {
+      output += GME_StrToMbs(reposmod_list[i].name);
+      output += "\r\nVersion: \"";
+      output += GME_StrToMbs(GME_RepoVersString(reposmod_list[i].version));
+      output += "\"\r\nUrl: \"";
+      output += reposmod_list[i].url;
+      output += "\"\r\nDescription:\r\n\"";
+      output +=  reposmod_list[i].desc;
+      output += "\"\r\n\r\n";
+    }
+
+    SetDlgItemText(g_hwndRepXts, ENT_OUTPUT, output.c_str());
+
+  } else {
+    GME_DialogWarning(g_hwndRepXml, L"Unable to read file '" + file_path + L"'.");
+    return false;
+  }
+
+  return true;
+}

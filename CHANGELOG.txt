@@ -1,3 +1,12 @@
+OvGME 1.6.7, 2017-18-01
+
+- Fix XML repository parsing error.
+- Add XML parsing test feature.
+
+OvGME 1.6.6, 2016-21-11
+
+- Fix crash on read error or bad alloc during snapshot.
+
 OvGME 1.6.5, 2016-31-08
 
 - Fix XML source generator segfault.

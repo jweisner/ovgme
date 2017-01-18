@@ -21,5 +21,6 @@
 BOOL CALLBACK GME_DlgRepConf(HWND hwndDlg, UINT uMsg, WPARAM wParam, LPARAM lParam);
 BOOL CALLBACK GME_DlgRepUpd(HWND hwndDlg, UINT uMsg, WPARAM wParam, LPARAM lParam);
 BOOL CALLBACK GME_DlgRepXml(HWND hwndDlg, UINT uMsg, WPARAM wParam, LPARAM lParam);
+BOOL CALLBACK GME_DlgRepXts(HWND hwndDlg, UINT uMsg, WPARAM wParam, LPARAM lParam);
 
 #endif // GME_DLG_REPCONF_H_INCLUDED

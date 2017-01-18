@@ -29,7 +29,6 @@
 #include "gme_dlg_game.h"
 #include "gme_dlg_main.h"
 
-
 /*
   function for main init, startup process
 */
@@ -297,6 +296,10 @@ BOOL CALLBACK GME_DlgMain(HWND hwndDlg, UINT uMsg, WPARAM wParam, LPARAM lParam)
 
     case MNU_REPOSMKXML:
       DialogBox(g_hInst, MAKEINTRESOURCE(DLG_REPOS_XML), hwndDlg, (DLGPROC)GME_DlgRepXml);
+      return true;
+
+    case MNU_REPOSTSXML:
+      DialogBox(g_hInst, MAKEINTRESOURCE(DLG_REPOS_XTS), hwndDlg, (DLGPROC)GME_DlgRepXts);
       return true;
 
     case MNU_ABOUT:

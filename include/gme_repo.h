@@ -36,7 +36,10 @@ bool GME_RepoChkDesc();
 void GME_RepoDownloadSel();
 void GME_RepoDownloadAll();
 void GME_RepoQueryCancel();
+std::string GME_ReposXmlEncode(const std::wstring& src);
+std::string GME_ReposXmlDecode(const std::wstring& str);
 std::string GME_RepoMakeXml(const char* url_str, bool cust_path, const wchar_t* path_str);
 bool GME_RepoSaveXml();
+bool GME_RepoTestXml(const wchar_t* path, unsigned offst);
 
 #endif // GME_REPO_H_INCLUDED

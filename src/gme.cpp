@@ -32,7 +32,7 @@ HWND        g_hwndSnapCmp = NULL;
 HWND        g_hwndRepConf = NULL;
 HWND        g_hwndRepUpd = NULL;
 HWND        g_hwndRepXml = NULL;
-
+HWND        g_hwndRepXts = NULL;
 HWND        g_hwndDebug = NULL;
 HWND        g_hwndUninst = NULL;
 

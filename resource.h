@@ -27,6 +27,7 @@
 #define DLG_REPOS_UPD                           164
 #define DLG_REPOS_XML                           166
 #define DLG_MOD_QMAKE                           168
+#define DLG_REPOS_XTS                           170
 #define BTN_ADD                                 40000
 #define BTN_APPLY                               40000
 #define CMB_GAMELIST                            40000
@@ -36,6 +37,7 @@
 #define PBM_UNINST                              40000
 #define TVS_REPOSLIST                           40000
 #define TXT_GPL                                 40000
+#define TXT_MESSAGE                             40000
 #define TXT_STATUS                              40000
 #define BTN_ADDGAME                             40001
 #define BTN_BROWSEMOD                           40001
@@ -107,6 +109,7 @@
 #define MNU_REPOSCONFIG                         40056
 #define MNU_REPOSQUERY                          40057
 #define MNU_REPOSMKXML                          40058
+#define MNU_REPOSTSXML                          40059
 #define POP_OPENDIR                             40062
 #define POP_TOGGLE                              40065
 #define POP_ENABLE                              40066

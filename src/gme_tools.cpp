@@ -1102,8 +1102,21 @@ unsigned GME_FileGetXxH32(const std::wstring& src)
     s = ftell(fr);
     fseek(fr, 0, SEEK_SET);
 
-    buff = new ubyte[s];
-    fread(buff, 1, s, fr);
+    try {
+      buff = new ubyte[s];
+    } catch(const std::bad_alloc&) {
+      GME_Logs(GME_LOG_ERROR, "GME_FileGetXxH32", "Bad alloc", GME_StrToMbs(src).c_str());
+      fclose(fr);
+      return 0;
+    }
+
+    if(fread(buff, 1, s, fr) != s) {
+      GME_Logs(GME_LOG_ERROR, "GME_FileGetXxH32", "Read error", GME_StrToMbs(src).c_str());
+      fclose(fr);
+      delete [] buff;
+      return 0;
+    }
+
     fclose(fr);
 
     xxh = XXH32(buff, s, 0);

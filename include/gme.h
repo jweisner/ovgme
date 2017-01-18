@@ -71,8 +71,8 @@ along with this program. If not, see http://www.gnu.org/licenses/"
 #define GME_APP_NAME      L"OvGME"
 #define GME_APP_MAJOR     1
 #define GME_APP_MINOR     6
-#define GME_APP_REVIS     5
-#define GME_APP_DATE      L"August 2016"
+#define GME_APP_REVIS     7
+#define GME_APP_DATE      L"Junary 2017"
 
 /* handle for folder changes tracking */
 extern HANDLE      g_hChange;
@@ -90,6 +90,7 @@ extern HWND        g_hwndSnapCmp;
 extern HWND        g_hwndUninst;
 extern HWND        g_hwndRepUpd;
 extern HWND        g_hwndRepXml;
+extern HWND        g_hwndRepXts;
 extern HWND        g_hwndRepConf;
 extern HWND        g_hwndDebug;
 
