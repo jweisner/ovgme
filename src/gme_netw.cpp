@@ -31,11 +31,11 @@ struct GME_Url_Struct
 /* http response header structure */
 struct GME_Http_Head_Struct
 {
-  size_t size;
+  unsigned size;
   short code;
   char location[256];
   char content_type[64];
-  size_t content_length;
+  unsigned content_length;
   char transfer_encoding[64];
 };
 
@@ -356,7 +356,7 @@ GME_Http_Head_Struct GME_NetwHttpParseHead(const char* recv_buff, size_t recv_si
     if(head_entry[i].find("Content-Length") != std::string::npos) {
       size_t p = head_entry[i].find_first_of(':', 0) + 2;
       size_t s = head_entry[i].find_first_of('\r', 0) - p;
-      header.content_length = strtol(head_entry[i].substr(p, s).c_str(), NULL, 10);
+      header.content_length = strtoul(head_entry[i].substr(p, s).c_str(), NULL, 10);
     }
   }
 
@@ -781,6 +781,7 @@ int GME_NetwHttpGET(const char* url_str, const GME_NetwGETOnErr on_err, const GM
         GME_Logs(GME_LOG_ERROR, "GME_NetwHttpGET", "recv failed", url_str);
         return GME_HTTPGET_ERR_REC;
       }
+
       if(fwrite(&recv_buff, 1, recv_size, fp) != recv_size) {
         closesocket(sock); WSACleanup();
         fclose(fp); DeleteFileW(file_path.c_str());

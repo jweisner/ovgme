@@ -1,5 +1,6 @@
 OvGME 1.6.7, 2017-18-01
 
+- Fix download size cropped to 2147483647 bytes.
 - Fix XML repository parsing error.
 - Add XML parsing test feature.
 

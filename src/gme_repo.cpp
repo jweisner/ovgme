@@ -1276,7 +1276,7 @@ bool GME_RepoSaveXml()
   std::wstring file_path = buffer;
 
   if(GME_IsFile(file_path)) {
-    if(!GME_DialogQuestionConfirm(g_hwndRepXml, L"The file '" + file_path + L"' already exists, do you want to overwrite it ?")) {
+    if(IDNO == GME_DialogQuestionConfirm(g_hwndRepXml, L"The file '" + file_path + L"' already exists, do you want to overwrite it ?")) {
       return false;
     }
   }
@@ -1328,20 +1328,22 @@ bool GME_RepoTestXml(const wchar_t* path, unsigned offst)
     std::vector<GME_ReposMod_Struct> reposmod_list;
 
     if(!GME_RepoParseXml(content, &reposmod_list)) {
+      SetDlgItemText(g_hwndRepXts, TXT_MESSAGE, "XML repository file parsing error occurred, the repository XML source file is not valid.");
       return false;
     }
 
     SetDlgItemText(g_hwndRepXts, TXT_MESSAGE, "XML repository file parsing succeed, the repository XML source file appear valid.");
 
     for(unsigned i = 0; i < reposmod_list.size(); i++) {
+      output += "==================================================================================================\r\nMod: \"";
       output += GME_StrToMbs(reposmod_list[i].name);
-      output += "\r\nVersion: \"";
+      output += "\"\r\nVer: \"";
       output += GME_StrToMbs(GME_RepoVersString(reposmod_list[i].version));
       output += "\"\r\nUrl: \"";
       output += reposmod_list[i].url;
-      output += "\"\r\nDescription:\r\n\"";
+      output += "\"\r\nDescription:\r\n";
       output +=  reposmod_list[i].desc;
-      output += "\"\r\n\r\n";
+      output += "\r\n\r\n";
     }
 
     SetDlgItemText(g_hwndRepXts, ENT_OUTPUT, output.c_str());
