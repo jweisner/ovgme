@@ -195,9 +195,11 @@ bool GME_GameNewCfg(const std::wstring& title, const std::wstring& root, const s
     }
     /* check if custom backup path is already used by another game config */
     for(int i = 0; i < g_GameCfg_List.size(); i++) {
-      if(!wcscmp(backp.c_str(), g_GameCfg_List[i].back_dir)) {
-        if(IDYES != GME_DialogWarningConfirm(g_hwndEdiGame, L"The backup folder path\n'" + backp + L"'\nis already used by the config '" + g_GameCfg_List[i].title + L"'.\n\nUsing same backup folder for two configurations is NOT a good idea, do you really want to continue ?")) {
-          return false;
+      if(i != g_GameCur_Id) {
+        if(!wcscmp(backp.c_str(), g_GameCfg_List[i].back_dir)) {
+          if(IDYES != GME_DialogWarningConfirm(g_hwndEdiGame, L"The backup folder path\n'" + backp + L"'\nis already used by the config '" + g_GameCfg_List[i].title + L"'.\n\nUsing same backup folder for two configurations is NOT a good idea, do you really want to continue ?")) {
+            return false;
+          }
         }
       }
     }
@@ -321,9 +323,11 @@ bool GME_GameEditCurCfg(const std::wstring& title, const std::wstring& mods, boo
 
     /* check if custom backup path is already used by another game config */
     for(int i = 0; i < g_GameCfg_List.size(); i++) {
-      if(!wcscmp(backp.c_str(), g_GameCfg_List[i].back_dir)) {
-        if(IDYES != GME_DialogWarningConfirm(g_hwndEdiGame, L"The backup folder path\n'" + backp + L"'\nis already used by the config '" + g_GameCfg_List[i].title + L"'.\n\nUsing same backup folder for two configurations is NOT a good idea, do you really want to continue ?")) {
-          return false;
+      if(i != g_GameCur_Id) {
+        if(!wcscmp(backp.c_str(), g_GameCfg_List[i].back_dir)) {
+          if(IDYES != GME_DialogWarningConfirm(g_hwndEdiGame, L"The backup folder path\n'" + backp + L"'\nis already used by the config '" + g_GameCfg_List[i].title + L"'.\n\nUsing same backup folder for two configurations is NOT a good idea, do you really want to continue ?")) {
+            return false;
+          }
         }
       }
     }
