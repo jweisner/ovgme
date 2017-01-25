@@ -573,7 +573,7 @@ void GME_DialogWarning(HWND hwnd, std::wstring message)
 */
 int GME_DialogWarningConfirm(HWND hwnd, std::wstring message)
 {
-  return MessageBoxW(hwnd, message.c_str(), L"OvGME Warning", MB_OKCANCEL|MB_ICONWARNING);
+  return MessageBoxW(hwnd, message.c_str(), L"OvGME Warning", MB_YESNO|MB_ICONWARNING);
 }
 
 /*

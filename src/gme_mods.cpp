@@ -313,7 +313,7 @@ void GME_ModsApplyMod(HWND hpb, const std::wstring& name, int type)
           olap_msg += L"\nThis will alter already installed Mod files, do you want to install it anyway ?";
 
           /* show confirmation dialog */
-          if(IDCANCEL == GME_DialogWarningConfirm(g_hwndMain, olap_msg)) {
+          if(IDYES != GME_DialogWarningConfirm(g_hwndMain, olap_msg)) {
             delete mod_tree;
             FindClose(hnd);
             SendMessage(hpb, PBM_SETPOS, (WPARAM)0, 0);
@@ -1025,12 +1025,12 @@ void GME_ModsDeleteCur()
     switch(type_list[i])
     {
     case 0:
-      if(IDCANCEL != GME_DialogWarningConfirm(g_hwndMain, L"Are you sure you want to move the Mod '" + name_list[i] + L"' to Recycle Bin ?")){
+      if(IDYES == GME_DialogWarningConfirm(g_hwndMain, L"Are you sure you want to move the Mod '" + name_list[i] + L"' to Recycle Bin ?")){
         GME_DirRemToTrash(mod_path);
       }
       break;
     case 1:
-      if(IDCANCEL != GME_DialogWarningConfirm(g_hwndMain, L"Are you sure you want to move the Mod '" + name_list[i] + L"' to Recycle Bin ?")){
+      if(IDYES == GME_DialogWarningConfirm(g_hwndMain, L"Are you sure you want to move the Mod '" + name_list[i] + L"' to Recycle Bin ?")){
         mod_path += L".zip";
         GME_DirRemToTrash(mod_path);
       }
@@ -1052,7 +1052,7 @@ void GME_ModsProfileSave()
   std::wstring prfl_file = GME_GameGetCurConfPath() + L"\\profile.dat";
 
   if(GME_IsFile(prfl_file)) {
-    if(IDCANCEL == GME_DialogWarningConfirm(g_hwndMain, L"Mods Profile already exists for this game, do you want to overwrite it ?"))
+    if(IDYES != GME_DialogWarningConfirm(g_hwndMain, L"Mods Profile already exists for this game, do you want to overwrite it ?"))
       return;
   }
 
