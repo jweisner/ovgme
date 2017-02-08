@@ -71,7 +71,7 @@ along with this program. If not, see http://www.gnu.org/licenses/"
 #define GME_APP_NAME      L"OvGME"
 #define GME_APP_MAJOR     1
 #define GME_APP_MINOR     6
-#define GME_APP_REVIS     7
+#define GME_APP_REVIS     8
 #define GME_APP_DATE      L"January 2017"
 
 /* handle for folder changes tracking */

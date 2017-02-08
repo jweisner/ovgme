@@ -676,7 +676,7 @@
 
 1484763875 d:\dev\cpp\proj\ovgme\resource.h
 
-1484837992 d:\dev\cpp\proj\ovgme\include\gme.h
+1486585539 d:\dev\cpp\proj\ovgme\include\gme.h
 	<stdio.h>
 	<stdlib.h>
 	<iostream>
@@ -801,7 +801,7 @@
 
 1471623067 d:\dev\cpp\proj\ovgme\include\gme_snap.h
 
-1485334445 source:d:\dev\cpp\proj\ovgme\src\gme_game.cpp
+1485336443 source:d:\dev\cpp\proj\ovgme\src\gme_game.cpp
 	"gme_conf.h"
 	"gme_game.h"
 	"gme_mods.h"
