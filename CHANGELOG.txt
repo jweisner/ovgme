@@ -1,3 +1,9 @@
+OvGME 1.6.9, 2017-11-02
+
+- Add Edit button on main dialog.
+- Add Root path entry on main dialog.
+- Fix some GUI elements.
+
 OvGME 1.6.8, 2017-25-01
 
 - Fixed config edit backup dir not updating which produce backup corruption.
