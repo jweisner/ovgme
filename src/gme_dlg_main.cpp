@@ -243,6 +243,7 @@ BOOL CALLBACK GME_DlgMain(HWND hwndDlg, UINT uMsg, WPARAM wParam, LPARAM lParam)
       return true;
 
     case MNU_GAMEEDIT:
+    case BTN_EDIGAME:
       DialogBox(g_hInst, MAKEINTRESOURCE(DLG_GAME_EDIT), hwndDlg, (DLGPROC)GME_DlgGameEdit);
       return true;
 

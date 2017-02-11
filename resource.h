@@ -89,8 +89,10 @@
 #define ENT_MODSPATH                            40009
 #define ENT_VERSREVIS                           40009
 #define ENT_MODDESC                             40010
+#define BTN_EDIGAME                             40011
 #define BTN_REPORETRY                           40011
 #define CB_ZIPLEVEL                             40011
+#define ENT_CFGRPATH                            40012
 #define MNU_ABOUT                               40040
 #define MNU_GAMEADD                             40041
 #define MNU_GAMEEDIT                            40042

@@ -90,6 +90,7 @@
 			<Add library="Shlwapi" />
 			<Add library="Ws2_32" />
 			<Add library="Comdlg32" />
+			<Add library="Shell32" />
 		</Linker>
 		<Unit filename="CHANGELOG.txt" />
 		<Unit filename="README.md" />

@@ -158,20 +158,20 @@ STYLE DS_3DLOOK | DS_CENTER | DS_MODALFRAME | DS_SHELLFONT | WS_CAPTION | WS_VIS
 CAPTION "New Config"
 FONT 8, "Ms Shell Dlg"
 {
-    EDITTEXT        ENT_NAME, 59, 29, 140, 12, ES_AUTOHSCROLL, WS_EX_LEFT
-    EDITTEXT        ENT_ROOTPATH, 59, 46, 140, 12, ES_AUTOHSCROLL, WS_EX_LEFT
+    EDITTEXT        ENT_NAME, 64, 29, 135, 12, ES_AUTOHSCROLL, WS_EX_LEFT
+    EDITTEXT        ENT_ROOTPATH, 64, 46, 135, 12, ES_AUTOHSCROLL, WS_EX_LEFT
     LTEXT           "Specify the path for the Mods stock folder.", 0, 8, 73, 134, 9, SS_LEFT, WS_EX_LEFT
     LTEXT           "Mods Path:", 0, 17, 89, 37, 9, SS_LEFT, WS_EX_LEFT
     LTEXT           "Choose a title for the new configuration and specify the path to the destination root folder.", 0, 7, 7, 248, 17, SS_LEFT, WS_EX_LEFT
     LTEXT           "Config Title:", 0, 16, 32, 38, 9, SS_LEFT, WS_EX_LEFT
     LTEXT           "Root Path:", 0, 19, 49, 35, 9, SS_LEFT, WS_EX_LEFT
     PUSHBUTTON      "Browse", BTN_BROWSEROOT, 201, 46, 50, 12, 0, WS_EX_LEFT
-    EDITTEXT        ENT_MODSPATH, 59, 86, 140, 12, ES_AUTOHSCROLL, WS_EX_LEFT
+    EDITTEXT        ENT_MODSPATH, 64, 86, 135, 12, ES_AUTOHSCROLL, WS_EX_LEFT
     PUSHBUTTON      "Cancel", IDCANCEL, 59, 179, 50, 14, 0, WS_EX_LEFT
     DEFPUSHBUTTON   "Add", BTN_ADD, 7, 179, 50, 14, 0, WS_EX_LEFT
     AUTOCHECKBOX    "Use custom backup folder", CHK_CUSTBACKUP, 7, 117, 99, 8, 0, WS_EX_LEFT
-    LTEXT           "Back Path:", 0, 19, 158, 36, 9, SS_LEFT, WS_EX_LEFT
-    EDITTEXT        ENT_BACKPATH, 59, 155, 140, 12, ES_AUTOHSCROLL, WS_EX_LEFT
+    LTEXT           "Backup Path:", 0, 19, 158, 43, 9, SS_LEFT, WS_EX_LEFT
+    EDITTEXT        ENT_BACKPATH, 64, 155, 135, 12, ES_AUTOHSCROLL, WS_EX_LEFT
     PUSHBUTTON      "Browse", BTN_BROWSEBCK, 201, 155, 50, 12, 0, WS_EX_LEFT
     LTEXT           "Specify the path for backup data.", 0, 7, 141, 106, 9, SS_LEFT, WS_EX_LEFT
     PUSHBUTTON      "Browse", BTN_BROWSEMOD, 201, 86, 50, 12, 0, WS_EX_LEFT
@@ -189,16 +189,16 @@ FONT 8, "Ms Shell Dlg"
     DEFPUSHBUTTON   "Apply", BTN_APPLY, 7, 179, 50, 14, 0, WS_EX_LEFT
     LTEXT           "Choose a title for this configuration.", 0, 7, 15, 111, 9, SS_LEFT, WS_EX_LEFT
     LTEXT           "Config Title:", 0, 16, 32, 38, 9, SS_LEFT, WS_EX_LEFT
-    EDITTEXT        ENT_NAME, 59, 29, 140, 12, ES_AUTOHSCROLL, WS_EX_LEFT
+    EDITTEXT        ENT_NAME, 64, 29, 135, 12, ES_AUTOHSCROLL, WS_EX_LEFT
     LTEXT           "Root Path:", 0, 19, 49, 35, 9, SS_LEFT, WS_EX_LEFT
-    EDITTEXT        ENT_ROOTPATH, 59, 46, 140, 12, ES_AUTOHSCROLL | ES_READONLY, WS_EX_LEFT
+    EDITTEXT        ENT_ROOTPATH, 64, 46, 135, 12, ES_AUTOHSCROLL | ES_READONLY, WS_EX_LEFT
     LTEXT           "Specify the path for the Mods stock folder.", 0, 8, 73, 134, 9, SS_LEFT, WS_EX_LEFT
     LTEXT           "Mods Path:", 0, 17, 89, 37, 9, SS_LEFT, WS_EX_LEFT
-    EDITTEXT        ENT_MODSPATH, 59, 86, 140, 12, ES_AUTOHSCROLL, WS_EX_LEFT
+    EDITTEXT        ENT_MODSPATH, 64, 86, 135, 12, ES_AUTOHSCROLL, WS_EX_LEFT
     AUTOCHECKBOX    "Use custom backup folder", CHK_CUSTBACKUP, 7, 117, 99, 8, 0, WS_EX_LEFT
     LTEXT           "Specify the path for backup data.", 0, 7, 141, 106, 9, SS_LEFT, WS_EX_LEFT
-    LTEXT           "Back Path:", 0, 19, 158, 36, 9, SS_LEFT, WS_EX_LEFT
-    EDITTEXT        ENT_BACKPATH, 59, 155, 140, 12, ES_AUTOHSCROLL, WS_EX_LEFT
+    LTEXT           "Backup Path:", 0, 19, 158, 43, 9, SS_LEFT, WS_EX_LEFT
+    EDITTEXT        ENT_BACKPATH, 64, 155, 135, 12, ES_AUTOHSCROLL, WS_EX_LEFT
     PUSHBUTTON      "Browse", BTN_BROWSEBCK, 201, 155, 50, 12, 0, WS_EX_LEFT
     PUSHBUTTON      "Browse", BTN_BROWSEMOD, 201, 86, 50, 12, 0, WS_EX_LEFT
 }
@@ -221,11 +221,14 @@ FONT 8, "Ms Shell Dlg"
     LTEXT           "Mod description:", 0, 13, 318, 53, 8, SS_LEFT, WS_EX_LEFT
     CONTROL         "", LVM_MODSLIST, WC_LISTVIEW, WS_TABSTOP | WS_BORDER | LVS_ALIGNLEFT | LVS_NOCOLUMNHEADER | LVS_REPORT | LVS_SORTASCENDING, 13, 70, 495, 230, WS_EX_LEFT
     CONTROL         "", PBM_MODPROC, PROGRESS_CLASS, 0, 151, 303, 305, 13, WS_EX_LEFT
-    PUSHBUTTON      "New Config", BTN_ADDGAME, 452, 17, 56, 14, 0, WS_EX_LEFT
-    COMBOBOX        CMB_GAMELIST, 107, 18, 343, 12, CBS_DROPDOWNLIST | CBS_HASSTRINGS, WS_EX_LEFT
+    PUSHBUTTON      "New", BTN_ADDGAME, 482, 13, 26, 14, 0, WS_EX_LEFT
+    COMBOBOX        CMB_GAMELIST, 107, 14, 343, 12, CBS_DROPDOWNLIST | CBS_HASSTRINGS, WS_EX_LEFT
     PUSHBUTTON      "Import Mod(s)", BTN_IMPORTMOD, 453, 55, 56, 14, 0, WS_EX_LEFT
     PUSHBUTTON      "Disable selected", BTN_MODDIS, 13, 302, 67, 14, 0, WS_EX_LEFT
     PUSHBUTTON      "Cancel", BTN_MODCANCEL, 458, 302, 50, 14, 0, WS_EX_LEFT
+    PUSHBUTTON      "Edit", BTN_EDIGAME, 453, 13, 26, 14, 0, WS_EX_LEFT
+    GROUPBOX        "", 0, 104, 7, 409, 38, 0, WS_EX_LEFT
+    EDITTEXT        ENT_CFGRPATH, 107, 29, 401, 12, WS_DISABLED | ES_AUTOHSCROLL | ES_READONLY, WS_EX_TRANSPARENT
 }
 
 
@@ -332,7 +335,7 @@ FONT 8, "Ms Shell Dlg"
     CONTROL         "", PBM_REPOQRY, PROGRESS_CLASS, 0, 7, 18, 452, 10, WS_EX_LEFT
     PUSHBUTTON      "Retry", BTN_REPORETRY, 461, 17, 32, 11, 0, WS_EX_LEFT
     LTEXT           "http://...", TXT_REPOQRYURL, 7, 31, 456, 9, SS_LEFT, WS_EX_LEFT
-    LTEXT           "Getting data from repositories...", TXT_REPOQRYSTATUS, 7, 7, 387, 9, SS_LEFT, WS_EX_LEFT
+    LTEXT           "Getting data from repositories...", TXT_REPOQRYSTATUS, 7, 7, 486, 9, SS_LEFT, WS_EX_LEFT
     PUSHBUTTON      "Cancel", BTN_CANCEL, 438, 267, 50, 14, 0, WS_EX_LEFT
     EDITTEXT        ENT_MODDESC, 13, 301, 475, 70, WS_VSCROLL | ES_AUTOVSCROLL | ES_MULTILINE | ES_READONLY, WS_EX_LEFT
 }
@@ -385,7 +388,7 @@ FONT 8, "Ms Shell Dlg"
 {
     EDITTEXT        ENT_OUTPUT, 8, 72, 400, 194, WS_HSCROLL | WS_VSCROLL | ES_AUTOHSCROLL | ES_AUTOVSCROLL | ES_MULTILINE | ES_READONLY, WS_EX_LEFT
     LTEXT           "Output log:", 0, 8, 61, 36, 9, SS_LEFT, WS_EX_LEFT
-    LTEXT           "Creating files snapshot, please wait...", TXT_TITLE, 7, 7, 117, 9, SS_LEFT, WS_EX_LEFT
+    LTEXT           "Creating files snapshot, please wait...", TXT_TITLE, 7, 7, 400, 9, SS_LEFT, WS_EX_LEFT
     LTEXT           "comment...", TXT_COMMENT, 7, 48, 400, 8, SS_LEFT, WS_EX_LEFT
     CONTROL         "", PBM_SNAP_CMP, PROGRESS_CLASS, 0, 7, 23, 400, 11, WS_EX_LEFT
     LTEXT           "Status...", TXT_STATUS, 7, 37, 400, 9, SS_LEFT, WS_EX_LEFT
@@ -402,10 +405,10 @@ STYLE DS_3DLOOK | DS_CENTER | DS_MODALFRAME | DS_SHELLFONT | WS_CAPTION | WS_VIS
 CAPTION "Root Snapshot Create"
 FONT 8, "Ms Shell Dlg"
 {
-    LTEXT           "Creating files snapshot, please wait...", TXT_TITLE, 7, 7, 117, 9, SS_LEFT, WS_EX_LEFT
+    LTEXT           "Creating files snapshot, please wait...", TXT_TITLE, 7, 7, 400, 9, SS_LEFT, WS_EX_LEFT
     LTEXT           "comment...", TXT_COMMENT, 7, 48, 400, 8, SS_LEFT, WS_EX_LEFT
     CONTROL         "", PBM_SNAP_NEW, PROGRESS_CLASS, 0, 7, 23, 400, 11, WS_EX_LEFT
-    LTEXT           "Status...", TXT_STATUS, 7, 37, 400, 9, SS_LEFT, WS_EX_LEFT
+    LTEXT           "Status...", TXT_STATUS, 7, 36, 400, 9, SS_LEFT, WS_EX_LEFT
     PUSHBUTTON      "Cancel", IDCANCEL, 59, 61, 50, 14, 0, WS_EX_LEFT
     DEFPUSHBUTTON   "Go !", IDOK, 7, 61, 47, 14, 0, WS_EX_LEFT
     PUSHBUTTON      "Close", BTN_CLOSE, 7, 61, 50, 14, NOT WS_VISIBLE, WS_EX_LEFT
@@ -434,9 +437,9 @@ FONT 8, "Ms Shell Dlg"
 {
     CONTROL         IDB_LOGO, 0, WC_STATIC, SS_BITMAP, 79, 18, 95, 35, WS_EX_LEFT
     CTEXT           "Welcome to", 0, 7, 7, 239, 9, SS_CENTER, WS_EX_LEFT
-    EDITTEXT        ENT_NAME, 54, 111, 146, 12, ES_AUTOHSCROLL, WS_EX_LEFT
-    EDITTEXT        ENT_ROOTPATH, 54, 160, 146, 12, ES_AUTOHSCROLL, WS_EX_LEFT
-    EDITTEXT        ENT_MODSPATH, 54, 210, 146, 12, ES_AUTOHSCROLL, WS_EX_LEFT
+    EDITTEXT        ENT_NAME, 61, 111, 139, 12, ES_AUTOHSCROLL, WS_EX_LEFT
+    EDITTEXT        ENT_ROOTPATH, 61, 160, 139, 12, ES_AUTOHSCROLL, WS_EX_LEFT
+    EDITTEXT        ENT_MODSPATH, 61, 210, 139, 12, ES_AUTOHSCROLL, WS_EX_LEFT
     DEFPUSHBUTTON   "OK", BTN_ADD, 7, 301, 50, 14, 0, WS_EX_LEFT
     PUSHBUTTON      "Cancel", IDCANCEL, 59, 301, 50, 14, 0, WS_EX_LEFT
     CTEXT           "Your configuration list is empty, maybe it's the first time you launch OvGME. This wizard will help you to create your first configuration.", 0, 7, 61, 253, 17, SS_CENTER, WS_EX_LEFT
@@ -447,8 +450,8 @@ FONT 8, "Ms Shell Dlg"
     LTEXT           "Specify the path to the Mods stock folder. This is where OvGME will seek for available Mods.", 0, 7, 188, 256, 17, SS_LEFT, WS_EX_LEFT
     AUTOCHECKBOX    "Use custom backup folder", CHK_CUSTBACKUP, 7, 237, 99, 8, 0, WS_EX_LEFT
     LTEXT           "Specify the path to  backup folder. This is where OvGME will keep original destination root files.", 0, 7, 250, 236, 17, SS_LEFT, WS_EX_LEFT
-    LTEXT           "Back Path:", 0, 16, 275, 36, 9, SS_LEFT, WS_EX_LEFT
-    EDITTEXT        ENT_BACKPATH, 54, 272, 146, 12, ES_AUTOHSCROLL, WS_EX_LEFT
+    LTEXT           "Backup Path:", 0, 16, 275, 43, 9, SS_LEFT, WS_EX_LEFT
+    EDITTEXT        ENT_BACKPATH, 61, 272, 139, 12, ES_AUTOHSCROLL, WS_EX_LEFT
     PUSHBUTTON      "Browse", BTN_BROWSEBCK, 202, 272, 50, 12, 0, WS_EX_LEFT
     PUSHBUTTON      "Browse", BTN_BROWSEMOD, 202, 210, 50, 12, 0, WS_EX_LEFT
     LTEXT           "Specify a title for the new configuration.", 0, 7, 97, 256, 9, SS_LEFT, WS_EX_LEFT

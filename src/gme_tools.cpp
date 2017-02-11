@@ -603,12 +603,12 @@ void GME_DialogDirChooser(HWND hwnd, wchar_t* path, size_t max)
   pBrwsinfo = new BROWSEINFOW;
   memset(pBrwsinfo, 0, sizeof(BROWSEINFO));
   pBrwsinfo->hwndOwner = hwnd;
-  pBrwsinfo->pidlRoot = NULL;
   pBrwsinfo->pszDisplayName = NULL;
   pBrwsinfo->lpszTitle = L"Choose a folder";
   pBrwsinfo->ulFlags = 0;
   pBrwsinfo->lpfn = NULL;
   pBrwsinfo->lParam = 0;
+  pBrwsinfo->pidlRoot = NULL;
 
   ITEMIDLIST*  pItem;
   pItem = SHBrowseForFolderW(pBrwsinfo);

@@ -431,6 +431,9 @@ bool GME_GameSelectCfg(const std::wstring& title)
   EnableMenuItem(g_hmnuMain, MNU_GAMEREM, MF_BYCOMMAND);
   EnableMenuItem(g_hmnuMain, MNU_SNAPCREATE, MF_BYCOMMAND);
 
+  /* set root path in UI entry*/
+  SendMessageW(GetDlgItem(g_hwndMain, ENT_CFGRPATH), WM_SETTEXT, 0, (LPARAM)GME_GameGetCurRoot().c_str());
+
   /* update mods list */
   GME_ModsUpdList();
 
