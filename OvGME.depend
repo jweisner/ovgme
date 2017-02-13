@@ -720,7 +720,7 @@
 1484753309 source:d:\dev\cpp\proj\ovgme\src\gme.cpp
 	"gme.h"
 
-1472153252 source:d:\dev\cpp\proj\ovgme\src\gme_conf.cpp
+1487010589 source:d:\dev\cpp\proj\ovgme\src\gme_conf.cpp
 	"gme_conf.h"
 	"gme_tools.h"
 
@@ -745,7 +745,7 @@
 1472493787 d:\dev\cpp\proj\ovgme\include\gme_game.h
 	"gme.h"
 
-1486996152 source:d:\dev\cpp\proj\ovgme\src\gme_dlg_main.cpp
+1487010661 source:d:\dev\cpp\proj\ovgme\src\gme_dlg_main.cpp
 	"gme.h"
 	"gme_tools.h"
 	"gme_game.h"

@@ -386,6 +386,8 @@ DWORD WINAPI GME_SnapCompare_Th(void* pargs)
     }
   }
 
+  delete game_tree;
+
   outlog += L"\r\n";
 
   float duration = ((float)clock()-time)/CLOCKS_PER_SEC;
