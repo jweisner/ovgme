@@ -146,68 +146,65 @@ FONT 8, "Ms Shell Dlg"
     CTEXT           "https://github.com/sedenion/ovgme", 0, 7, 76, 249, 9, SS_CENTER, WS_EX_LEFT
     CTEXT           "Version:", TXT_VERSION, 7, 44, 249, 9, SS_CENTER, WS_EX_LEFT
     CONTROL         IDB_LOGO, 0, WC_STATIC, SS_BITMAP, 83, 7, 95, 35, WS_EX_LEFT
-    DEFPUSHBUTTON   "Close", IDOK, 206, 203, 50, 14, 0, WS_EX_LEFT
+    DEFPUSHBUTTON   "Close", IDOK, 107, 203, 50, 14, 0, WS_EX_LEFT
     CTEXT           "Copyright (c) 2016 Eric M.", 0, 7, 55, 249, 9, SS_CENTER, WS_EX_LEFT
 }
 
 
 
 LANGUAGE LANG_NEUTRAL, SUBLANG_NEUTRAL
-DLG_GAME_ADD DIALOG 0, 0, 270, 200
+DLG_GAME_ADD DIALOG 0, 0, 270, 175
 STYLE DS_3DLOOK | DS_CENTER | DS_MODALFRAME | DS_SHELLFONT | WS_CAPTION | WS_VISIBLE | WS_POPUP | WS_SYSMENU
-CAPTION "New Config"
+EXSTYLE WS_EX_WINDOWEDGE
+CAPTION "OvGME New Configuration"
 FONT 8, "Ms Shell Dlg"
 {
-    EDITTEXT        ENT_NAME, 64, 29, 135, 12, ES_AUTOHSCROLL, WS_EX_LEFT
-    EDITTEXT        ENT_ROOTPATH, 64, 46, 135, 12, ES_AUTOHSCROLL, WS_EX_LEFT
-    LTEXT           "Specify the path for the Mods stock folder.", 0, 8, 73, 134, 9, SS_LEFT, WS_EX_LEFT
-    LTEXT           "Mods Path:", 0, 17, 89, 37, 9, SS_LEFT, WS_EX_LEFT
-    LTEXT           "Choose a title for the new configuration and specify the path to the destination root folder.", 0, 7, 7, 248, 17, SS_LEFT, WS_EX_LEFT
-    LTEXT           "Config Title:", 0, 16, 32, 38, 9, SS_LEFT, WS_EX_LEFT
-    LTEXT           "Root Path:", 0, 19, 49, 35, 9, SS_LEFT, WS_EX_LEFT
-    PUSHBUTTON      "Browse", BTN_BROWSEROOT, 201, 46, 50, 12, 0, WS_EX_LEFT
-    EDITTEXT        ENT_MODSPATH, 64, 86, 135, 12, ES_AUTOHSCROLL, WS_EX_LEFT
-    PUSHBUTTON      "Cancel", IDCANCEL, 59, 179, 50, 14, 0, WS_EX_LEFT
-    DEFPUSHBUTTON   "Add", BTN_ADD, 7, 179, 50, 14, 0, WS_EX_LEFT
-    AUTOCHECKBOX    "Use custom backup folder", CHK_CUSTBACKUP, 7, 117, 99, 8, 0, WS_EX_LEFT
-    LTEXT           "Backup Path:", 0, 19, 158, 43, 9, SS_LEFT, WS_EX_LEFT
-    EDITTEXT        ENT_BACKPATH, 64, 155, 135, 12, ES_AUTOHSCROLL, WS_EX_LEFT
-    PUSHBUTTON      "Browse", BTN_BROWSEBCK, 201, 155, 50, 12, 0, WS_EX_LEFT
-    LTEXT           "Specify the path for backup data.", 0, 7, 141, 106, 9, SS_LEFT, WS_EX_LEFT
-    PUSHBUTTON      "Browse", BTN_BROWSEMOD, 201, 86, 50, 12, 0, WS_EX_LEFT
+    EDITTEXT        ENT_NAME, 21, 43, 237, 12, ES_AUTOHSCROLL, WS_EX_LEFT
+    EDITTEXT        ENT_ROOTPATH, 21, 71, 185, 12, ES_AUTOHSCROLL, WS_EX_LEFT
+    LTEXT           "Configuration mods folder:", 0, 13, 88, 82, 9, SS_LEFT, WS_EX_LEFT
+    LTEXT           "Configuration title:", 0, 13, 32, 57, 9, SS_LEFT, WS_EX_LEFT
+    GROUPBOX        "", 0, 7, 21, 256, 125, 0, WS_EX_LEFT
+    PUSHBUTTON      "Browse", BTN_BROWSEROOT, 208, 71, 50, 12, 0, WS_EX_LEFT
+    EDITTEXT        ENT_MODSPATH, 21, 99, 185, 12, ES_AUTOHSCROLL, WS_EX_LEFT
+    PUSHBUTTON      "Cancel", IDCANCEL, 59, 154, 50, 14, 0, WS_EX_LEFT
+    DEFPUSHBUTTON   "Create", BTN_ADD, 7, 154, 50, 14, 0, WS_EX_LEFT
+    AUTOCHECKBOX    "Custom configuration backup folder:", CHK_CUSTBACKUP, 13, 116, 129, 8, 0, WS_EX_LEFT
+    EDITTEXT        ENT_BACKPATH, 21, 126, 185, 12, ES_AUTOHSCROLL, WS_EX_LEFT
+    PUSHBUTTON      "Browse", BTN_BROWSEBCK, 208, 126, 50, 12, 0, WS_EX_LEFT
+    PUSHBUTTON      "Browse", BTN_BROWSEMOD, 208, 99, 50, 12, 0, WS_EX_LEFT
+    LTEXT           "Configuration root folder:", 0, 13, 60, 78, 9, SS_LEFT, WS_EX_LEFT
+    LTEXT           "Create new configuration", 0, 7, 7, 249, 9, SS_LEFT, WS_EX_LEFT
 }
 
 
 
 LANGUAGE LANG_NEUTRAL, SUBLANG_NEUTRAL
-DLG_GAME_EDIT DIALOG 0, 0, 270, 200
+DLG_GAME_EDIT DIALOG 0, 0, 270, 175
 STYLE DS_3DLOOK | DS_CENTER | DS_MODALFRAME | DS_SHELLFONT | WS_CAPTION | WS_VISIBLE | WS_POPUP | WS_SYSMENU
-CAPTION "Edit Config"
+CAPTION "OvGME Edit Configuration"
 FONT 8, "Ms Shell Dlg"
 {
-    PUSHBUTTON      "Cancel", IDCANCEL, 59, 179, 50, 14, 0, WS_EX_LEFT
-    DEFPUSHBUTTON   "Apply", BTN_APPLY, 7, 179, 50, 14, 0, WS_EX_LEFT
-    LTEXT           "Choose a title for this configuration.", 0, 7, 15, 111, 9, SS_LEFT, WS_EX_LEFT
-    LTEXT           "Config Title:", 0, 16, 32, 38, 9, SS_LEFT, WS_EX_LEFT
-    EDITTEXT        ENT_NAME, 64, 29, 135, 12, ES_AUTOHSCROLL, WS_EX_LEFT
-    LTEXT           "Root Path:", 0, 19, 49, 35, 9, SS_LEFT, WS_EX_LEFT
-    EDITTEXT        ENT_ROOTPATH, 64, 46, 135, 12, ES_AUTOHSCROLL | ES_READONLY, WS_EX_LEFT
-    LTEXT           "Specify the path for the Mods stock folder.", 0, 8, 73, 134, 9, SS_LEFT, WS_EX_LEFT
-    LTEXT           "Mods Path:", 0, 17, 89, 37, 9, SS_LEFT, WS_EX_LEFT
-    EDITTEXT        ENT_MODSPATH, 64, 86, 135, 12, ES_AUTOHSCROLL, WS_EX_LEFT
-    AUTOCHECKBOX    "Use custom backup folder", CHK_CUSTBACKUP, 7, 117, 99, 8, 0, WS_EX_LEFT
-    LTEXT           "Specify the path for backup data.", 0, 7, 141, 106, 9, SS_LEFT, WS_EX_LEFT
-    LTEXT           "Backup Path:", 0, 19, 158, 43, 9, SS_LEFT, WS_EX_LEFT
-    EDITTEXT        ENT_BACKPATH, 64, 155, 135, 12, ES_AUTOHSCROLL, WS_EX_LEFT
-    PUSHBUTTON      "Browse", BTN_BROWSEBCK, 201, 155, 50, 12, 0, WS_EX_LEFT
-    PUSHBUTTON      "Browse", BTN_BROWSEMOD, 201, 86, 50, 12, 0, WS_EX_LEFT
+    GROUPBOX        "", 0, 7, 21, 256, 125, 0, WS_EX_LEFT
+    EDITTEXT        ENT_ROOTPATH, 21, 71, 185, 12, ES_AUTOHSCROLL | ES_READONLY, WS_EX_LEFT
+    PUSHBUTTON      "Cancel", IDCANCEL, 59, 154, 50, 14, 0, WS_EX_LEFT
+    DEFPUSHBUTTON   "Apply", BTN_APPLY, 7, 154, 50, 14, 0, WS_EX_LEFT
+    LTEXT           "Edit current configuration", 0, 7, 7, 80, 9, SS_LEFT, WS_EX_LEFT
+    LTEXT           "Configuration title:", 0, 13, 32, 57, 9, SS_LEFT, WS_EX_LEFT
+    EDITTEXT        ENT_NAME, 21, 43, 237, 12, ES_AUTOHSCROLL, WS_EX_LEFT
+    LTEXT           "Configuration root folder:", 0, 13, 60, 78, 9, SS_LEFT, WS_EX_LEFT
+    LTEXT           "Configuration mods folder:", 0, 13, 88, 82, 9, SS_LEFT, WS_EX_LEFT
+    EDITTEXT        ENT_MODSPATH, 21, 99, 185, 12, ES_AUTOHSCROLL, WS_EX_LEFT
+    AUTOCHECKBOX    "Custom configuration backup folder:", CHK_CUSTBACKUP, 13, 116, 129, 8, 0, WS_EX_LEFT
+    EDITTEXT        ENT_BACKPATH, 21, 126, 185, 12, ES_AUTOHSCROLL, WS_EX_LEFT
+    PUSHBUTTON      "Browse", BTN_BROWSEBCK, 208, 126, 50, 12, 0, WS_EX_LEFT
+    PUSHBUTTON      "Browse", BTN_BROWSEMOD, 208, 99, 50, 12, 0, WS_EX_LEFT
 }
 
 
 
 LANGUAGE LANG_NEUTRAL, SUBLANG_NEUTRAL
-DLG_MAIN DIALOG 0, 0, 520, 440
-STYLE DS_3DLOOK | DS_CENTER | DS_MODALFRAME | DS_SHELLFONT | WS_CAPTION | WS_VISIBLE | WS_GROUP | WS_SYSMENU
+DLG_MAIN DIALOG 0, 0, 380, 340
+STYLE DS_3DLOOK | DS_CENTER | DS_SHELLFONT | WS_CAPTION | WS_VISIBLE | WS_GROUP | WS_TABSTOP | WS_THICKFRAME | WS_SYSMENU
 EXSTYLE WS_EX_WINDOWEDGE
 CAPTION "OvGME"
 FONT 8, "Ms Shell Dlg"
@@ -216,9 +213,9 @@ FONT 8, "Ms Shell Dlg"
     CONTROL         IDB_LOGO, 0, WC_STATIC, SS_BITMAP, 7, 7, 95, 35, WS_EX_TRANSPARENT
     EDITTEXT        ENT_MODSPATH, 13, 56, 438, 12, WS_DISABLED | ES_AUTOHSCROLL | ES_READONLY, WS_EX_TRANSPARENT
     PUSHBUTTON      "Quit", BTN_QUIT, 456, 407, 57, 15, 0, WS_EX_LEFT
-    GROUPBOX        "", 0, 7, 47, 506, 358, 0, WS_EX_LEFT
+    GROUPBOX        "", BOX_MAIN, 7, 47, 506, 358, 0, WS_EX_LEFT
     EDITTEXT        ENT_MODDESC, 13, 328, 496, 70, WS_VSCROLL | ES_AUTOVSCROLL | ES_MULTILINE | ES_READONLY, WS_EX_LEFT
-    LTEXT           "Mod description:", 0, 13, 318, 53, 8, SS_LEFT, WS_EX_LEFT
+    LTEXT           "Mod description:", LAB_MODDESC, 13, 318, 53, 8, SS_LEFT, WS_EX_LEFT
     CONTROL         "", LVM_MODSLIST, WC_LISTVIEW, WS_TABSTOP | WS_BORDER | LVS_ALIGNLEFT | LVS_NOCOLUMNHEADER | LVS_REPORT | LVS_SORTASCENDING, 13, 70, 495, 230, WS_EX_LEFT
     CONTROL         "", PBM_MODPROC, PROGRESS_CLASS, 0, 151, 303, 305, 13, WS_EX_LEFT
     PUSHBUTTON      "New", BTN_ADDGAME, 482, 13, 26, 14, 0, WS_EX_LEFT
@@ -227,114 +224,110 @@ FONT 8, "Ms Shell Dlg"
     PUSHBUTTON      "Disable selected", BTN_MODDIS, 13, 302, 67, 14, 0, WS_EX_LEFT
     PUSHBUTTON      "Cancel", BTN_MODCANCEL, 458, 302, 50, 14, 0, WS_EX_LEFT
     PUSHBUTTON      "Edit", BTN_EDIGAME, 453, 13, 26, 14, 0, WS_EX_LEFT
-    GROUPBOX        "", 0, 104, 7, 409, 38, 0, WS_EX_LEFT
+    GROUPBOX        "", BOX_TOP, 104, 7, 409, 38, 0, WS_EX_LEFT
     EDITTEXT        ENT_CFGRPATH, 107, 29, 401, 12, WS_DISABLED | ES_AUTOHSCROLL | ES_READONLY, WS_EX_TRANSPARENT
 }
 
 
 
 LANGUAGE LANG_NEUTRAL, SUBLANG_NEUTRAL
-DLG_MOD_MAKE DIALOG 0, 0, 387, 375
-STYLE DS_3DLOOK | DS_CENTER | DS_MODALFRAME | DS_SHELLFONT | WS_CAPTION | WS_VISIBLE | WS_POPUP | WS_SYSMENU
-CAPTION "Make Mod-Archive"
+DLG_MOD_MAKE DIALOG 0, 0, 350, 320
+STYLE DS_3DLOOK | DS_CENTER | DS_SHELLFONT | WS_CAPTION | WS_VISIBLE | WS_POPUP | WS_THICKFRAME | WS_SYSMENU
+EXSTYLE WS_EX_WINDOWEDGE
+CAPTION "OvGME Make Mod-Archive"
 FONT 8, "Ms Shell Dlg"
 {
     COMBOBOX        CB_ZIPLEVEL, 80, 302, 118, 12, CBS_DROPDOWNLIST | CBS_HASSTRINGS, WS_EX_LEFT
-    LTEXT           "Version:", 0, 52, 114, 26, 9, SS_LEFT, WS_EX_LEFT
     EDITTEXT        ENT_VERSMAJOR, 80, 111, 16, 12, ES_AUTOHSCROLL | ES_NUMBER, WS_EX_LEFT
     EDITTEXT        ENT_MODDESC, 13, 153, 362, 122, WS_VSCROLL | ES_AUTOVSCROLL | ES_MULTILINE | ES_WANTRETURN, WS_EX_LEFT
-    LTEXT           "Description:", 0, 13, 142, 38, 9, SS_LEFT, WS_EX_LEFT
-    GROUPBOX        "", 0, 7, 18, 373, 331, 0, WS_EX_LEFT
-    CTEXT           "Create an OvGME compliant Mod-Archive zip file from a classical Directory-Mod.", 0, 7, 7, 373, 9, SS_CENTER, WS_EX_LEFT
+    GROUPBOX        "", BOX_MAIN, 7, 18, 373, 331, 0, WS_EX_LEFT
+    LTEXT           "Make zipped Mod-Archive from a Directory-Mod folder.", TXT_TITLE, 7, 7, 373, 9, SS_LEFT, WS_EX_LEFT
     PUSHBUTTON      "Cancel", IDCANCEL, 65, 331, 50, 13, 0, WS_EX_LEFT
     PUSHBUTTON      "Make", BTN_CREATE, 13, 331, 50, 13, 0, WS_EX_LEFT
     PUSHBUTTON      "Browse", BTN_BROWSESRC, 309, 43, 50, 12, 0, WS_EX_LEFT
     EDITTEXT        ENT_SRC, 80, 44, 227, 12, ES_AUTOHSCROLL, WS_EX_LEFT
-    LTEXT           "Directory-Mod:", 0, 31, 47, 47, 9, SS_LEFT, WS_EX_LEFT
-    LTEXT           "Destination:", 0, 40, 83, 38, 9, SS_LEFT, WS_EX_LEFT
     EDITTEXT        ENT_DST, 80, 80, 227, 12, ES_AUTOHSCROLL, WS_EX_LEFT
-    LTEXT           "Specify a destination path to create the Mod-Archive zip file.", 0, 13, 66, 190, 9, SS_LEFT, WS_EX_LEFT
+    LTEXT           "Destination path for Zip file:", TXT_HELP2, 13, 66, 190, 9, SS_LEFT, WS_EX_LEFT
     PUSHBUTTON      "Browse", BTN_BROWSEDST, 309, 80, 50, 12, 0, WS_EX_LEFT
     CONTROL         "", PBM_MAKE, PROGRESS_CLASS, 0, 117, 331, 258, 12, WS_EX_LEFT
-    LTEXT           "Specify the Directory-Mod root folder.", 0, 13, 29, 118, 9, SS_LEFT, WS_EX_LEFT
-    LTEXT           "Write the description of the Mod (Optionnal).", 0, 13, 131, 140, 9, SS_LEFT, WS_EX_LEFT
-    LTEXT           "Specify the version number of the Mod (Optionnal).", 0, 13, 97, 160, 9, SS_LEFT, WS_EX_LEFT
-    LTEXT           ".", 0, 98, 114, 8, 9, SS_LEFT, WS_EX_LEFT
-    EDITTEXT        ENT_VERSMINOR, 101, 111, 16, 12, ES_AUTOHSCROLL | ES_NUMBER, WS_EX_LEFT
-    EDITTEXT        ENT_VERSREVIS, 122, 111, 16, 12, ES_AUTOHSCROLL | ES_NUMBER, WS_EX_LEFT
-    LTEXT           ".", 0, 119, 114, 8, 9, SS_LEFT, WS_EX_LEFT
+    LTEXT           "Directory-Mod root folder:", TXT_HELP1, 13, 29, 118, 9, SS_LEFT, WS_EX_LEFT
+    LTEXT           "Description / Readme for this mod:", TXT_HELP4, 13, 131, 140, 9, SS_LEFT, WS_EX_LEFT
+    LTEXT           "Version number for this mod:", TXT_HELP3, 13, 97, 160, 9, SS_LEFT, WS_EX_LEFT
+    CTEXT           ".", LAB_VDOT1, 98, 114, 8, 9, SS_CENTER, WS_EX_LEFT
+    EDITTEXT        ENT_VERSMINOR, 108, 111, 16, 12, ES_AUTOHSCROLL | ES_NUMBER, WS_EX_LEFT
+    EDITTEXT        ENT_VERSREVIS, 136, 111, 16, 12, ES_AUTOHSCROLL | ES_NUMBER, WS_EX_LEFT
+    CTEXT           ".", LAB_VDOT2, 126, 114, 8, 9, SS_CENTER, WS_EX_LEFT
     PUSHBUTTON      "Close", BTN_CLOSE, 330, 354, 50, 14, 0, WS_EX_LEFT
-    LTEXT           "Specify Mod-Archive zip file compression level.", 0, 13, 288, 148, 9, SS_LEFT, WS_EX_LEFT
-    LTEXT           "Compression Level:", 0, 16, 306, 62, 9, SS_LEFT, WS_EX_LEFT
+    LTEXT           "Zip compression level:", TXT_HELP5, 13, 288, 148, 9, SS_LEFT, WS_EX_LEFT
 }
 
 
 
 LANGUAGE LANG_NEUTRAL, SUBLANG_NEUTRAL
-DLG_MOD_QMAKE DIALOG 0, 0, 387, 336
-STYLE DS_3DLOOK | DS_CENTER | DS_MODALFRAME | DS_SHELLFONT | WS_CAPTION | WS_VISIBLE | WS_POPUP | WS_SYSMENU
-CAPTION "Make Mod-Archive"
+DLG_MOD_QMAKE DIALOG 0, 0, 350, 280
+STYLE DS_3DLOOK | DS_CENTER | DS_SHELLFONT | WS_CAPTION | WS_VISIBLE | WS_POPUP | WS_THICKFRAME | WS_SYSMENU
+EXSTYLE WS_EX_WINDOWEDGE
+CAPTION "OvGME Make Mod-Archive"
 FONT 8, "Ms Shell Dlg"
 {
-    LTEXT           "Write the description of the Mod (Optionnal).", 0, 13, 76, 140, 9, SS_LEFT, WS_EX_LEFT
+    LTEXT           "Description / Readme for this mod:", TXT_HELP4, 13, 76, 140, 9, SS_LEFT, WS_EX_LEFT
     COMBOBOX        CB_ZIPLEVEL, 80, 258, 118, 12, CBS_DROPDOWNLIST | CBS_HASSTRINGS, WS_EX_LEFT
-    LTEXT           "Version:", 0, 52, 59, 26, 9, SS_LEFT, WS_EX_LEFT
     EDITTEXT        ENT_VERSMAJOR, 80, 59, 16, 12, ES_AUTOHSCROLL | ES_NUMBER, WS_EX_LEFT
     EDITTEXT        ENT_MODDESC, 13, 101, 362, 128, WS_VSCROLL | ES_AUTOVSCROLL | ES_MULTILINE | ES_WANTRETURN, WS_EX_LEFT
-    LTEXT           "Description:", 0, 13, 90, 38, 9, SS_LEFT, WS_EX_LEFT
-    GROUPBOX        "", 0, 7, 18, 373, 288, 0, WS_EX_LEFT
-    CTEXT           "Create an OvGME compliant Mod-Archive zip file from a classical Directory-Mod.", 0, 7, 7, 373, 9, SS_CENTER, WS_EX_LEFT
+    GROUPBOX        "", BOX_MAIN, 7, 18, 373, 288, 0, WS_EX_LEFT
+    LTEXT           "Make zipped Mod-Archive from a Directory-Mod folder.", TXT_TITLE, 7, 7, 373, 9, SS_LEFT, WS_EX_LEFT
     PUSHBUTTON      "Cancel", IDCANCEL, 65, 288, 50, 13, 0, WS_EX_LEFT
     PUSHBUTTON      "Make", BTN_CREATE, 13, 288, 50, 13, 0, WS_EX_LEFT
     CONTROL         "", PBM_MAKE, PROGRESS_CLASS, 0, 117, 288, 258, 12, WS_EX_LEFT
-    LTEXT           "Specify the version number of the Mod (Optionnal).", 0, 13, 45, 160, 9, SS_LEFT, WS_EX_LEFT
-    LTEXT           ".", 0, 98, 62, 8, 9, SS_LEFT, WS_EX_LEFT
-    EDITTEXT        ENT_VERSMINOR, 101, 59, 16, 12, ES_AUTOHSCROLL | ES_NUMBER, WS_EX_LEFT
-    EDITTEXT        ENT_VERSREVIS, 122, 59, 16, 12, ES_AUTOHSCROLL | ES_NUMBER, WS_EX_LEFT
-    LTEXT           ".", 0, 119, 62, 8, 9, SS_LEFT, WS_EX_LEFT
+    LTEXT           "Version number for this mod:", TXT_HELP3, 13, 45, 160, 9, SS_LEFT, WS_EX_LEFT
+    CTEXT           ".", LAB_VDOT1, 98, 62, 8, 9, SS_CENTER, WS_EX_LEFT
+    EDITTEXT        ENT_VERSMINOR, 108, 59, 16, 12, ES_AUTOHSCROLL | ES_NUMBER, WS_EX_LEFT
+    EDITTEXT        ENT_VERSREVIS, 136, 59, 16, 12, ES_AUTOHSCROLL | ES_NUMBER, WS_EX_LEFT
+    CTEXT           ".", LAB_VDOT2, 126, 62, 8, 9, SS_CENTER, WS_EX_LEFT
     PUSHBUTTON      "Close", BTN_CLOSE, 330, 315, 50, 14, 0, WS_EX_LEFT
-    LTEXT           "Specify Mod-Archive zip file compression level.", 0, 13, 244, 148, 9, SS_LEFT, WS_EX_LEFT
-    LTEXT           "Compression Level:", 0, 16, 263, 62, 8, SS_LEFT, WS_EX_LEFT
+    LTEXT           "Zip compression level:", TXT_HELP5, 13, 244, 148, 9, SS_LEFT, WS_EX_LEFT
     EDITTEXT        ENT_SRC, 80, 28, 295, 12, ES_AUTOHSCROLL | ES_READONLY, WS_EX_LEFT
-    LTEXT           "Directory-Mod:", 0, 31, 31, 47, 9, SS_LEFT, WS_EX_LEFT
+    LTEXT           "Directory-Mod:", TXT_HELP1, 31, 31, 47, 9, SS_LEFT, WS_EX_LEFT
 }
 
 
 
 LANGUAGE LANG_NEUTRAL, SUBLANG_NEUTRAL
-DLG_REPOS_LST DIALOG 0, 0, 376, 177
-STYLE DS_3DLOOK | DS_CENTER | DS_MODALFRAME | DS_SHELLFONT | WS_CAPTION | WS_VISIBLE | WS_POPUP | WS_SYSMENU
-CAPTION "Repositories Configuration"
+DLG_REPOS_LST DIALOG 0, 0, 300, 130
+STYLE DS_3DLOOK | DS_CENTER | DS_SHELLFONT | WS_CAPTION | WS_VISIBLE | WS_POPUP | WS_THICKFRAME | WS_SYSMENU
+EXSTYLE WS_EX_WINDOWEDGE
+CAPTION "OvGME Repositories Configuration"
 FONT 8, "Ms Shell Dlg"
 {
     PUSHBUTTON      "Close", BTN_CLOSE, 319, 156, 50, 14, 0, WS_EX_LEFT
     PUSHBUTTON      "Add", BTN_REPOADD, 313, 32, 50, 14, 0, WS_EX_LEFT
     PUSHBUTTON      "Remove", BTN_REPOREM, 13, 133, 50, 13, 0, WS_EX_LEFT
-    LTEXT           "Add or remove URL(s) for repositories query.", 0, 7, 7, 140, 9, SS_LEFT, WS_EX_LEFT
+    LTEXT           "Add or remove URL(s) for repositories query.", 0, 7, 7, 362, 9, SS_LEFT, WS_EX_LEFT
     EDITTEXT        ENT_REPOURL, 33, 33, 278, 12, ES_AUTOHSCROLL, WS_EX_LEFT
-    GROUPBOX        "", 0, 8, 21, 361, 133, 0, WS_EX_LEFT
+    GROUPBOX        "", BOX_MAIN, 8, 21, 361, 133, 0, WS_EX_LEFT
     CONTROL         "", TVS_REPOSLIST, WC_TREEVIEW, WS_TABSTOP | WS_BORDER | TVS_DISABLEDRAGDROP | TVS_CHECKBOXES | TVS_FULLROWSELECT, 13, 48, 350, 83, WS_EX_LEFT
-    LTEXT           "URL:", 0, 13, 35, 18, 9, SS_LEFT, WS_EX_LEFT
+    LTEXT           "URL:", LAB_URL, 13, 35, 18, 9, SS_LEFT, WS_EX_LEFT
 }
 
 
 
 LANGUAGE LANG_NEUTRAL, SUBLANG_NEUTRAL
-DLG_REPOS_UPD DIALOG 0, 0, 500, 400
-STYLE DS_3DLOOK | DS_CENTER | DS_MODALFRAME | DS_SHELLFONT | WS_CAPTION | WS_VISIBLE | WS_POPUP | WS_SYSMENU
-CAPTION "Repositories Query"
+DLG_REPOS_UPD DIALOG 0, 0, 350, 320
+STYLE DS_3DLOOK | DS_CENTER | DS_SHELLFONT | WS_CAPTION | WS_VISIBLE | WS_POPUP | WS_THICKFRAME | WS_SYSMENU
+EXSTYLE WS_EX_WINDOWEDGE
+CAPTION "OvGME Repositories Query"
 FONT 8, "Ms Shell Dlg"
 {
-    PUSHBUTTON      "Close", BTN_CLOSE, 7, 379, 50, 14, 0, WS_EX_LEFT
+    PUSHBUTTON      "Close", BTN_CLOSE, 443, 379, 50, 14, 0, WS_EX_LEFT
     CONTROL         "", LVM_MODSUPDLIST, WC_LISTVIEW, WS_TABSTOP | WS_BORDER | LVS_ALIGNLEFT | LVS_NOCOLUMNHEADER | LVS_REPORT, 13, 56, 475, 209, WS_EX_LEFT
     CONTROL         "", PBM_DONWLOAD, PROGRESS_CLASS, 0, 13, 267, 372, 12, WS_EX_LEFT
     LTEXT           "---- Kio/s", TXT_DOWNSPEED, 390, 268, 43, 11, SS_LEFT, WS_EX_LEFT
-    GROUPBOX        "", 0, 7, 45, 486, 332, 0, WS_EX_LEFT
+    GROUPBOX        "", BOX_MAIN, 7, 45, 486, 332, 0, WS_EX_LEFT
     PUSHBUTTON      "Download all", BTN_REPOUPDALL, 85, 282, 70, 14, 0, WS_EX_LEFT
     PUSHBUTTON      "Download selected", BTN_REPOUPDSEL, 13, 282, 70, 14, 0, WS_EX_LEFT
-    CONTROL         "", PBM_REPOQRY, PROGRESS_CLASS, 0, 7, 18, 452, 10, WS_EX_LEFT
-    PUSHBUTTON      "Retry", BTN_REPORETRY, 461, 17, 32, 11, 0, WS_EX_LEFT
-    LTEXT           "http://...", TXT_REPOQRYURL, 7, 31, 456, 9, SS_LEFT, WS_EX_LEFT
+    CONTROL         "", PBM_REPOQRY, PROGRESS_CLASS, 0, 7, 19, 452, 12, WS_EX_LEFT
+    PUSHBUTTON      "Retry", BTN_REPORETRY, 461, 18, 32, 14, 0, WS_EX_LEFT
+    LTEXT           "http://...", TXT_REPOQRYURL, 7, 35, 486, 9, SS_LEFT, WS_EX_LEFT
     LTEXT           "Getting data from repositories...", TXT_REPOQRYSTATUS, 7, 7, 486, 9, SS_LEFT, WS_EX_LEFT
     PUSHBUTTON      "Cancel", BTN_CANCEL, 438, 267, 50, 14, 0, WS_EX_LEFT
     EDITTEXT        ENT_MODDESC, 13, 301, 475, 70, WS_VSCROLL | ES_AUTOVSCROLL | ES_MULTILINE | ES_READONLY, WS_EX_LEFT
@@ -343,51 +336,53 @@ FONT 8, "Ms Shell Dlg"
 
 
 LANGUAGE LANG_NEUTRAL, SUBLANG_NEUTRAL
-DLG_REPOS_XML DIALOG 0, 0, 500, 325
-STYLE DS_3DLOOK | DS_CENTER | DS_MODALFRAME | DS_SHELLFONT | WS_CAPTION | WS_VISIBLE | WS_POPUP | WS_SYSMENU
-CAPTION "Make Repository XML"
+DLG_REPOS_XML DIALOG 0, 0, 350, 320
+STYLE DS_3DLOOK | DS_CENTER | DS_SHELLFONT | WS_CAPTION | WS_VISIBLE | WS_POPUP | WS_THICKFRAME | WS_SYSMENU
+EXSTYLE WS_EX_WINDOWEDGE
+CAPTION "OvGME Make Repository XML"
 FONT 8, "Ms Shell Dlg"
 {
-    AUTOCHECKBOX    "Use custom folder", CHK_CUSTXMLPATH, 7, 7, 73, 8, 0, WS_EX_LEFT
+    AUTOCHECKBOX    "Custom mods folder:", CHK_CUSTXMLPATH, 7, 7, 73, 8, 0, WS_EX_LEFT
     EDITTEXT        ENT_MAKEXMLPATH, 69, 34, 349, 12, WS_DISABLED | ES_AUTOHSCROLL, WS_EX_LEFT
-    LTEXT           "Path:", 0, 48, 37, 19, 9, SS_LEFT, WS_EX_LEFT
     PUSHBUTTON      "Browse", BTN_BROWSEXMLPATH, 420, 33, 45, 13, WS_DISABLED, WS_EX_LEFT
-    LTEXT           "Specify the path where the generator should search for Mod-Archives list.", 0, 7, 20, 231, 9, SS_LEFT, WS_EX_LEFT
-    PUSHBUTTON      "Generate XML source", BTN_MAKEXMLSRC, 13, 109, 80, 14, BS_BITMAP, WS_EX_LEFT
+    PUSHBUTTON      "Generate XML", BTN_MAKEXMLSRC, 13, 109, 80, 14, BS_BITMAP, WS_EX_LEFT
     EDITTEXT        ENT_MAKEXMLURL, 69, 76, 349, 12, ES_AUTOHSCROLL, WS_EX_LEFT
-    LTEXT           "Base URL:", 0, 31, 79, 36, 9, SS_LEFT, WS_EX_LEFT
-    PUSHBUTTON      "Close", BTN_CLOSE, 7, 304, 50, 14, 0, WS_EX_LEFT
+    PUSHBUTTON      "Close", BTN_CLOSE, 443, 304, 50, 14, 0, WS_EX_LEFT
     EDITTEXT        ENT_OUTPUT, 13, 125, 475, 153, WS_HSCROLL | WS_VSCROLL | ES_AUTOHSCROLL | ES_AUTOVSCROLL | ES_MULTILINE, WS_EX_LEFT
-    GROUPBOX        "", 0, 7, 99, 486, 200, 0, WS_EX_LEFT
-    LTEXT           "Specify the base URL to create download link for Mod-Archives (ex: www.website.com/mods/ ).", 0, 7, 62, 303, 9, SS_LEFT, WS_EX_LEFT
+    GROUPBOX        "", BOX_MAIN, 7, 99, 486, 200, 0, WS_EX_LEFT
+    LTEXT           "Download link base URL:", TXT_URL, 7, 62, 303, 9, SS_LEFT, WS_EX_LEFT
     PUSHBUTTON      "Save as XML...", BTN_MAKEXMLSAVE, 420, 280, 68, 14, BS_BITMAP, WS_EX_LEFT
+    LTEXT           "Generate repository XML source", TXT_TITLE, 10, 10, 303, 15, SS_LEFT, WS_EX_LEFT
 }
 
 
 
 LANGUAGE LANG_NEUTRAL, SUBLANG_NEUTRAL
-DLG_REPOS_XTS DIALOG 0, 0, 500, 325
-STYLE DS_3DLOOK | DS_CENTER | DS_MODALFRAME | DS_SHELLFONT | WS_CAPTION | WS_VISIBLE | WS_POPUP | WS_SYSMENU
-CAPTION "Test  Repository XML"
+DLG_REPOS_XTS DIALOG 0, 0, 350, 320
+STYLE DS_3DLOOK | DS_CENTER | DS_SHELLFONT | WS_CAPTION | WS_VISIBLE | WS_POPUP | WS_THICKFRAME | WS_SYSMENU
+EXSTYLE WS_EX_WINDOWEDGE
+CAPTION "OvGME Test  Repository XML"
 FONT 8, "Ms Shell Dlg"
 {
-    PUSHBUTTON      "Close", BTN_CLOSE, 7, 304, 50, 14, 0, WS_EX_LEFT
+    PUSHBUTTON      "Close", BTN_CLOSE, 443, 304, 50, 14, 0, WS_EX_LEFT
     EDITTEXT        ENT_OUTPUT, 13, 40, 475, 254, WS_HSCROLL | WS_VSCROLL | ES_AUTOHSCROLL | ES_AUTOVSCROLL | ES_MULTILINE | ES_READONLY, WS_EX_LEFT
-    GROUPBOX        "", 0, 7, 19, 486, 280, 0, WS_EX_LEFT
-    LTEXT           "XML parsing status", TXT_MESSAGE, 7, 7, 486, 17, SS_LEFT, WS_EX_LEFT
-    LTEXT           "XML parsing result:", 0, 13, 29, 61, 9, SS_LEFT, WS_EX_LEFT
+    GROUPBOX        "", BOX_MAIN, 7, 19, 486, 280, 0, WS_EX_LEFT
+    CTEXT           "XML parsing status", TXT_MESSAGE, 7, 7, 486, 17, SS_LEFT, WS_EX_STATICEDGE
+    LTEXT           "Parsing output:", LAB_RESULT, 13, 29, 61, 9, SS_LEFT, WS_EX_LEFT
+    LTEXT           "Test repository XML source", TXT_TITLE, 10, 10, 303, 15, SS_LEFT, WS_EX_LEFT
 }
 
 
 
 LANGUAGE LANG_NEUTRAL, SUBLANG_NEUTRAL
-DLG_SNAP_CMP DIALOG 0, 0, 414, 290
-STYLE DS_3DLOOK | DS_CENTER | DS_MODALFRAME | DS_SHELLFONT | WS_CAPTION | WS_VISIBLE | WS_POPUP | WS_SYSMENU
-CAPTION "Root Snapshot Compare"
+DLG_SNAP_CMP DIALOG 0, 0, 350, 80
+STYLE DS_3DLOOK | DS_CENTER | DS_SHELLFONT | WS_CAPTION | WS_VISIBLE | WS_POPUP | WS_THICKFRAME | WS_SYSMENU
+EXSTYLE WS_EX_WINDOWEDGE
+CAPTION "OvGME Compare Snapshot"
 FONT 8, "Ms Shell Dlg"
 {
     EDITTEXT        ENT_OUTPUT, 8, 72, 400, 194, WS_HSCROLL | WS_VSCROLL | ES_AUTOHSCROLL | ES_AUTOVSCROLL | ES_MULTILINE | ES_READONLY, WS_EX_LEFT
-    LTEXT           "Output log:", 0, 8, 61, 36, 9, SS_LEFT, WS_EX_LEFT
+    LTEXT           "Output log:", LAB_OUTPUT, 8, 61, 36, 9, SS_LEFT, WS_EX_LEFT
     LTEXT           "Creating files snapshot, please wait...", TXT_TITLE, 7, 7, 400, 9, SS_LEFT, WS_EX_LEFT
     LTEXT           "comment...", TXT_COMMENT, 7, 48, 400, 8, SS_LEFT, WS_EX_LEFT
     CONTROL         "", PBM_SNAP_CMP, PROGRESS_CLASS, 0, 7, 23, 400, 11, WS_EX_LEFT
@@ -400,15 +395,16 @@ FONT 8, "Ms Shell Dlg"
 
 
 LANGUAGE LANG_NEUTRAL, SUBLANG_NEUTRAL
-DLG_SNAP_NEW DIALOG 0, 0, 414, 82
-STYLE DS_3DLOOK | DS_CENTER | DS_MODALFRAME | DS_SHELLFONT | WS_CAPTION | WS_VISIBLE | WS_POPUP | WS_SYSMENU
-CAPTION "Root Snapshot Create"
+DLG_SNAP_NEW DIALOG 0, 0, 350, 80
+STYLE DS_3DLOOK | DS_CENTER | DS_SHELLFONT | WS_CAPTION | WS_VISIBLE | WS_POPUP | WS_THICKFRAME | WS_SYSMENU
+EXSTYLE WS_EX_WINDOWEDGE
+CAPTION "OvGME Create Snapshot"
 FONT 8, "Ms Shell Dlg"
 {
-    LTEXT           "Creating files snapshot, please wait...", TXT_TITLE, 7, 7, 400, 9, SS_LEFT, WS_EX_LEFT
-    LTEXT           "comment...", TXT_COMMENT, 7, 48, 400, 8, SS_LEFT, WS_EX_LEFT
-    CONTROL         "", PBM_SNAP_NEW, PROGRESS_CLASS, 0, 7, 23, 400, 11, WS_EX_LEFT
-    LTEXT           "Status...", TXT_STATUS, 7, 36, 400, 9, SS_LEFT, WS_EX_LEFT
+    LTEXT           "Creating files snapshot, please wait...", TXT_TITLE, 7, 7, 335, 9, SS_LEFT, WS_EX_LEFT
+    LTEXT           "comment...", TXT_COMMENT, 7, 48, 335, 8, SS_LEFT, WS_EX_LEFT
+    CONTROL         "", PBM_SNAP_NEW, PROGRESS_CLASS, 0, 7, 23, 335, 11, WS_EX_LEFT
+    LTEXT           "Status...", TXT_STATUS, 7, 36, 335, 9, SS_LEFT, WS_EX_LEFT
     PUSHBUTTON      "Cancel", IDCANCEL, 59, 61, 50, 14, 0, WS_EX_LEFT
     DEFPUSHBUTTON   "Go !", IDOK, 7, 61, 47, 14, 0, WS_EX_LEFT
     PUSHBUTTON      "Close", BTN_CLOSE, 7, 61, 50, 14, NOT WS_VISIBLE, WS_EX_LEFT
@@ -417,45 +413,44 @@ FONT 8, "Ms Shell Dlg"
 
 
 LANGUAGE LANG_NEUTRAL, SUBLANG_NEUTRAL
-DLG_UNINSTALL DIALOG 0, 0, 264, 59
+DLG_UNINSTALL DIALOG 0, 0, 300, 60
 STYLE DS_3DLOOK | DS_CENTER | DS_MODALFRAME | DS_SHELLFONT | WS_CAPTION | WS_VISIBLE | WS_POPUP | WS_SYSMENU
 CAPTION "OvGME Backup Restore"
 FONT 8, "Ms Shell Dlg"
 {
-    CONTROL         "", PBM_UNINST, PROGRESS_CLASS, 0, 7, 21, 250, 11, WS_EX_LEFT
-    LTEXT           "Restoring backup for...", TXT_UNINST_GAME, 8, 7, 250, 9, SS_LEFT, WS_EX_LEFT
-    LTEXT           "mod name", TXT_UNINST_MOD, 8, 37, 250, 9, SS_LEFT, WS_EX_LEFT
+    CONTROL         "", PBM_UNINST, PROGRESS_CLASS, 0, 7, 21, 286, 11, WS_EX_LEFT
+    LTEXT           "Restoring backup for...", TXT_UNINST_GAME, 7, 7, 286, 9, SS_LEFT, WS_EX_LEFT
+    LTEXT           "mod name", TXT_UNINST_MOD, 8, 37, 285, 9, SS_LEFT, WS_EX_LEFT
 }
 
 
 
 LANGUAGE LANG_NEUTRAL, SUBLANG_NEUTRAL
-DLG_WIZARD DIALOG 0, 0, 270, 322
+DLG_WIZARD DIALOG 0, 0, 320, 310
 STYLE DS_3DLOOK | DS_CENTER | DS_MODALFRAME | DS_SHELLFONT | WS_CAPTION | WS_VISIBLE | WS_POPUP | WS_SYSMENU
 CAPTION "OvGME Welcome"
 FONT 8, "Ms Shell Dlg"
 {
-    CONTROL         IDB_LOGO, 0, WC_STATIC, SS_BITMAP, 79, 18, 95, 35, WS_EX_LEFT
-    CTEXT           "Welcome to", 0, 7, 7, 239, 9, SS_CENTER, WS_EX_LEFT
-    EDITTEXT        ENT_NAME, 61, 111, 139, 12, ES_AUTOHSCROLL, WS_EX_LEFT
-    EDITTEXT        ENT_ROOTPATH, 61, 160, 139, 12, ES_AUTOHSCROLL, WS_EX_LEFT
-    EDITTEXT        ENT_MODSPATH, 61, 210, 139, 12, ES_AUTOHSCROLL, WS_EX_LEFT
-    DEFPUSHBUTTON   "OK", BTN_ADD, 7, 301, 50, 14, 0, WS_EX_LEFT
-    PUSHBUTTON      "Cancel", IDCANCEL, 59, 301, 50, 14, 0, WS_EX_LEFT
-    CTEXT           "Your configuration list is empty, maybe it's the first time you launch OvGME. This wizard will help you to create your first configuration.", 0, 7, 61, 253, 17, SS_CENTER, WS_EX_LEFT
-    LTEXT           "Config Title:", 0, 14, 114, 38, 9, SS_LEFT, WS_EX_LEFT
-    LTEXT           "Root Path:", 0, 17, 164, 35, 9, SS_LEFT, WS_EX_LEFT
-    PUSHBUTTON      "Browse", BTN_BROWSEROOT, 202, 160, 50, 12, 0, WS_EX_LEFT
-    LTEXT           "Mods Path:", 0, 15, 213, 37, 9, SS_LEFT, WS_EX_LEFT
-    LTEXT           "Specify the path to the Mods stock folder. This is where OvGME will seek for available Mods.", 0, 7, 188, 256, 17, SS_LEFT, WS_EX_LEFT
-    AUTOCHECKBOX    "Use custom backup folder", CHK_CUSTBACKUP, 7, 237, 99, 8, 0, WS_EX_LEFT
-    LTEXT           "Specify the path to  backup folder. This is where OvGME will keep original destination root files.", 0, 7, 250, 236, 17, SS_LEFT, WS_EX_LEFT
-    LTEXT           "Backup Path:", 0, 16, 275, 43, 9, SS_LEFT, WS_EX_LEFT
-    EDITTEXT        ENT_BACKPATH, 61, 272, 139, 12, ES_AUTOHSCROLL, WS_EX_LEFT
-    PUSHBUTTON      "Browse", BTN_BROWSEBCK, 202, 272, 50, 12, 0, WS_EX_LEFT
-    PUSHBUTTON      "Browse", BTN_BROWSEMOD, 202, 210, 50, 12, 0, WS_EX_LEFT
-    LTEXT           "Specify a title for the new configuration.", 0, 7, 97, 256, 9, SS_LEFT, WS_EX_LEFT
-    LTEXT           "Specify the path to the destination root folder. This is where Mods will be applied and usually the game or software installation folder.", 0, 7, 138, 254, 17, SS_LEFT, WS_EX_LEFT
+    CONTROL         IDB_LOGO, 0, WC_STATIC, SS_BITMAP, 8, 12, 95, 35, WS_EX_LEFT
+    EDITTEXT        ENT_NAME, 21, 69, 287, 12, ES_AUTOHSCROLL, WS_EX_LEFT
+    EDITTEXT        ENT_ROOTPATH, 21, 126, 235, 12, ES_AUTOHSCROLL, WS_EX_LEFT
+    EDITTEXT        ENT_MODSPATH, 22, 184, 234, 12, ES_AUTOHSCROLL, WS_EX_LEFT
+    DEFPUSHBUTTON   "Go!", BTN_ADD, 7, 289, 50, 14, 0, WS_EX_LEFT
+    PUSHBUTTON      "Cancel", IDCANCEL, 59, 289, 50, 14, 0, WS_EX_LEFT
+    LTEXT           "          Welcome to OvGME !    \n\nYour configuration list is empty, maybe it's the first time you launch OvGME. This wizard will help you to create your first configuration.", 0, 105, 7, 208, 33, SS_LEFT, WS_EX_LEFT
+    LTEXT           "NOTE: The title is the indicative name of the configuration used to identify it amongst other ones. It must be unique.", 0, 22, 83, 286, 17, SS_LEFT, WS_EX_STATICEDGE
+    LTEXT           "Configuration root folder:", 0, 14, 115, 78, 9, SS_LEFT, WS_EX_LEFT
+    PUSHBUTTON      "Browse", BTN_BROWSEROOT, 258, 126, 50, 12, 0, WS_EX_LEFT
+    LTEXT           "Configuration mods folder:", 0, 14, 173, 82, 9, SS_LEFT, WS_EX_LEFT
+    LTEXT           "NOTE: The mods folder is where the configuration will seek for available mods. You should specify here where your mods are stored for this game or software.", 0, 21, 198, 287, 17, SS_LEFT, WS_EX_STATICEDGE
+    AUTOCHECKBOX    "Custom configuration backup folder:", CHK_CUSTBACKUP, 14, 230, 129, 8, 0, WS_EX_LEFT
+    LTEXT           "NOTE: You can optionally specify the custom backup folder. The backup folder is where backup data of original game or software files are stored for this configuration. ", 0, 22, 254, 286, 17, SS_LEFT, WS_EX_STATICEDGE
+    EDITTEXT        ENT_BACKPATH, 22, 240, 234, 12, ES_AUTOHSCROLL, WS_EX_LEFT
+    PUSHBUTTON      "Browse", BTN_BROWSEBCK, 258, 240, 50, 12, 0, WS_EX_LEFT
+    PUSHBUTTON      "Browse", BTN_BROWSEMOD, 258, 184, 50, 12, 0, WS_EX_LEFT
+    LTEXT           "Configuration title:", 0, 14, 58, 57, 9, SS_LEFT, WS_EX_LEFT
+    GROUPBOX        "", 0, 8, 47, 305, 234, 0, WS_EX_LEFT
+    LTEXT           "NOTE: The root folder is where mods will be applyed, this is usually the game or software installation folder.", 0, 21, 140, 287, 17, SS_LEFT, WS_EX_STATICEDGE
 }
 
 
@@ -477,4 +472,6 @@ LANGUAGE LANG_NEUTRAL, SUBLANG_NEUTRAL
 #else
 LANGUAGE LANG_NEUTRAL, SUBLANG_NEUTRAL
 1                  RT_MANIFEST    "manifest.xml"
-#endif // DEBUG
+#endif
+
+

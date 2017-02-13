@@ -75,9 +75,16 @@ bool GME_ConfLoadCfg()
     memset(&g_ConfCfg, 0, sizeof(GME_ConfCfg_Struct));
     g_ConfCfg.vmajor = GME_APP_MAJOR;
     g_ConfCfg.vminor = GME_APP_MINOR;
+    /* get main window size */
+    RECT rect;
+    GetWindowRect(g_hwndMain, &rect);
+    g_ConfCfg.winw = rect.right - rect.left;
+    g_ConfCfg.winh = rect.bottom - rect.top;
+    g_ConfCfg.winx = rect.left;
+    g_ConfCfg.winy = rect.top;
 
     if(!GME_ConfWritCfg(&g_ConfCfg)) {
-      GME_DialogError(NULL, L"Fatal error: Unable to write main configuration file. OvGME can't create its global configuration.");
+      GME_DialogError(NULL, L"Unable to write main configuration file. OvGME can't save its global configuration.");
       return false;
     }
   }
@@ -89,9 +96,16 @@ bool GME_ConfLoadCfg()
     memset(&g_ConfCfg, 0, sizeof(GME_ConfCfg_Struct));
     g_ConfCfg.vmajor = GME_APP_MAJOR;
     g_ConfCfg.vminor = GME_APP_MINOR;
+    /* get main window size */
+    RECT rect;
+    GetWindowRect(g_hwndMain, &rect);
+    g_ConfCfg.winw = rect.right - rect.left;
+    g_ConfCfg.winh = rect.bottom - rect.top;
+    g_ConfCfg.winx = rect.left;
+    g_ConfCfg.winy = rect.top;
 
     if(!GME_ConfWritCfg(&g_ConfCfg)) {
-      GME_DialogError(NULL, L"Fatal error: Unable to write main configuration file. OvGME can't create its global configuration.");
+      GME_DialogError(NULL, L"Unable to write main configuration file. OvGME can't save its global configuration.");
       return false;
     }
   }
@@ -104,8 +118,16 @@ bool GME_ConfLoadCfg()
 */
 bool GME_ConfSaveCfg()
 {
+  /* get main window size */
+  RECT rect;
+  GetWindowRect(g_hwndMain, &rect);
+  g_ConfCfg.winw = rect.right - rect.left;
+  g_ConfCfg.winh = rect.bottom - rect.top;
+  g_ConfCfg.winx = rect.left;
+  g_ConfCfg.winy = rect.top;
+
   if(!GME_ConfWritCfg(&g_ConfCfg)) {
-    GME_DialogError(NULL, L"Fatal error: Unable to write main configuration file. OvGME can't save its global configuration.");
+    GME_DialogError(NULL, L"Unable to write main configuration file. OvGME can't save its global configuration.");
     return false;
   }
 
@@ -134,4 +156,36 @@ void GME_ConfResetLastGame()
 void GME_ConfSetLastGame(const std::wstring& str)
 {
   wcscpy(g_ConfCfg.last_game, str.c_str());
+}
+
+/*
+  get saved window width from config
+*/
+int GME_ConfGetWinW()
+{
+  return g_ConfCfg.winw;
+}
+
+/*
+  get saved window height from config
+*/
+int GME_ConfGetWinH()
+{
+  return g_ConfCfg.winh;
+}
+
+/*
+  get saved window position X from config
+*/
+int GME_ConfGetWinX()
+{
+  return g_ConfCfg.winx;
+}
+
+/*
+  get saved window position Y from config
+*/
+int GME_ConfGetWinY()
+{
+  return g_ConfCfg.winy;
 }

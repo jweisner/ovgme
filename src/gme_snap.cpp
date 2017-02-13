@@ -42,7 +42,7 @@ DWORD WINAPI GME_SnapCreate_Th(void* pargs)
 
   HWND hpb = GetDlgItem(g_hwndSnapNew, PBM_SNAP_NEW);
 
-  SetDlgItemTextW(g_hwndSnapNew, TXT_STATUS, L"Analysing file tree...");
+  SetDlgItemTextW(g_hwndSnapNew, TXT_STATUS, L"Stage 1/2 analysing file tree...");
 
   std::wstring game_path = GME_GameGetCurRoot();
   std::wstring back_path = GME_GameGetCurBackPath();
@@ -92,7 +92,7 @@ DWORD WINAPI GME_SnapCreate_Th(void* pargs)
   game_tree->initTraversal();
   while(game_tree->nextChild()) c++;
 
-  SetDlgItemTextW(g_hwndSnapNew, TXT_STATUS, L"Creating xxHash....");
+  SetDlgItemTextW(g_hwndSnapNew, TXT_STATUS, L"Stage 2/2 creating xxHash....");
 
   /* set progress bar */
   SendMessage(hpb, PBM_SETRANGE, 0, MAKELPARAM(0, c));
@@ -151,13 +151,12 @@ DWORD WINAPI GME_SnapCreate_Th(void* pargs)
 
   delete game_tree;
 
-  SetDlgItemTextW(g_hwndSnapNew, TXT_TITLE, L"Snapshot successfully completed !");
+  SetDlgItemTextW(g_hwndSnapNew, TXT_TITLE, L"Snapshot creation successfully completed.");
+  SetDlgItemTextW(g_hwndSnapCmp, TXT_STATUS, L"Operation completed");
   ShowWindow(GetDlgItem(g_hwndSnapNew, IDOK), false);
   ShowWindow(GetDlgItem(g_hwndSnapNew, IDCANCEL), false);
   ShowWindow(GetDlgItem(g_hwndSnapNew, BTN_CLOSE), true);
-  ShowWindow(GetDlgItem(g_hwndSnapNew, TXT_STATUS), false);
   ShowWindow(GetDlgItem(g_hwndSnapNew, TXT_COMMENT), false);
-  //ShowWindow(GetDlgItem(g_hwndSnapNew, PBM_PROGRESS), false);
 
   SendMessage(hpb, PBM_SETPOS, (WPARAM)c, 0);
 
@@ -213,7 +212,7 @@ DWORD WINAPI GME_SnapCompare_Th(void* pargs)
     fclose(fp);
   }
 
-  SetDlgItemTextW(g_hwndSnapCmp, TXT_STATUS, L"Analysing file tree...");
+  SetDlgItemTextW(g_hwndSnapCmp, TXT_STATUS, L"Stage 1/3 analysing file tree...");
 
   /* get full tree from game root directory */
   GMEnode* game_tree = new GMEnode();
@@ -270,7 +269,7 @@ DWORD WINAPI GME_SnapCompare_Th(void* pargs)
   SendMessage(hpb, PBM_SETSTEP, (WPARAM)1, 0);
   SendMessage(hpb, PBM_SETPOS, (WPARAM)0, 0);
 
-  SetDlgItemTextW(g_hwndSnapCmp, TXT_STATUS, L"Comparing tree...");
+  SetDlgItemTextW(g_hwndSnapCmp, TXT_STATUS, L"Stage 2/3 comparing tree...");
 
   /* found file list */
   std::vector<bool> found_list;
@@ -353,7 +352,7 @@ DWORD WINAPI GME_SnapCompare_Th(void* pargs)
   SendMessage(hpb, PBM_SETSTEP, (WPARAM)1, 0);
   SendMessage(hpb, PBM_SETPOS, (WPARAM)0, 0);
 
-  SetDlgItemTextW(g_hwndSnapCmp, TXT_STATUS, L"Comparing xxHash...");
+  SetDlgItemTextW(g_hwndSnapCmp, TXT_STATUS, L"Stage 3/3 comparing xxHash...");
 
   /* new compare entries for xxHash32... */
   for(unsigned i = 0; i < found_list.size(); i++) {
@@ -405,11 +404,11 @@ DWORD WINAPI GME_SnapCompare_Th(void* pargs)
   SendMessage(hen_output, EM_SCROLLCARET, 0, 0);
 
 
-  SetDlgItemTextW(g_hwndSnapCmp, TXT_TITLE, L"Comparison completed.");
+  SetDlgItemTextW(g_hwndSnapCmp, TXT_TITLE, L"Snapshot comparison successfully completed.");
+  SetDlgItemTextW(g_hwndSnapCmp, TXT_STATUS, L"Operation completed");
   ShowWindow(GetDlgItem(g_hwndSnapCmp, IDOK), false);
   ShowWindow(GetDlgItem(g_hwndSnapCmp, IDCANCEL), false);
   ShowWindow(GetDlgItem(g_hwndSnapCmp, BTN_CLOSE), true);
-  ShowWindow(GetDlgItem(g_hwndSnapCmp, TXT_STATUS), false);
   ShowWindow(GetDlgItem(g_hwndSnapCmp, TXT_COMMENT), false);
   //ShowWindow(GetDlgItem(g_hwndSnapCmp, PBM_PROGRESS), false);
 

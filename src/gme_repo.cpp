@@ -407,7 +407,7 @@ void GME_RepoCheckUpd()
   EnableWindow(GetDlgItem(g_hwndRepUpd, BTN_REPOUPDALL), false);
 
   if(g_GME_ReposMod_List.empty()) {
-    GME_DialogWarning(g_hwndRepUpd, L"No Mod data found in repositories.");
+    GME_DialogWarning(g_hwndRepUpd, L"No data found in repositories.");
     return;
   }
 
@@ -885,7 +885,7 @@ DWORD WINAPI GME_RepoQueryUpd_Th(void* args)
     return 0;
   }
 
-  SetDlgItemTextW(g_hwndRepUpd, TXT_REPOQRYSTATUS, L"Getting data from repositories, please wait...");
+  SetDlgItemTextW(g_hwndRepUpd, TXT_REPOQRYSTATUS, L"Getting data from repositories...");
   HWND hpb = GetDlgItem(g_hwndRepUpd, PBM_REPOQRY);
 
   int http_err;
@@ -893,6 +893,7 @@ DWORD WINAPI GME_RepoQueryUpd_Th(void* args)
   int http_reqs = 0;
   std::string err_msg;
   std::string xml_url;
+  std::string cnx_msg;
 
   for(unsigned i = 0; i < g_GME_Repos_List.size(); i++) {
 
@@ -929,7 +930,9 @@ DWORD WINAPI GME_RepoQueryUpd_Th(void* args)
     }
 
     SendMessage(hpb, PBM_SETRANGE, 0, MAKELPARAM(0, 100));
-    SetDlgItemText(g_hwndRepUpd, TXT_REPOQRYURL, g_GME_Repos_List[i].url);
+    unsigned l = std::string(g_GME_Repos_List[i].url).find_first_of("/", 0);
+    cnx_msg = "Try connecting to "; cnx_msg += std::string(g_GME_Repos_List[i].url).substr(0, l); cnx_msg += " please wait...";
+    SetDlgItemText(g_hwndRepUpd, TXT_REPOQRYURL, cnx_msg.c_str());
 
     http_err = GME_NetwHttpGET(xml_url.c_str(), GME_RepoUpd_OnErr, GME_RepoUpd_OnDnl, GME_RepoUpd_OnEnd);
     if(http_err) {
@@ -944,7 +947,7 @@ DWORD WINAPI GME_RepoQueryUpd_Th(void* args)
           err_msg += "Connection error: Host not found.";
           break;
         case GME_HTTPGET_ERR_CNX:
-          err_msg += "Connection error: Connection refused.";
+          err_msg += "Connection error: Connection refused or timed out.";
           break;
         case GME_HTTPGET_ERR_ENC:
           err_msg += "Unsupported HTTP chunked transfer encoding.";
@@ -985,7 +988,7 @@ DWORD WINAPI GME_RepoQueryUpd_Th(void* args)
   SendMessage(hpb, PBM_SETPOS, (WPARAM)0, 0);
   SetDlgItemTextW(g_hwndRepUpd, TXT_REPOQRYSTATUS, L"Repositories query completed");
   wchar_t result[64];
-  swprintf(result, 64, L"%d checked, %d fail.", http_reqs, http_fail);
+  swprintf(result, 64, L"%d repository checked, %d failed.", http_reqs, http_fail);
   SetDlgItemTextW(g_hwndRepUpd, TXT_REPOQRYURL, result);
 
   GME_RepoCheckUpd();

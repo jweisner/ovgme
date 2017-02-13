@@ -15,12 +15,12 @@
       </tbody>
     </table>
     <br>
-OvGME vous permet de configurer des dépôts de Mod distants pour le téléchargement
-ou la mise à jour de Mods. Ce chapitre ne traite de la fonctionnalité que
+OvGME vous permet de configurer des dépôts de mods distants pour le téléchargement
+ou la mise à jour de mods. Ce chapitre ne traite de la fonctionnalité que
 vu du coté client. Si vous comptez héberger et gérer un dépôt, veuillez consulter 
 le chapitre Gestion de dépôt.<br>
 <br>
-Les dépôts de Mod sont des serveur web distants qui fournissent une liste de Mods
+Les dépôts de mods sont des serveur web distants qui fournissent une liste des mods
 à télécharger ou à mettre à jour. Ces serveurs doivent être compatibles OvGME pour
 être reconnus durant la requête des dépôts.<br>
 <br>
@@ -43,9 +43,9 @@ Pour ajouter une nouvelle URL de dépôt dans la liste, remplissez le champ de tex
 puis cliquez sur le bouton "<b>Add</b>". L'URL doit être une URL valide vers un serveur
 HTTP. Voici quelques exemples de format d'URL valides:
 <blockquote>
-"<i>http://www.example.com/repos/</i>"<br>
-"<i>www.example.com:8080/repository/</i>"<br>
-"<i>http://192.168.0.1:80/mods/</i>"<br>
+"<i>http://www.example.com/repos</i>"<br>
+"<i>www.example.com:8080/repository/dcs</i>"<br>
+"<i>http://192.168.0.1:80/mods</i>"<br>
 </blockquote>
 
 Pour supprimer une URL de dépôt de la liste, sélectionnez l'URL désiré dans la liste
@@ -63,37 +63,37 @@ checkbox correspondant à l'URL dans la liste.
 <h4>Interrogation des dépôts</h4>
 
 En interrogeant les dépôts, OvGME va interroger chaque URL de dépôt activé pour
-créer la liste des Mods disponibles pour le téléchargement ou la mise à jour.
+créer la liste des mods disponibles pour le téléchargement ou la mise à jour.
 Pour interroger les dépôts, allez dans le menu "<b>Mods</b>", sélectionnez 
 "<b>Repositories</b>" puis "<b>Query...</b>". Cela vous ouvre une nouvelle 
 boite de dialogue.<br><br>
 
 OvGME va automatiquement démarrer le processus d'interrogation. Une fois 
-l'interrogation terminée, et si elle réussie, des Mods devraient apparaître dans
-la liste. Chaque entrée est identifié par une une icone qui décrit son statu 
-relativement a votre liste de Mods locaux pour cette configuration.
+l'interrogation terminée, et si elle réussie, des mods devraient apparaître dans
+la liste. Chaque entrée est identifié par une une icone qui décrit son statut 
+relativement a votre liste de mods locaux pour cette configuration.
 <blockquote>
-<img src="repos_available.png" alt="Mod Available">: Signifie que le Mod est absent de votre dossier stock de Mods local et peut être téléchargé. <br>
-<img src="repos_uptodate.png" alt="Mod Up To Date">: Signifie que le Mod est déjà présent dans votre dossier stock de Mods local et est a la même version. <br>
-<img src="repos_upgrade.png" alt="Mod Upgrade">: Signifie que le Mod est déjà présent dans votre dossier stock de Mods local mais a une version inférieur à celle disponible dans les dépôts (vous pouvez upgrader ce Mod).<br>
-<img src="repos_dngrade.png" alt="Mod Downgrade">:  Signifie que le Mod est déjà présent dans votre dossier stock de Mods local mais a une version supérieur à celle disponible dans les dépôts (si vous téléchargez ce Mod, cela va downgrader votre Mod local).<br>
+<img src="repos_available.png" alt="Mod Available">: Signifie que le mod est absent de votre dossier de mods local et peut être téléchargé. <br>
+<img src="repos_uptodate.png" alt="Mod Up To Date">: Signifie que le mod est déjà présent dans votre dossier de mods local et est a la même version. <br>
+<img src="repos_upgrade.png" alt="Mod Upgrade">: Signifie que le mod est déjà présent dans votre dossier de mods local mais a une version inférieur à celle disponible dans les dépôts (vous pouvez upgrader ce mod).<br>
+<img src="repos_dngrade.png" alt="Mod Downgrade">:  Signifie que le mod est déjà présent dans votre dossier de mods local mais a une version supérieur à celle disponible dans les dépôts (si vous téléchargez ce mod, cela va downgrader votre mod local).<br>
 </blockquote>
 
-<h5>Téléchargement des Mods</h5>
-Pour télécharger des Mods depuis les dépôts, vous pouvez simplement double-cliquer
-sur le Mod désiré dans la liste. Vous pouvez également sélectionner plusieur Mods, pui
+<h5>Téléchargement des mods</h5>
+Pour télécharger des mods depuis les dépôts, vous pouvez simplement double-cliquer
+sur le mod désiré dans la liste. Vous pouvez également sélectionner plusieur mods, pui
 cliquer sur le bouton "<b>Download selected</b>". Finalement, vous pouvez synchroniser 
-tous vos Mods locaux en cliquant sur le bouton "<b>Download all</b>".<br>
+tous vos mods locaux en cliquant sur le bouton "<b>Download all</b>".<br>
 <br>
 
-Le téléchargement des Mods a plusieurs statu selon l'étape d'installation.
+Le téléchargement des mods a plusieurs statu selon l'étape d'installation.
 <blockquote>
-<b>Pending...</b> : Signifie que le Mod est dans la liste de téléchargement et en attente de procédure.<br>
-<b>Disabling old...</b> : Signifie que le Mod local actuel est en processus de désinstallation. En effet, un Mod doit être désactivé avant d'être mis à jour.<br>
-<b>Downloading...</b> : Signife que le Mod est en cours de téléchargement.<br>
+<b>Pending...</b> : Signifie que le mod est dans la liste de téléchargement et en attente de procédure.<br>
+<b>Disabling old...</b> : Signifie que le mod local actuel est en processus de désinstallation. En effet, un mod doit être désactivé avant d'être mis à jour.<br>
+<b>Downloading...</b> : Signife que le mod est en cours de téléchargement.<br>
 </blockquote>
 
-Il y'a aussi plusieurs statu d'erreur possibles:
+Il y'a aussi plusieurs statut d'erreur possibles:
 
 <blockquote>
 <b>Host not found</b> : Signifie que la téléchargement a échoué car le nom d'hote n'a put être résolu.<br>
@@ -104,13 +104,6 @@ Il y'a aussi plusieurs statu d'erreur possibles:
 <b>I/O Open error</b> : Signifie que la téléchargement a échoué à cause d'une erreur de création de fichier pour écriture sur le disque local.<br>
 <b>I/O Write error</b> : Signifie que la téléchargement a échoué à cause d'une erreur d'écriture de donnée dans le fichier sur le disque local.<br>
 </blockquote>
-
-<i>
-Note: OvGME ne prend pas en charge le transfert de donnée HTTP chunked pour le
-téléchargement de Mod-Archive. Ceci n'est théoriquement par un problème puisque
-ce mode de transfert n'est utilisé que pour fournir des pages dynamiques tel que
-PHP ou ASP. Un fichier téléchargeable est vraiment très rarement transmit via la
-méthode de transfert chunked par un serveur web, et ce n'est pas une bonne pratique.</i>
 
   </body>
 </html>

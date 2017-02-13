@@ -23,10 +23,10 @@ a web server.<br>
 <h4>The XML repository structure</h4>
 
 OvGME will seek for a particular structure in the provided XML data to gather 
-informations about Mods. This structure is simple enough to allow repository XML 
+informations about mods. This structure is simple enough to allow repository XML 
 data to be manually written using any text editor.<br> 
 <br>
-<b>However, OvGME also provides a tool to automatically generate XML file (see below).</b>
+<b>However, OvGME also provides tools to automatically generate and test repository XML files (see below).</b>
 <br><br>
 Here is an example of typical repository XML file content:<br><br>
 <span style="font-family:Courier;">
@@ -66,29 +66,27 @@ The Black parts are inner data of nodes.
 <h5>Nodes structure</h5>
 In our case we have three nodes, the <span style="color:#a0a;"><b>mod_list</b></span> is the root node, and the two <span style="color:#a0a;"><b>mod</b></span> are 
 children of this root node. This is the base structure OvGME will seek for repository 
-file: One root with several children, where each children is a Mod descriptor. A 
-repository XML data can have as many Mod descriptor child nodes as you want, there is 
+file: One root with several children, where each children is a mod descriptor. A 
+repository XML data can have as many mod descriptor child nodes as you want, there is 
 no limitation.<br>
 <br>
-<i>Note: Node names does not matter, you can replace <span style="color:#a0a;"><b>mod_list</b></span> by any other name and <span style="color:#a0a;"><b>mod</b></span>
-by what you want. OvGME only seek for a particular nodes structure.</i><br>
 
 <h5>Mod descriptor attributes</h5>
 
-Each Mod descriptor node must have three attributes named respectively "<span style="color:#0a0;">name</span>", 
-"<span style="color:#0a0;">version</span>" and "<span style="color:#0a0;">url</span>". Here, <b>name does matter</b>, OvGME will seek for these specific 
-attributes and their values.<br>
+Each mod descriptor node must have three attributes named respectively "<span style="color:#0a0;">name</span>", 
+"<span style="color:#0a0;">version</span>" and "<span style="color:#0a0;">url</span>". Here, <b>name does matter</b>, 
+OvGME will seek for these specific attributes and their values.<br>
 <br>
 <i>Note: the order of attributes doesn't matter, you can specify url attribute first and 
 the name attribute at the end, this has no impact.</i><br>
 <ul>
 <li>
-<span style="color:#0a0;">name</span> : describe the Mod name.This name is, so to say, what identify the Mod in all 
-cases, even internally by OvGM algorithms to compare it with locally installed Mods.<br><br>
+<span style="color:#0a0;">name</span> : describe the mod name. This name is, so to say, what identify the mod in all 
+cases, even internally by OvGM algorithms to compare it with locally installed mods.<br><br>
 </li>
 <li>
-<span style="color:#0a0;">version</span> : describe the Mod version. This value will be used, for example, to compare 
-with the locally installed Mods. (for more details, see the Mod versioning topic )<br><br>
+<span style="color:#0a0;">version</span> : describe the mod version. This value will be used, for example, to compare 
+with the locally installed mods. (for more details, see the mod versioning chapter )<br><br>
 </li>
 <li>
 <span style="color:#0a0;">url</span> : is the URL to the file to download. This is where OvGME will request for download 
@@ -98,7 +96,7 @@ the Mod-Archive zip file. This url must be a valid HTTP URL.<br><br>
 
 <h5>Mod descriptor description</h5>
 
-Within the Mod descriptor node, you can optionally insert the Mod description, this is 
+Within the mod descriptor node, you can optionally insert the mod description, this is 
 the black part in the example above. There is no restriction for size or format, but, 
 like in HMTL, the XML format does not "recognize" the carriage returns within the data. 
 But unlike HTML, you can't use the "<i>&lt;br&gt;</i>" tag. So to indicate a carriage return in the 
@@ -106,34 +104,53 @@ description, you have to encode it with the special sequence: "<b><i>&amp;#13;&a
 <br>
 <i>Note: This sequence literally mean "Put Carriage Return ASCII code (13) ; Put Line 
 Feed ASCII code (10) ;" which is named a CRLF (Carriage Return Line Feed) sequence.</i>
-
+<br>
 
 <h4>Using XML source generator</h4>
 
 To help creating valid XML repository file, OvGME provide a tool to automatically 
-create XML source by analyzing the content of the Mods Stock folder (or a custom 
+create XML source by analyzing the content of the mods folder (or a custom 
 specified folder). This tool take all valid zip Mod-Archive, check for a VERSION.txt, 
 a valid description file, and puts all together as XML repository source code.<br>
 
 To open the XML source generator, go to the "<b>Mods</b>" menu, select 
 "<b>Repositories</b>", then "<b>Make XML source...</b>"<br><br>
 
-<b>Base URL</b> specifies the base URL used to generate download links for Mods. For 
+<b>Custom mods folder</b><br>
+If this option is checked, must be an existing folder containing valid Mod-Archive 
+files to be used to generate XML mods list.<br>
+If this option is not checked, the current configuration mods folder is used.<br>
+<br>
+<b>Download link nase URL</b><br>
+specifies the base URL used to generate download links for mods. For 
 example, if you enter the "<i>http://www.example.com/public</i>" as base ULR, the download 
 link generated for Mods will be "<i>http://www.example.com/public/My%20Super%20Mod.zip</i>".<br>
 <br>
-<i>Note: <b><u>Technically, your are not restricted to one location/URL for download links</u></b>, you can 
+<i>Note:<b><u>Technically, your are not restricted to one location/URL for download links</u></b>, you can 
 use any valid URL for download links, and each Mod can have its own specific download 
 link. However, the XML generator can generate only generic links for all mods. If 
 download links of Mods are actually scattered on several locations, you have to edit 
 the XML source yourself by replacing the URL of desired Mods.</i><br>
 <br>
 Once you properly specified the required data, you can generate the XML source code, by 
-simply clicking on the "<b>Generate XML source</b>" button. You now can edit the 
+simply clicking on the "<b>Generate XML</b>" button. You now can edit the 
 generated buffer to ajust data as your convenence.<br>
 <br>
 Finally, once XML source generated and modified it at your convenience, you finally can save the 
 current buffer by clicking the "<b>Save as XML...</b>" button.<br>
+<br>
+
+<h4>Using XML source test parser</h4>
+
+To help verify if an XML repository file will be correctly parsed, OvGME provides a tool to
+test any XML file as repository XML source. 
+
+To open the XML source test parser, go to the "<b>Mods</b>" menu, select 
+"<b>Repositories</b>", then "<b>Test XML source...</b>". It will automatically prompts you a 
+new dialog to choose an XML file to test.<br><br>
+
+If the parsing succeed, you will see a success parsing message and the result of the 
+parsing in the output text area. Otherwise, a parsing error is displayed.
 
   </body>
 </html>

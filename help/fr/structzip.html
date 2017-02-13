@@ -27,33 +27,33 @@ n'est pas vu comme un Mod-Archive.<br>
   Pour l'instant, OvGME ne prend en charge que les fichiers compressés au format ZIP standard.<br><br>
 </li>
 <li>
-  <b>Le fichier zip <u>DOIT</u> contenir le dossier racine du Directory-Mod correctement nommé.</b><br>
-  La racine de l'archive zip doit contenir le dossier racine du Directory-Mod (et <b>non</b> 
-  directement les fichiers du Mod). Aussi, ce dossier doit avoir le même nom que l'archive elle-même
+  <b>Le fichier zip <u>DOIT</u> contenir un dossier-conteneur correctement nommé à sa racine.</b><br>
+  La racine de l'archive zip doit contenir le dossier-conteneur (et <b>non</b> 
+  directement les fichiers du Mod). Aussi, ce dossier-conteneur doit avoir le même nom que l'archive elle-même
   mais sans l'extension .zip. Par exemple, si vous avez un Mod-Archive nommé "<i>My Super Mod.zip</i>",
-  il doit contenir un dossier nommé "<i>My Super Mod</i>" où sont rangés les fichiers modifiés du jeu.
-  Ceci, car OvGME ne peut pas deviner quel dossier dans l'archive doit être considéré comme le dossier 
-  racine et parce-que les Mod-Archives peuvent inclure d'autres fichiers que ceux de la destination 
-  racine (root path), il cherche un dossier nommé exactement comme le fichier zip lui-même. C'est 
+  il doit contenir un dossier-conteneur nommé "<i>My Super Mod</i>" où sont rangés les fichiers du mod.
+  Ceci, car OvGME ne peut pas deviner quel dossier dans l'archive doit être considéré comme le dossier-conteneur
+  et parce-que les Mod-Archives peuvent inclure d'autres fichiers que ceux du dossier 
+  racine (root folder), il cherche un dossier nommé exactement comme le fichier zip lui-même. C'est 
   une convention.<br><br>
 </li>
 <li>
   <b>Le fichier zip peut optionnellement contenir un fichier de description</b><br>
   OvGME vérifie automatiquement si un ficher .txt correctement nommé existe à la racine
   du fichier zip. Si ce fichier .txt est nommé "description.txt", "readme.txt" ou a exactement
-  le même nom que le dossier racine du Mod ou du fichier zip lui-même (mais avec l'extension .txt
-  au lieu de .zip), il sera considéré comme la description du Mod. Ce fichier doit être au
+  le même nom que le dossier-conteneur du mod ou du fichier zip lui-même (mais avec l'extension .txt
+  au lieu de .zip), il sera considéré comme la description du mod. Ce fichier doit être au
   standard ASCII, OvGME ne supporte pas le texte enrichie pour le moment.<br><br>
 </li>
 <li>
   <b>Le fichier zip peut optionnellement contenir un fichier de version.</b><br>
   OvGME vérifie automatiquement si un fichier nommé "version.txt" existe à la racine
   du fichier zip. Si ce fichier existe, il sera considéré comme la chaîne de version
-  pur ce Mod. Ce fichier doit être au standard .txt ASCII et la chaîne de version
+  pur ce mod. Ce fichier doit être au standard .txt ASCII et la chaîne de version
   doit respecter le format décrits dans le chapitre Versioning de Mod.<br><br>
 </li>
 </ul>
-Par exemple, si l'arborescence de fichiers de la destination racine est comme suit:<br>
+Par exemple, si l'arborescence de fichiers du dossier racine est comme suit:<br>
 <br>
 <blockquote>
 <span style="font-family:Courier;">
@@ -67,7 +67,7 @@ Par exemple, si l'arborescence de fichiers de la destination racine est comme su
 &emsp;&emsp;&emsp;&emsp;&emsp;&emsp; &#x1f4c4; picture2.dds<br>
 </span>
 </blockquote>
-Et que votre Mod consiste à changer quelques fichiers .dds de textures dans
+Et que votre mod consiste à changer quelques fichiers .dds de textures dans
 "<i>MyGame\Textures\Vehicles</i>", votre fichier zip de Mod-Archive devrait être
 structuré comme suit:
 <blockquote>
@@ -84,12 +84,12 @@ structuré comme suit:
 }
 </span>
 </blockquote>
-Ainsi, le fichier "<i>My Texture Mod.zip</i>" doit être copié dans le dossier
-de stock de Mods pour cette configuration, ou être importé en utilisant la 
-fonction d'importation de Mods.<br>
+Ainsi, le fichier "<i>My Texture Mod.zip</i>" doit être copié dans le dossier de mods 
+pour cette configuration, ou être importé en utilisant la 
+fonction d'importation de mods.<br>
 <br>
 <i>Note: Pour créer un Mod-Archive, vous pouvez également utiliser l'outils
 fournit par OvGME, qui génère pour vous un fichier zip correctement structuré 
-depuis un Directory-Mod existant (voir le chapitre <a href="modsmake.html">Création de Mod</a>).</i>
+depuis un Directory-Mod existant (voir le chapitre <a href="modsmake.html">Création de mod</a>).</i>
   </body>
 </html>

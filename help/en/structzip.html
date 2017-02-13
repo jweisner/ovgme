@@ -17,7 +17,7 @@
     <br>
     
 The Mod-Archive is, so to say, only a zipped version of a valid Directory-Mod. However, 
-because OvGME needs to correctly align Mod file tree with destination root (root path) 
+because OvGME needs to correctly align mod file tree with root folder 
 file tree and deduct where to seek for data, a valid Mod-Archive must follow some 
 simple rules. If these rules are not respected, the zip file will not be seen as Mod-Archive.<br>
 <br>
@@ -27,30 +27,30 @@ simple rules. If these rules are not respected, the zip file will not be seen as
   For now, OvGME only supports compressed file in standard ZIP format.<br><br>
 </li>
 <li>
-  <b>The zip file <u>MUST</u> contain the properly named Directory-Mod folder at its root.</b><br>
-  The zip archive root must contain the Directory-Mod root folder (and <b>not</b> directly the 
-  Mod files). Also, this folder must have the same name as the archive itself but 
+  <b>The zip file <u>MUST</u> contain a properly named contner-folder at its root.</b><br>
+  The zip archive root must contain the contner-folder (and <b>not</b> directly the 
+  mod files). Also, this folder must have the same name as the archive itself but 
   without the .zip extension. For example, if you have a mod archive named 
-  "<i>My Super Mod.zip</i>", it must contain the folder named "<i>My Super Mod</i>" 
-  where Mod files are stored. This is because OvGME can't guess which folder into the 
+  "<i>My Super Mod.zip</i>", it must contain the contner-folder named "<i>My Super Mod</i>" 
+  where mod files are stored. This is because OvGME can't guess which folder into the 
   zip archive must be considered as the root folder and because Mod-Archives can include 
-  some other files than only the modified destination root (root path) files, it seek for a 
+  some other files than only the modified root folder files, it seek for a 
   folder named exactly according the zip file name itself. This is a convention.<br><br>
 </li>
 <li>
   <b>The zip file can optionally contain a description file.</b><br>
   OvGME automatically checks if a properly named .txt file exists at root of the zip 
   file. If this .txt file is named "description.txt", "readme.txt" or has the same exact 
-  name as the Mod root folder or zip file itself (but with .txt extension instead of 
-  .zip extension), it will take it as the Mod description. This file must be a standard 
+  name as the mod root folder or zip file itself (but with .txt extension instead of 
+  .zip extension), it will take it as the mod description. This file must be a standard 
   ASCII .txt file, OvGME does not currently support rich format.<br><br>
 </li>
 <li>
   <b>The zip file can optionally contain a version file.</b><br>
   OvGME automatically checks if a properly named "version.txt" file exists at root of 
   the zip file. If this file exists, it will be considered as the version string for 
-  this Mod. This file must be a standard ASCII .txt file and the version string should 
-  follow the format as described in the Mod versioning chapter.<br><br>
+  this mod. This file must be a standard ASCII .txt file and the version string should 
+  follow the format as described in the mod versioning chapter.<br><br>
 </li>
 </ul>
 For example, if the destination root file tree is the following:<br>
@@ -67,7 +67,7 @@ For example, if the destination root file tree is the following:<br>
 &emsp;&emsp;&emsp;&emsp;&emsp;&emsp; &#x1f4c4; picture2.dds<br>
 </span>
 </blockquote>
-And if your Mod consist of changing some .dds texture files in 
+And if your mod consist of changing some .dds texture files in 
 "<i>MyGame\Textures\Vehicles</i>" your Mod-Archive zip file should be structured as 
 follow:
 <blockquote>
@@ -84,7 +84,7 @@ follow:
 }
 </span>
 </blockquote>
-Then, the "<i>My Texture Mod.zip</i>" file must be copier in the Mods stock folder for 
+Then, the "<i>My Texture Mod.zip</i>" file must be copier in the mods folder for 
 this configuration or imported using the import function.<br>
 <br>
 <i>Note: To create a Mod-Archive, you also can use the tool provided by OvGME, which 

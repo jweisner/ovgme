@@ -76,7 +76,46 @@ void GME_DglModsQuickMakeInit()
 }
 
 /*
-  message callback for Create Mod dialog window
+  controls resize & placement routine for Create Mod dialog
+*/
+void GME_DlgModsMakeResize()
+{
+  HWND hwd = g_hwndNewAMod;
+  RECT cli;
+  GetClientRect(hwd, &cli);
+
+  SetWindowPos(GetDlgItem(hwd, TXT_TITLE), NULL, 10, 10, cli.right-20, 15, SWP_NOZORDER);
+  SetWindowPos(GetDlgItem(hwd, BTN_CLOSE), NULL, cli.right-90, cli.bottom-34, 80, 24, SWP_NOZORDER);
+  SetWindowPos(GetDlgItem(hwd, BOX_MAIN), NULL, 10, 30, cli.right-20, cli.bottom-74, SWP_NOZORDER);
+  SetWindowPos(GetDlgItem(hwd, TXT_HELP1), NULL, 20, 50, 200, 15, SWP_NOZORDER);
+  SetWindowPos(GetDlgItem(hwd, ENT_SRC), NULL, 40, 70, cli.right-125, 20, SWP_NOZORDER);
+  SetWindowPos(GetDlgItem(hwd, BTN_BROWSESRC), NULL, cli.right-80, 69, 60, 22, SWP_NOZORDER);
+
+  SetWindowPos(GetDlgItem(hwd, TXT_HELP2), NULL, 20, 100, 200, 15, SWP_NOZORDER);
+  SetWindowPos(GetDlgItem(hwd, ENT_DST), NULL, 40, 120, cli.right-125, 20, SWP_NOZORDER);
+  SetWindowPos(GetDlgItem(hwd, BTN_BROWSEDST), NULL, cli.right-80, 119, 60, 22, SWP_NOZORDER);
+
+  SetWindowPos(GetDlgItem(hwd, TXT_HELP3), NULL, 20, 150, 200, 15, SWP_NOZORDER);
+  SetWindowPos(GetDlgItem(hwd, ENT_VERSMAJOR), NULL, 40, 170, 20, 20, SWP_NOZORDER);
+  SetWindowPos(GetDlgItem(hwd, LAB_VDOT1), NULL, 60, 175, 15, 20, SWP_NOZORDER);
+  SetWindowPos(GetDlgItem(hwd, ENT_VERSMINOR), NULL, 80, 170, 20, 20, SWP_NOZORDER);
+  SetWindowPos(GetDlgItem(hwd, LAB_VDOT2), NULL, 100, 175, 15, 20, SWP_NOZORDER);
+  SetWindowPos(GetDlgItem(hwd, ENT_VERSREVIS), NULL, 120, 170, 20, 20, SWP_NOZORDER);
+
+  SetWindowPos(GetDlgItem(hwd, TXT_HELP4), NULL, 20, 200, 200, 15, SWP_NOZORDER);
+  SetWindowPos(GetDlgItem(hwd, ENT_MODDESC), NULL, 40, 220, cli.right-60, cli.bottom-370, SWP_NOZORDER);
+
+  SetWindowPos(GetDlgItem(hwd, TXT_HELP5), NULL, 20, cli.bottom-140, 200, 15, SWP_NOZORDER);
+  SetWindowPos(GetDlgItem(hwd, CB_ZIPLEVEL), NULL, 40, cli.bottom-120, 150, 20, SWP_NOZORDER);
+
+  SetWindowPos(GetDlgItem(hwd, BTN_CREATE), NULL, 20, cli.bottom-74, 80, 22, SWP_NOZORDER);
+  SetWindowPos(GetDlgItem(hwd, IDCANCEL), NULL, 20, cli.bottom-74, 80, 22, SWP_NOZORDER);
+  SetWindowPos(GetDlgItem(hwd, PBM_MAKE), NULL, 105, cli.bottom-74, cli.right-125, 20, SWP_NOZORDER);
+}
+
+
+/*
+  message callback for Create Mod dialog
 */
 BOOL CALLBACK GME_DlgModsMake(HWND hwndDlg, UINT uMsg, WPARAM wParam, LPARAM lParam)
 {
@@ -100,7 +139,7 @@ BOOL CALLBACK GME_DlgModsMake(HWND hwndDlg, UINT uMsg, WPARAM wParam, LPARAM lPa
     EnableWindow(GetDlgItem(g_hwndNewAMod, ENT_VERSREVIS), true);
     SetDlgItemText(hwndDlg, ENT_MODDESC, "");
     EnableWindow(GetDlgItem(g_hwndNewAMod, ENT_MODDESC), true);
-    EnableWindow(GetDlgItem(g_hwndNewAMod, IDCANCEL), false);
+    ShowWindow(GetDlgItem(g_hwndNewAMod, IDCANCEL), false);
     // disable Add button
     EnableWindow(GetDlgItem(hwndDlg, BTN_CREATE), false);
     // add compression levels
@@ -113,6 +152,11 @@ BOOL CALLBACK GME_DlgModsMake(HWND hwndDlg, UINT uMsg, WPARAM wParam, LPARAM lPa
     SendMessage(GetDlgItem(g_hwndNewAMod, CB_ZIPLEVEL), CB_ADDSTRING, 3, (LPARAM)"No Compression");
     SendMessage(GetDlgItem(g_hwndNewAMod, CB_ZIPLEVEL), CB_SETITEMDATA, 3, (LPARAM)MZ_NO_COMPRESSION);
     SendMessage(GetDlgItem(g_hwndNewAMod, CB_ZIPLEVEL), CB_SETCURSEL, 1, 0);
+    GME_DlgModsMakeResize();
+    return true;
+
+  case WM_SIZE:
+    GME_DlgModsMakeResize();
     return true;
 
   case WM_CLOSE:
@@ -190,9 +234,42 @@ BOOL CALLBACK GME_DlgModsMake(HWND hwndDlg, UINT uMsg, WPARAM wParam, LPARAM lPa
 }
 
 
+/*
+  controls resize & placement routine for Quick Create Mod dialog
+*/
+void GME_DlgModsQuickMakeResize()
+{
+  HWND hwd = g_hwndNewAMod;
+  RECT cli;
+  GetClientRect(hwd, &cli);
+
+  SetWindowPos(GetDlgItem(hwd, TXT_TITLE), NULL, 10, 10, cli.right-20, 15, SWP_NOZORDER);
+  SetWindowPos(GetDlgItem(hwd, BTN_CLOSE), NULL, cli.right-90, cli.bottom-34, 80, 24, SWP_NOZORDER);
+  SetWindowPos(GetDlgItem(hwd, BOX_MAIN), NULL, 10, 30, cli.right-20, cli.bottom-74, SWP_NOZORDER);
+
+  SetWindowPos(GetDlgItem(hwd, TXT_HELP1), NULL, 20, 50, 200, 15, SWP_NOZORDER);
+  SetWindowPos(GetDlgItem(hwd, ENT_SRC), NULL, 40, 70, cli.right-60, 20, SWP_NOZORDER);
+
+  SetWindowPos(GetDlgItem(hwd, TXT_HELP3), NULL, 20, 100, 200, 15, SWP_NOZORDER);
+  SetWindowPos(GetDlgItem(hwd, ENT_VERSMAJOR), NULL, 40, 120, 20, 20, SWP_NOZORDER);
+  SetWindowPos(GetDlgItem(hwd, LAB_VDOT1), NULL, 60, 125, 15, 20, SWP_NOZORDER);
+  SetWindowPos(GetDlgItem(hwd, ENT_VERSMINOR), NULL, 80, 120, 20, 20, SWP_NOZORDER);
+  SetWindowPos(GetDlgItem(hwd, LAB_VDOT2), NULL, 100, 125, 15, 20, SWP_NOZORDER);
+  SetWindowPos(GetDlgItem(hwd, ENT_VERSREVIS), NULL, 120, 120, 20, 20, SWP_NOZORDER);
+
+  SetWindowPos(GetDlgItem(hwd, TXT_HELP4), NULL, 20, 150, 200, 15, SWP_NOZORDER);
+  SetWindowPos(GetDlgItem(hwd, ENT_MODDESC), NULL, 40, 170, cli.right-60, cli.bottom-320, SWP_NOZORDER);
+
+  SetWindowPos(GetDlgItem(hwd, TXT_HELP5), NULL, 20, cli.bottom-140, 200, 15, SWP_NOZORDER);
+  SetWindowPos(GetDlgItem(hwd, CB_ZIPLEVEL), NULL, 40, cli.bottom-120, 150, 20, SWP_NOZORDER);
+
+  SetWindowPos(GetDlgItem(hwd, BTN_CREATE), NULL, 20, cli.bottom-74, 80, 22, SWP_NOZORDER);
+  SetWindowPos(GetDlgItem(hwd, IDCANCEL), NULL, 20, cli.bottom-74, 80, 22, SWP_NOZORDER);
+  SetWindowPos(GetDlgItem(hwd, PBM_MAKE), NULL, 105, cli.bottom-74, cli.right-125, 20, SWP_NOZORDER);
+}
 
 /*
-  message callback for Create Mod dialog window
+  message callback for Quick Create Mod dialog window
 */
 BOOL CALLBACK GME_DlgModsQuickMake(HWND hwndDlg, UINT uMsg, WPARAM wParam, LPARAM lParam)
 {
@@ -203,6 +280,7 @@ BOOL CALLBACK GME_DlgModsQuickMake(HWND hwndDlg, UINT uMsg, WPARAM wParam, LPARA
     g_hwndNewAMod = hwndDlg;
     GME_DlgModsMakeInit();
     GME_DglModsQuickMakeInit();
+    GME_DlgModsQuickMakeResize();
     SetDlgItemText(hwndDlg, ENT_VERSMAJOR, "0");
     EnableWindow(GetDlgItem(g_hwndNewAMod, ENT_VERSMAJOR), true);
     SetDlgItemText(hwndDlg, ENT_VERSMINOR, "0");
@@ -224,6 +302,10 @@ BOOL CALLBACK GME_DlgModsQuickMake(HWND hwndDlg, UINT uMsg, WPARAM wParam, LPARA
     SendMessage(GetDlgItem(g_hwndNewAMod, CB_ZIPLEVEL), CB_ADDSTRING, 3, (LPARAM)"No Compression");
     SendMessage(GetDlgItem(g_hwndNewAMod, CB_ZIPLEVEL), CB_SETITEMDATA, 3, (LPARAM)MZ_NO_COMPRESSION);
     SendMessage(GetDlgItem(g_hwndNewAMod, CB_ZIPLEVEL), CB_SETCURSEL, 1, 0);
+    return true;
+
+  case WM_SIZE:
+    GME_DlgModsQuickMakeResize();
     return true;
 
   case WM_CLOSE:

@@ -1468,8 +1468,8 @@ DWORD WINAPI GME_ModsMake_Th(void* args)
   EnableWindow(GetDlgItem(g_hwndNewAMod, ENT_VERSMINOR), false);
   EnableWindow(GetDlgItem(g_hwndNewAMod, ENT_VERSREVIS), false);
   EnableWindow(GetDlgItem(g_hwndNewAMod, ENT_MODDESC), false);
-  EnableWindow(GetDlgItem(g_hwndNewAMod, BTN_CREATE), false);
-  EnableWindow(GetDlgItem(g_hwndNewAMod, IDCANCEL), true);
+  ShowWindow(GetDlgItem(g_hwndNewAMod, BTN_CREATE), false);
+  ShowWindow(GetDlgItem(g_hwndNewAMod, IDCANCEL), true);
   EnableWindow(GetDlgItem(g_hwndNewAMod, BTN_CLOSE), false);
 
 
@@ -1496,8 +1496,8 @@ DWORD WINAPI GME_ModsMake_Th(void* args)
     delete arg;
     GME_Logs(GME_LOG_ERROR, "GME_ModsMake_Th", "mz_zip_writer_init_file failed", GME_StrToMbs(tmp_path).c_str());
     GME_DialogError(g_hwndNewAMod, L"An error occurred during Mod-Archive creation.");
-    EnableWindow(GetDlgItem(g_hwndNewAMod, BTN_CREATE), true);
-    EnableWindow(GetDlgItem(g_hwndNewAMod, IDCANCEL), false);
+    ShowWindow(GetDlgItem(g_hwndNewAMod, BTN_CREATE), true);
+    ShowWindow(GetDlgItem(g_hwndNewAMod, IDCANCEL), false);
     EnableWindow(GetDlgItem(g_hwndNewAMod, BTN_CLOSE), true);
     g_ModsMake_Running = false;
     return 0;
@@ -1527,8 +1527,8 @@ DWORD WINAPI GME_ModsMake_Th(void* args)
         DeleteFileW(tmp_path.c_str());
         GME_Logs(GME_LOG_ERROR, "GME_ModsMake_Th", "mz_zip_writer_add_mem (dir) failed", GME_StrToMbs(tmp_path).c_str());
         GME_DialogError(g_hwndNewAMod, L"An error occurred during Mod-Archive creation.");
-        EnableWindow(GetDlgItem(g_hwndNewAMod, BTN_CREATE), true);
-        EnableWindow(GetDlgItem(g_hwndNewAMod, IDCANCEL), false);
+        ShowWindow(GetDlgItem(g_hwndNewAMod, BTN_CREATE), true);
+        ShowWindow(GetDlgItem(g_hwndNewAMod, IDCANCEL), false);
         EnableWindow(GetDlgItem(g_hwndNewAMod, BTN_CLOSE), true);
         g_ModsMake_Running = false;
         return 0;
@@ -1544,8 +1544,8 @@ DWORD WINAPI GME_ModsMake_Th(void* args)
           DeleteFileW(tmp_path.c_str());
           GME_Logs(GME_LOG_ERROR, "GME_ModsMake_Th", "mz_zip_writer_add_file failed", GME_StrToMbs(tmp_path).c_str());
           GME_DialogError(g_hwndNewAMod, L"An error occurred during Mod-Archive creation.");
-          EnableWindow(GetDlgItem(g_hwndNewAMod, BTN_CREATE), true);
-          EnableWindow(GetDlgItem(g_hwndNewAMod, IDCANCEL), false);
+          ShowWindow(GetDlgItem(g_hwndNewAMod, BTN_CREATE), true);
+          ShowWindow(GetDlgItem(g_hwndNewAMod, IDCANCEL), false);
           EnableWindow(GetDlgItem(g_hwndNewAMod, BTN_CLOSE), true);
           g_ModsMake_Running = false;
           return 0;
@@ -1558,8 +1558,8 @@ DWORD WINAPI GME_ModsMake_Th(void* args)
           DeleteFileW(tmp_path.c_str());
           GME_Logs(GME_LOG_ERROR, "GME_ModsMake_Th", "mz_zip_writer_add_mem (mem) failed", GME_StrToMbs(tmp_path).c_str());
           GME_DialogError(g_hwndNewAMod, L"An error occurred during Mod-Archive creation.");
-          EnableWindow(GetDlgItem(g_hwndNewAMod, BTN_CREATE), true);
-          EnableWindow(GetDlgItem(g_hwndNewAMod, IDCANCEL), false);
+          ShowWindow(GetDlgItem(g_hwndNewAMod, BTN_CREATE), true);
+          ShowWindow(GetDlgItem(g_hwndNewAMod, IDCANCEL), false);
           EnableWindow(GetDlgItem(g_hwndNewAMod, BTN_CLOSE), true);
           g_ModsMake_Running = false;
           return 0;
@@ -1580,7 +1580,8 @@ DWORD WINAPI GME_ModsMake_Th(void* args)
       EnableWindow(GetDlgItem(g_hwndNewAMod, ENT_VERSMINOR), true);
       EnableWindow(GetDlgItem(g_hwndNewAMod, ENT_VERSREVIS), true);
       EnableWindow(GetDlgItem(g_hwndNewAMod, ENT_MODDESC), true);
-      EnableWindow(GetDlgItem(g_hwndNewAMod, BTN_CREATE), true);
+      ShowWindow(GetDlgItem(g_hwndNewAMod, BTN_CREATE), true);
+      ShowWindow(GetDlgItem(g_hwndNewAMod, IDCANCEL), false);
       EnableWindow(GetDlgItem(g_hwndNewAMod, BTN_CLOSE), true);
       SendMessage(GetDlgItem(g_hwndNewAMod, PBM_MAKE), PBM_SETPOS, (WPARAM)0, 0);
       g_ModsMake_Running = false;
@@ -1603,8 +1604,8 @@ DWORD WINAPI GME_ModsMake_Th(void* args)
       DeleteFileW(tmp_path.c_str());
       GME_Logs(GME_LOG_ERROR, "GME_ModsMake_Th", "Unable to delete file", GME_StrToMbs(zip_path).c_str());
       GME_DialogError(g_hwndNewAMod, L"An error occurred during Mod-Archive creation.");
-      EnableWindow(GetDlgItem(g_hwndNewAMod, BTN_CREATE), true);
-      EnableWindow(GetDlgItem(g_hwndNewAMod, IDCANCEL), false);
+      ShowWindow(GetDlgItem(g_hwndNewAMod, BTN_CREATE), true);
+      ShowWindow(GetDlgItem(g_hwndNewAMod, IDCANCEL), false);
       EnableWindow(GetDlgItem(g_hwndNewAMod, BTN_CLOSE), true);
       g_ModsMake_Running = false;
       return 0;
@@ -1616,8 +1617,8 @@ DWORD WINAPI GME_ModsMake_Th(void* args)
     DeleteFileW(tmp_path.c_str());
     GME_Logs(GME_LOG_ERROR, "GME_ModsMake_Th", "Unable to rename file", GME_StrToMbs(zip_path).c_str());
     GME_DialogError(g_hwndNewAMod, L"An error occurred during Mod-Archive creation.");
-    EnableWindow(GetDlgItem(g_hwndNewAMod, BTN_CREATE), true);
-    EnableWindow(GetDlgItem(g_hwndNewAMod, IDCANCEL), false);
+    ShowWindow(GetDlgItem(g_hwndNewAMod, BTN_CREATE), true);
+    ShowWindow(GetDlgItem(g_hwndNewAMod, IDCANCEL), false);
     EnableWindow(GetDlgItem(g_hwndNewAMod, BTN_CLOSE), true);
     g_ModsMake_Running = false;
     return 0;
@@ -1637,7 +1638,6 @@ DWORD WINAPI GME_ModsMake_Th(void* args)
   EnableWindow(GetDlgItem(g_hwndNewAMod, ENT_SRC), true);
   SetDlgItemText(g_hwndNewAMod, ENT_SRC, "");
   EnableWindow(GetDlgItem(g_hwndNewAMod, BTN_BROWSESRC), true);
-  SetDlgItemText(g_hwndNewAMod, ENT_DST, "");
   EnableWindow(GetDlgItem(g_hwndNewAMod, ENT_DST), true);
   EnableWindow(GetDlgItem(g_hwndNewAMod, BTN_BROWSEDST), true);
   SetDlgItemText(g_hwndNewAMod, ENT_VERSMAJOR, "0");
@@ -1649,8 +1649,9 @@ DWORD WINAPI GME_ModsMake_Th(void* args)
   SetDlgItemText(g_hwndNewAMod, ENT_MODDESC, "");
   EnableWindow(GetDlgItem(g_hwndNewAMod, ENT_MODDESC), true);
   // disable Add button
-  EnableWindow(GetDlgItem(g_hwndNewAMod, BTN_CREATE), false);
-  EnableWindow(GetDlgItem(g_hwndNewAMod, IDCANCEL), false);
+  ShowWindow(GetDlgItem(g_hwndNewAMod, BTN_CREATE), true);
+  EnableWindow(GetDlgItem(g_hwndNewAMod, BTN_CLOSE), false);
+  ShowWindow(GetDlgItem(g_hwndNewAMod, IDCANCEL), false);
   EnableWindow(GetDlgItem(g_hwndNewAMod, BTN_CLOSE), true);
   SendMessage(GetDlgItem(g_hwndNewAMod, PBM_MAKE), PBM_SETPOS, (WPARAM)0, 0);
 

@@ -16,11 +16,11 @@
     </table>
     <br>
     
-OvGME allow you to configure distant mod repositories to check for mod download or 
+OvGME allow you to configure distant mods repositories to check for mods download or 
 update. This chapter will deals only with the client side repositories feature. If you 
 want to host and manage a repository, please see the Repository management chapter.<br><br>
 
-Mod repositories are distant web servers that provide Mods for download or update. These 
+Mods repositories are distant web servers that provide mods for download or update. These 
 web servers must be OvGME compliant to be recognized during the repositories query.<br><br>
 
 <i>Note: the repositories are provided by a third-party, OvGME does not  provide default 
@@ -41,9 +41,9 @@ To add a new repository URL into the list, fill the URL entry and click the "<b>
 button.The URL must be a valid URL to an HTTP server. Here is some examples of valid 
 URL format:
 <blockquote>
-"<i>http://www.example.com/repos/</i>"<br>
-"<i>www.example.com:8080/repository/</i>"<br>
-"<i>http://192.168.0.1:80/mods/</i>"<br>
+"<i>http://www.example.com/repos</i>"<br>
+"<i>www.example.com:8080/repository/dcs</i>"<br>
+"<i>http://192.168.0.1:80/mods</i>"<br>
 </blockquote>
 
 To remove a repository URL from the list, select the desired URL in the list, then 
@@ -60,31 +60,31 @@ to the URL in the list.
 <h4>Querying repositories</h4>
 
 By querying repositories, OvGME will interrogate each enabled configured repository URL 
-to create the list of available Mods for update or download. To query repositories, go 
+to create the list of available mods for update or download. To query repositories, go 
 to the "<b>Mods</b>" menu, select "<b>Repositories</b>" then "<b>Query...</b>". It will 
 opens you a new dialog.<br><br>
 
 OvGME will automatically starts the interrogation process. Once the querying is 
-finished, and if it succeed, some Mods should appear in the list. Each entry is 
-identified by an icon which describes its status relative to your local Mods stock for 
+finished, and if it succeed, some mods should appear in the list. Each entry is 
+identified by an icon which describes its status relative to your local mods folder for 
 this configuration.
 <blockquote>
-<img src="repos_available.png" alt="Mod Available">: Means that the Mod is not present in your local Mods Stock folder and can be downloaded.<br>
-<img src="repos_uptodate.png" alt="Mod Up To Date">: Means that the Mod is already present in your local Mods Stock folder and has the same version.<br>
-<img src="repos_upgrade.png" alt="Mod Upgrade">: Means that the Mod is already present in your local Mods Stock folder but has a lower version than the one available in the repositories (you can upgrade the mod).<br>
-<img src="repos_dngrade.png" alt="Mod Downgrade">:  Means that the Mod is already present in your local Mods Stock folder but has a greater version than the one available in the repositories (if you download this mod, it will downgrade your local mod).<br>
+<img src="repos_available.png" alt="Mod Available">: Means that the mod is not present in your local mods folder and can be downloaded.<br>
+<img src="repos_uptodate.png" alt="Mod Up To Date">: Means that the mod is already present in your local mods folder and has the same version.<br>
+<img src="repos_upgrade.png" alt="Mod Upgrade">: Means that the mod is already present in your local mods folder but has a lower version than the one available in the repositories (you can upgrade the mod).<br>
+<img src="repos_dngrade.png" alt="Mod Downgrade">:  Means that the mod is already present in your local mods folder but has a greater version than the one available in the repositories (if you download this mod, it will downgrade your local mod).<br>
 </blockquote>
 <h5>Downloading Mods</h5>
-To download Mods from repositories, you can simply doube-click on the desired mod in the 
-list. You also can select several Mods, then click the "<b>Download selected</b>" button. 
-Finally, you can synchronize all your local Mods Stock folder by clicking on the 
+To download mods from repositories, you can simply doube-click on the desired mod in the 
+list. You also can select several mods, then click the "<b>Download selected</b>" button. 
+Finally, you can synchronize all your local mods folder by clicking on the 
 "<b>Download all</b>" button.<br><br>
 
-Downloading Mods has several status depending the installation stage.
+Downloading mods has several status depending the installation stage.
 <blockquote>
-<b>Pending...</b> : Means that the Mod is in the download list, and pending to be processed.<br>
-<b>Disabling old...</b> : Means that the current local Mod is in uninstalling process. Indeed, a Mod must be disabled in order to be upgraded or downgraded.<br>
-<b>Downloading...</b> : Means that the Mod is currently being downloaded.<br>
+<b>Pending...</b> : Means that the mod is in the download list, and pending to be processed.<br>
+<b>Disabling old...</b> : Means that the current local mod is in uninstalling process. Indeed, a mod must be disabled in order to be upgraded or downgraded.<br>
+<b>Downloading...</b> : Means that the mod is currently being downloaded.<br>
 </blockquote>
 
 There are also several possible error status:
@@ -98,12 +98,6 @@ There are also several possible error status:
 <b>I/O Open error</b> : Means that download failed due to error on creating file to write on local hard drive.<br>
 <b>I/O Write error</b> : Means that download failed due to error on writing data to file on local hard drive.<br>
 </blockquote>
-
-<i>Note: OvGME does not supports the HTTP chunked transfer 
-encoding for Mod-Archive download. This is theoretically not a problem since this 
-transfer mode is used by web servers only to provide dynamical pages such as PHP or ASP. 
-A downloadable file is very rarely transmitted in chunked method by web server, and 
-this is not a good practice.</i>
 
   </body>
 </html>

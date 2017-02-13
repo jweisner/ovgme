@@ -22,7 +22,7 @@ No. OvGME only supports the standard HTTP protocol.<br><br>
 <h4>Can we have several repositories on the same server (web site) ?</h4>
 Yes. OvGME only look at XML files at given URL and don't care about the web server, so 
 you can host as many XML files as you want in the same place. For example, if you want 
-to host repositories for several softwares or several Mod lists, you can provide an XML 
+to host repositories for several softwares or several mods lists, you can provide an XML 
 file for each:
 <blockquote><i>
      http://www.example.com/main (.xml)<br>
@@ -39,16 +39,16 @@ see the Repository principle for more details.<br><br>
 
 
 <h4>Does the repository server also must host the Mod-Archive zip files ?</h4>
-No, as you can read in the Repository XML file chapter, the Mod(s) URL provided in the 
+No, as you can read in the Repository XML file chapter, the mod(s) URL provided in the 
 XML is totally independent from the repository URL. The repository server only provide 
 the XML "database" file. The Mod-Archive zip files can be located and downloadable on 
 any other web address.<br><br>
 
-<h4>Does OvGME supports download/update for Mods that are not zip archives ?</h4>
+<h4>Does OvGME supports download/update for mods that are not zip archives ?</h4>
 Not at this time. OvGME will look only for zip Mod-Archives. During the repositories 
 process (name check, version comparison, etc..) the classical Directory-Mods are simply 
 ignored. So to say, the classical Directory-Mod support is more or less destined to 
-become only a feature for Mods makers, to help Mods development (since an uncompressed 
+become only a feature for mods makers, to help mods development (since an uncompressed 
 folder structure is easier to modify than a zip archive).<br><br>
 
 <h4>Can we use repositories mechanisms inside a local network ?</h4>
@@ -57,13 +57,13 @@ an HTTP server in your local network. If your local network does not provide dom
 name service (which is often the case), you only have to enter the IP-URL to the server 
 as repository URL, for example: "<i>http://192.168.0.5/repository/main</i>"<br><br>
 
-<h4>Does the distant Zip file to download must have the exact same name as the Mod name specified in the XML file ?</h4>
+<h4>Does the distant Zip file to download must have the exact same name as the mod name specified in the XML file ?</h4>
 No. OvGME don't care about the downloaded file name, once downloaded, the file will be 
 renamed according the specified name with the "<i>.zip</i>" extension. For example, if in the 
-XML file, the specified Mod name is "<i>My Super Mod</i>" and the download URL is 
+XML file, the specified mod name is "<i>My Super Mod</i>" and the download URL is 
 "<i>http://www.ex.net/super-mod-v1_0.zip</i>", the downloaded file will be renamed in 
 "<i>My Super Mod.zip</i>" and will appear as zip Mod-Archive named "<i>My Super Mod</i>" in the 
-Mods list.
+mods list.
 
   </body>
 </html>

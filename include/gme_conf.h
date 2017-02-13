@@ -24,6 +24,10 @@ struct GME_ConfCfg_Struct
   int vmajor;
   int vminor;
   wchar_t last_game[64];
+  int winw;
+  int winh;
+  int winx;
+  int winy;
 };
 
 
@@ -34,5 +38,10 @@ bool GME_ConfSaveCfg();
 std::wstring GME_ConfGetLastGame();
 void GME_ConfResetLastGame();
 void GME_ConfSetLastGame(const std::wstring& str);
+int GME_ConfGetWinW();
+int GME_ConfGetWinH();
+int GME_ConfGetWinX();
+int GME_ConfGetWinY();
+
 
 #endif // GME_CONF_H_INCLUDED

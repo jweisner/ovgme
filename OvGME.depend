@@ -668,15 +668,15 @@
 	"gme_uins.h"
 	"gme_dlg_main.h"
 
-1486820171 source:d:\dev\cpp\proj\ovgme\resource.rc
+1487005288 source:d:\dev\cpp\proj\ovgme\resource.rc
 	<windows.h>
 	<commctrl.h>
 	<richedit.h>
 	"resource.h"
 
-1486820160 d:\dev\cpp\proj\ovgme\resource.h
+1486995922 d:\dev\cpp\proj\ovgme\resource.h
 
-1486820658 d:\dev\cpp\proj\ovgme\include\gme.h
+1487008981 d:\dev\cpp\proj\ovgme\include\gme.h
 	<stdio.h>
 	<stdlib.h>
 	<iostream>
@@ -724,7 +724,7 @@
 	"gme_conf.h"
 	"gme_tools.h"
 
-1471623066 d:\dev\cpp\proj\ovgme\include\gme_conf.h
+1487010623 d:\dev\cpp\proj\ovgme\include\gme_conf.h
 	"gme.h"
 
 1486587504 d:\dev\cpp\proj\ovgme\include\gme_tools.h
@@ -745,7 +745,7 @@
 1472493787 d:\dev\cpp\proj\ovgme\include\gme_game.h
 	"gme.h"
 
-1486819572 source:d:\dev\cpp\proj\ovgme\src\gme_dlg_main.cpp
+1486996152 source:d:\dev\cpp\proj\ovgme\src\gme_dlg_main.cpp
 	"gme.h"
 	"gme_tools.h"
 	"gme_game.h"
@@ -783,19 +783,19 @@
 1471623067 d:\dev\cpp\proj\ovgme\include\gme_dlg_game.h
 	"gme.h"
 
-1472707563 source:d:\dev\cpp\proj\ovgme\src\gme_dlg_mods.cpp
+1486989789 source:d:\dev\cpp\proj\ovgme\src\gme_dlg_mods.cpp
 	"gme.h"
 	"gme_game.h"
 	"gme_mods.h"
 	"gme_tools.h"
 	"gme_logs.h"
 
-1484753232 source:d:\dev\cpp\proj\ovgme\src\gme_dlg_repo.cpp
+1487005350 source:d:\dev\cpp\proj\ovgme\src\gme_dlg_repo.cpp
 	"gme.h"
 	"gme_repo.h"
 	"gme_tools.h"
 
-1472533178 source:d:\dev\cpp\proj\ovgme\src\gme_dlg_snap.cpp
+1486984129 source:d:\dev\cpp\proj\ovgme\src\gme_dlg_snap.cpp
 	"gme.h"
 	"gme_snap.h"
 
@@ -812,7 +812,7 @@
 	"gme_logs.h"
 	"gme_tools.h"
 
-1485334445 source:d:\dev\cpp\proj\ovgme\src\gme_mods.cpp
+1486989270 source:d:\dev\cpp\proj\ovgme\src\gme_mods.cpp
 	"gme_tools.h"
 	"gme_game.h"
 	"gme_mods.h"
@@ -834,7 +834,7 @@
 
 1471623067 d:\dev\cpp\proj\ovgme\include\thirdparty\pugixml\pugiconfig.hpp
 
-1484843948 source:d:\dev\cpp\proj\ovgme\src\gme_repo.cpp
+1486985226 source:d:\dev\cpp\proj\ovgme\src\gme_repo.cpp
 	"gme_game.h"
 	"gme_mods.h"
 	"gme_repo.h"
@@ -843,7 +843,7 @@
 	"gme_logs.h"
 	"pugixml.hpp"
 
-1472531157 source:d:\dev\cpp\proj\ovgme\src\gme_snap.cpp
+1486983381 source:d:\dev\cpp\proj\ovgme\src\gme_snap.cpp
 	"gme_snap.h"
 	"gme_game.h"
 	"gme_tools.h"

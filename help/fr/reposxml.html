@@ -15,7 +15,7 @@
       </tbody>
     </table>
     <br>
-Pour OvGME, un dépôt est simplement un fichier XML qui décrit quels Mods sont
+Pour OvGME, un dépôt est simplement un fichier XML qui décrit quels mods sont
 disponibles, quelque données utiles à leur propos, et le lieu où ils peuvent 
 être téléchargés. C'est pour ainsi dire, une sorte de mini base de donnée. La 
 seule chose étant que dans notre case, les données XML sont fournies par un
@@ -24,14 +24,14 @@ serveur web.<br>
 <h4>Structure XML de dépôt</h4>
 
 OvGME va rechercher une structure particulière dans les données XML fournies pour
-recueillir les informations à propos des Mods. Cette structure est suffisamment 
+recueillir les informations à propos des mods. Cette structure est suffisamment 
 simple pour pouvoir être écrite à la main à l'aide d'un éditeur de texte.<br> 
 <br>
 <b>
-Cependant, OvGME fournit également un outil pour générer automatiquement des données
-XML (voir plus bas).</b>
+Cependant, OvGME fournit également des outils pour générer automatiquement et tester 
+les fichiers XML de dépôt (voir plus bas).</b>
 <br><br>
-Voici un exemple de contenu typique de données XML de dépôt:<br><br>
+Voici un exemple de contenu typique d'un fichier XML de dépôt:<br><br>
 <span style="font-family:Courier;">
 <span style="color:#a0a;"><b>&lt;mod_list&gt;</b></span><br>
 <br>
@@ -71,15 +71,13 @@ Les parties noirs sont les données internes des neouds.
 Dans notre cas nous avons trois noeuds, <span style="color:#a0a;"><b>mod_list</b></span> est le neoud racine, et les deux <span style="color:#a0a;"><b>mod</b></span>
 sont les neouds enfants de ce neoud racine. C'est la structure de base qu'OvGME cherche
 pour un dépôt: Une racine avec plusieurs enfants, où chaque enfant est un Descripteur de Mod. 
-Des données XML de dépôt peuvent avoir autant de neouds Descripteur de Mod que vous le souhaitez,
+Des données XML de dépôt peuvent avoir autant de neouds descripteur de mod que vous le souhaitez,
 il n'y a pas de limitation.<br>
 <br>
-<i>Note: les noms importent peu, vous pouvez remplacer <span style="color:#a0a;"><b>mod_list</b></span> par un autre nom et <span style="color:#a0a;"><b>mod</b></span>
-par ce que vous voulez. OvGME recherche seulement une structure particulière de neouds.</i><br>
 
-<h5>Attributs des Descripteurs de Mod</h5>
+<h5>Attributs des descripteurs de mods</h5>
 
-Chaque Descripteur de Mod doit avoir trois attributs nommés respectivement "<span style="color:#0a0;">name</span>",
+Chaque descripteur de mod doit avoir trois attributs nommés respectivement "<span style="color:#0a0;">name</span>",
 "<span style="color:#0a0;">version</span>" et "<span style="color:#0a0;">url</span>". Ici, <b>le nom est important</b>, OvGME va
 chercher ces attributs particuliers et leurs valeurs.<br>
 <br>
@@ -87,12 +85,12 @@ chercher ces attributs particuliers et leurs valeurs.<br>
 url en premier et name à la fin, cela n'a pas d'impacte.</i><br>
 <ul>
 <li>
-<span style="color:#0a0;">name</span> : décrit le nom du Mod. Ce nom est, pour ainsi dire, ce qui identifie le Mod dans tous
+<span style="color:#0a0;">name</span> : décrit le nom du mod. Ce nom est, pour ainsi dire, ce qui identifie le Mod dans tous
 les cas, même en interne par les algorithmes d'OvGME pour comparer avec les mods localement installés.<br><br>
 </li>
 <li>
-<span style="color:#0a0;">version</span> : décrit la version du Mod. Cette valeur sera utilisée, par exemple, pour comparer avec 
-les Mods localement installés ( pour plus de détails, voir le chapitre Versioning des Mods)
+<span style="color:#0a0;">version</span> : décrit la version du mod. Cette valeur sera utilisée, par exemple, pour comparer avec 
+les mods localement installés ( pour plus de détails, voir le chapitre Versioning des mods)
 <br><br>
 </li>
 <li>
@@ -101,10 +99,10 @@ requête pour télécharger le fichier zip du Mod-Archive. <br><br>
 </li>
 </ul>
 
-<h5>Description du Descripteur de Mod</h5>
+<h5>Description du descripteur de mod</h5>
 
-Au sein du neoud de Descripteur de Mod, vous pouvez optionnellement insérer la 
-description du Mod, c'est la partie noir dans l'exemple ci-dessus. Il n'y a pas 
+Au sein du neoud de descripteur de mod, vous pouvez optionnellement insérer la 
+description du mod, c'est la partie noir dans l'exemple ci-dessus. Il n'y a pas 
 de restriction de taille ou de format, mais, comme en HTML, le format XML ne 
 "reconnait" pas les retours chariot au sein des données. Mais, on ne peut pas utiliser
 la balise "<i>&lt;br&gt;</i>" comme en HTML. Donc, pour indiquer les retours chariot 
@@ -112,24 +110,31 @@ dans la description, vous devez les encoder avec la séquence spéciale: "<b><i>&a
 <br>
 <i>Note: Cette séquence signifie littéralement "Met un code ASCII Retour Chariot (13) ; Met un
 code ASCII Nouvelle Ligne (10) ;" qui est nommé séquence CRLF (Carriage Return Line Feed).</i>
+<br>
 
 
 <h4>Utilisation du générateur de source XML</h4>
 
 Pour aider à la création de de fichier XML de dépôts, OvGME fournit un outil pour
 créer des sources XML automatiquement par l'analyse du contenu du dossier de stock
-de Mods (ou un dossier personnalisé spécifié). Cet outil prend tous les Mod-Archives
+de mods (ou un dossier personnalisé spécifié). Cet outil prend tous les Mod-Archives
 valides, verifie la présence d'un VERSION.txt, d'une description, et met tout ensemble
 dans un code source XML de dépôt.<br>
 
 Pour ouvrir le générateur de source XML, allez dans le menu "<b>Mods</b>",
 sélectionnez "<b>Repositories</b>" puis "<b>Make XML source...</b>"<br><br>
 
-<b>Base URL</b> Spécifie la base d'URL utilisée pour générer les liens de 
+<b>Custom mods folder</b><br>
+Si cette option est cochée, doit être un dossier existant contenant des fichiers 
+Mod-Archive valides devant être utilisé pour générer la liste XML des mods..<br>
+Si cette option n'est pas cochée, le dossier de mods de la configuration acuelle
+est utilisée.<br>
+<br>
+<b>Download link nase URL</b> Spécifie la base d'URL utilisée pour générer les liens de 
 téléchargement des Mods. Par exemple, si vous entrez la base d'URL "<i>http://www.example.com/public</i>",
 les liens de téléchargement seront tel que "<i>http://www.example.com/public/My%20Super%20Mod.zip</i>".<br>
 <br>
-<i>Note  <b><u>Techniquement, vous n'êtes pas restreints à une localisation/URL pour les liens de téléchargement</u></b>, 
+<i>Note:<b><u>Techniquement, vous n'êtes pas restreints à une localisation/URL pour les liens de téléchargement</u></b>, 
 vous pouvez utiliser n'importe quelle URL valide pour les liens, et chaque Mod peut avoir son propre lien
 de téléchargement spécifique. Cependant, le générateur de source XML ne peut générer que des liens
 de téléchargement générique. Si les liens de téléchargement des Mods sont effectivement dispersés 
@@ -142,6 +147,22 @@ XML, simplement en cliquant sur le bouton "<b>Generate XML source</b>". Vous pou
 <br>
 Finalement, une fois la source XML généré et modifié à votre convenance, vous pouvez sauvegarder
 le tampon en cliquant sur le bouton "<b>Save as XML...</b>".<br>
+
+
+<h4>Utilisation du parser test de source XML</h4>
+
+Pour aider à vérifier si un fichier de dépôt XML sera correctement analysé, OvGME fournit
+un outil pour tester un fichier XML en tant que source XML de dépôt.
+
+Pour ouvrire le parser test de source XML, allez dans le menu "<b>Mods</b>",
+sélectionnez "<b>Repositories</b>" puis "<b>Test XML source...</b>". Un<br><br>
+
+To open the XML source test parser, go to the "<b>Mods</b>" menu, select 
+"<b>Repositories</b>", then "<b>Test XML source...</b>". Une nouvelle boîte 
+de dialogue vous invite automatiquement à choisir un fichier XML à tester.<br><br>
+
+Si l'analyse réussit, vous verrez un message d'analyse de réussite et le résultat de
+l'analyse dans la zone de texte de sortie. Sinon, une erreur d'analyse est affichée.
 
   </body>
 </html>

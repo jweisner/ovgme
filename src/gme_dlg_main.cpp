@@ -85,6 +85,7 @@ void GME_MainInit()
 
   SendMessage(GetDlgItem(g_hwndMain, ENT_MODDESC), WM_SETFONT, (WPARAM)Lucida, 1);
 
+  SetWindowPos(g_hwndMain, NULL, GME_ConfGetWinX(),GME_ConfGetWinY(), GME_ConfGetWinW(), GME_ConfGetWinH(), SWP_NOZORDER);
 }
 
 /*
@@ -171,6 +172,46 @@ void GME_MainExit()
 }
 
 /*
+  controls resize & placement routine for main dialog window
+*/
+void GME_DlgMainResize()
+{
+  HWND hwd = g_hwndMain;
+  RECT cli;
+  GetClientRect(hwd, &cli);
+
+  SetWindowPos(GetDlgItem(hwd, BOX_MAIN), NULL, 10, 77, cli.right-20, cli.bottom-115, SWP_NOZORDER);
+  SetWindowPos(GetDlgItem(hwd, BTN_QUIT), NULL, cli.right-90, cli.bottom-30, 80, 23, SWP_NOZORDER);
+  SetWindowPos(GetDlgItem(hwd, ENT_MODDESC), NULL, 20, cli.bottom-160, cli.right-40, 110, SWP_NOZORDER);
+  SetWindowPos(GetDlgItem(hwd, LAB_MODDESC), NULL, 20, cli.bottom-175, 150, 15, SWP_NOZORDER);
+  SetWindowPos(GetDlgItem(hwd, BTN_MODDIS), NULL, 20, cli.bottom-203, 100, 23, SWP_NOZORDER);
+  SetWindowPos(GetDlgItem(hwd, BTN_MODENA), NULL, 120, cli.bottom-203, 100, 23, SWP_NOZORDER);
+  SetWindowPos(GetDlgItem(hwd, BTN_MODCANCEL), NULL, cli.right-100, cli.bottom-203, 80, 23, SWP_NOZORDER);
+  SetWindowPos(GetDlgItem(hwd, PBM_MODPROC), NULL, 225, cli.bottom-203, cli.right-330, 22, SWP_NOZORDER);
+  SetWindowPos(GetDlgItem(hwd, LVM_MODSLIST), NULL, 20, 120, cli.right-40, cli.bottom-330, SWP_NOZORDER);
+
+  /* modify colums in list view */
+  LVCOLUMNW lvcol;
+  memset(&lvcol, 0, sizeof(LV_COLUMNW));
+  lvcol.mask = LVCF_WIDTH;
+  lvcol.cx = cli.right-105;
+  lvcol.iSubItem = 0;
+  SendMessageW(GetDlgItem(hwd, LVM_MODSLIST), LVM_SETCOLUMN, 0, (LPARAM)&lvcol);
+  lvcol.cx = 40;
+  lvcol.iSubItem = 1;
+  SendMessageW(GetDlgItem(hwd, LVM_MODSLIST), LVM_SETCOLUMN, 1, (LPARAM)&lvcol);
+
+  SetWindowPos(GetDlgItem(hwd, BTN_IMPORTMOD), NULL, cli.right-105, 90, 85, 23, SWP_NOZORDER);
+  SetWindowPos(GetDlgItem(hwd, ENT_MODSPATH), NULL, 20, 91, cli.right-130, 21, SWP_NOZORDER);
+
+  SetWindowPos(GetDlgItem(hwd, BOX_TOP), NULL, 155, 0, cli.right-165, 80, SWP_NOZORDER);
+  SetWindowPos(GetDlgItem(hwd, CMB_GAMELIST), NULL, 165, 20, cli.right-260, 22, SWP_NOZORDER);
+  SetWindowPos(GetDlgItem(hwd, BTN_EDIGAME), NULL, cli.right-92, 19, 35, 23, SWP_NOZORDER);
+  SetWindowPos(GetDlgItem(hwd, BTN_ADDGAME), NULL, cli.right-55, 19, 35, 23, SWP_NOZORDER);
+  SetWindowPos(GetDlgItem(hwd, ENT_CFGRPATH), NULL, 165, 45, cli.right-185, 21, SWP_NOZORDER);
+}
+
+/*
   message callback for main dialog window
 */
 BOOL CALLBACK GME_DlgMain(HWND hwndDlg, UINT uMsg, WPARAM wParam, LPARAM lParam)
@@ -192,6 +233,11 @@ BOOL CALLBACK GME_DlgMain(HWND hwndDlg, UINT uMsg, WPARAM wParam, LPARAM lParam)
     if(!GME_GameUpdList()) {
       DialogBox(g_hInst, MAKEINTRESOURCE(DLG_WIZARD), hwndDlg, (DLGPROC)GME_DlgGameAdd);
     }
+    GME_DlgMainResize();
+    return true;
+
+  case WM_SIZE:
+    GME_DlgMainResize();
     return true;
 
   case WM_CLOSE:

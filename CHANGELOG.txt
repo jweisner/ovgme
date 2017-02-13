@@ -1,3 +1,10 @@
+OvGME 1.7.0, 2017-14-02
+
+- Dialog windows are now resizable.
+- Main window size and position saved and restored.
+- Global GUI improvement, more clear, better readability.
+- Help updated and corrected.
+
 OvGME 1.6.9, 2017-11-02
 
 - Add Edit button on main dialog.
