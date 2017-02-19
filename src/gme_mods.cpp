@@ -16,6 +16,7 @@
 #include "gme_tools.h"
 #include "gme_game.h"
 #include "gme_mods.h"
+#include "gme_prof.h"
 #include "gme_logs.h"
 
 /* macro for backup entry type */
@@ -28,15 +29,6 @@ struct GME_BckEntry_Struct
   int action;
   int isdir;
   wchar_t path[260];
-};
-
-
-/* mods profile struct */
-struct GME_ProfilEntry_Struct
-{
-  wchar_t name[128];
-  ubyte type;
-  ubyte stat;
 };
 
 /* global bool to now if list is empty */
@@ -1043,150 +1035,6 @@ void GME_ModsDeleteCur()
 }
 
 
-
-/*
-  function to save mods profile
-*/
-void GME_ModsProfileSave()
-{
-  std::wstring prfl_file = GME_GameGetCurConfPath() + L"\\profile.dat";
-
-  if(GME_IsFile(prfl_file)) {
-    if(IDYES != GME_DialogWarningConfirm(g_hwndMain, L"Mods Profile already exists for this game, do you want to overwrite it ?"))
-      return;
-  }
-
-  HWND hlv = GetDlgItem(g_hwndMain, LVM_MODSLIST);
-
-  /* save current game mod list status */
-  GME_ProfilEntry_Struct profilentry;
-  std::vector<GME_ProfilEntry_Struct> profilentry_list;
-  wchar_t name_buff[255];
-
-  LV_ITEMW lvitm;
-  memset(&lvitm, 0, sizeof(LV_ITEMW));
-  lvitm.mask = LVIF_TEXT|LVIF_IMAGE;
-  lvitm.cchTextMax = 255;
-  lvitm.pszText = name_buff;
-
-  unsigned c = SendMessageW(hlv, LVM_GETITEMCOUNT, 0, 0);
-  for(unsigned i = 0; i < c; i++) {
-    lvitm.iItem = i;
-    SendMessageW(hlv ,LVM_GETITEMW, 0, (LPARAM)&lvitm);
-
-    memset(&profilentry, 0, sizeof(profilentry));
-    wcscpy(profilentry.name, lvitm.pszText);
-    profilentry.type = lvitm.iImage;
-    profilentry_list.push_back(profilentry);
-  }
-
-  /* for each enabled (type 2) mod, we retrieve the true type */
-  std::wstring mod_path;
-  for(unsigned i = 0; i < profilentry_list.size(); i++) {
-    if(profilentry_list[i].type == 2) {
-      profilentry_list[i].stat = 1;
-      mod_path = GME_GameGetCurModsPath() + L"\\" + profilentry_list[i].name;
-      if(GME_IsDir(mod_path)) {
-        profilentry_list[i].type = 0;
-      }
-      if(GME_ZipIsValidMod(mod_path + L".zip")) {
-        profilentry_list[i].type = 1;
-      }
-    } else {
-      profilentry_list[i].stat = 0;
-    }
-  }
-
-  /* we now can write the profile */
-  FILE* fp = _wfopen(prfl_file.c_str(), L"wb");
-  if(fp) {
-    /* first 4 bytes is count of entries */
-    unsigned c = profilentry_list.size();
-    fwrite(&c, 4, 1, fp);
-    for(unsigned i = 0; i < profilentry_list.size(); i++) {
-      fwrite(&profilentry_list[i], sizeof(GME_ProfilEntry_Struct), 1, fp);
-    }
-    fclose(fp);
-  }
-
-  /* update menus */
-  GME_GameUpdMenu();
-
-  GME_DialogInfo(g_hwndMain, L"Game Mods list configuration saved as default Mods Profile.");
-}
-
-/*
-  function to apply mods profile
-*/
-bool GME_ModsProfileApply()
-{
-  if(!GME_ModsProc_IsReady()) {
-    GME_DialogWarning(g_hwndMain, L"Mod(s) installation is currently processing, please wait until current process finish before enabling or disabling Mod(s).");
-    return false;
-  }
-
-  std::wstring prfl_file = GME_GameGetCurConfPath() + L"\\profile.dat";
-
-  if(!GME_IsFile(prfl_file)) {
-    GME_DialogWarning(g_hwndMain, L"No profile available.");
-    return false;
-  }
-
-  /* load profile data file */
-  GME_ProfilEntry_Struct profilentry;
-  std::vector<GME_ProfilEntry_Struct> profilentry_list;
-
-  /* read the profile data in config dir */
-  FILE* fp = _wfopen(prfl_file.c_str(), L"rb");
-  if(fp) {
-    /* first 4 bytes is count of entries */
-    unsigned c;
-    fread(&c, 1, 4, fp);
-    for(unsigned i = 0; i < c; i++) {
-      fread(&profilentry, 1, sizeof(GME_ProfilEntry_Struct), fp);
-      profilentry_list.push_back(profilentry);
-    }
-    fclose(fp);
-  }
-
-  /* apply profile */
-  std::vector<std::wstring> missing_list;
-  std::wstring mod_path;
-  for(unsigned i = 0; i < profilentry_list.size(); i++) {
-    /* check if mod exists */
-    mod_path = GME_GameGetCurModsPath() + L"\\" + profilentry_list[i].name;
-    if(profilentry_list[i].type == 0) {
-      if(!GME_IsDir(mod_path)) {
-        missing_list.push_back(profilentry_list[i].name);
-        continue;
-      }
-    }
-    if(profilentry_list[i].type == 1) {
-      if(!GME_ZipIsValidMod(mod_path + L".zip")) {
-        missing_list.push_back(profilentry_list[i].name);
-        continue;
-      }
-    }
-    if(profilentry_list[i].stat) {
-      GME_ModsProc_PushApply(profilentry_list[i].name, profilentry_list[i].type);
-    } else {
-      GME_ModsProc_PushRestore(profilentry_list[i].name);
-    }
-  }
-
-  GME_ModsProc_Launch();
-
-  if(!missing_list.empty()) {
-    std::wstring message = L"One or more mod registered in profile was not found:\n\n";
-    for(unsigned i = 0; i < missing_list.size(); i++) {
-      message += L"  " + missing_list[i] + L"\n";
-    }
-    GME_DialogWarning(g_hwndMain, message);
-  }
-
-  return true;
-}
-
 /*
   function to quick enable or disable mods item in list
 */
@@ -1902,7 +1750,8 @@ DWORD WINAPI GME_ModsProc_Th(void* args)
   EnableMenuItem(g_hmnuMain, MNU_MODDISALL, MF_GRAYED);
   EnableMenuItem(g_hmnuMain, MNU_MODDIS, MF_GRAYED);
   EnableMenuItem(g_hmnuMain, MNU_PROFILSAVE, MF_GRAYED);
-  EnableMenuItem(g_hmnuMain, MNU_PROFILELOAD, MF_GRAYED);
+  //EnableMenuItem(g_hmnuMain, MNU_PROFILELOAD, MF_GRAYED);
+  GME_ProfEnaMenu(false);
   EnableMenuItem(g_hmnuMain, MNU_REPOSCONFIG, MF_GRAYED);
   EnableMenuItem(g_hmnuMain, MNU_REPOSQUERY, MF_GRAYED);
   EnableMenuItem(g_hmnuMain, MNU_REPOSMKXML, MF_GRAYED);
@@ -1952,7 +1801,8 @@ DWORD WINAPI GME_ModsProc_Th(void* args)
   EnableMenuItem(g_hmnuMain, MNU_MODDISALL, MF_BYCOMMAND);
   EnableMenuItem(g_hmnuMain, MNU_MODDIS, MF_BYCOMMAND);
   EnableMenuItem(g_hmnuMain, MNU_PROFILSAVE, MF_BYCOMMAND);
-  EnableMenuItem(g_hmnuMain, MNU_PROFILELOAD, MF_BYCOMMAND);
+  //EnableMenuItem(g_hmnuMain, MNU_PROFILELOAD, MF_BYCOMMAND);
+  GME_ProfEnaMenu(true);
   EnableMenuItem(g_hmnuMain, MNU_REPOSCONFIG, MF_BYCOMMAND);
   EnableMenuItem(g_hmnuMain, MNU_REPOSQUERY, MF_BYCOMMAND);
   EnableMenuItem(g_hmnuMain, MNU_REPOSMKXML, MF_BYCOMMAND);

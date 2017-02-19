@@ -28,9 +28,12 @@
 #define DLG_REPOS_XML                           166
 #define DLG_MOD_QMAKE                           168
 #define DLG_REPOS_XTS                           170
+#define DLG_PROF_NEW                            172
+#define DLG_PROF_DEL                            174
 #define BTN_ADD                                 40000
 #define BTN_APPLY                               40000
 #define CMB_GAMELIST                            40000
+#define CMB_PROFLIST                            40000
 #define ENT_MAKEXMLPATH                         40000
 #define ENT_SRC                                 40000
 #define LVM_MODSUPDLIST                         40000
@@ -42,6 +45,7 @@
 #define BTN_ADDGAME                             40001
 #define BTN_BROWSEMOD                           40001
 #define BTN_BROWSESRC                           40001
+#define BTN_REM                                 40001
 #define ENT_MAKEXMLURL                          40001
 #define LAB_RESULT                              40001
 #define PBM_DONWLOAD                            40001
@@ -52,7 +56,6 @@
 #define CHK_CUSTBACKUP                          40002
 #define ENT_REPOURL                             40002
 #define PBM_REPOQRY                             40002
-#define TXT_PATH                                40002
 #define TXT_TITLE                               40002
 #define TXT_UNINST_GAME                         40002
 #define BTN_CLOSE                               40003
@@ -88,7 +91,6 @@
 #define PBM_MODPROC                             40008
 #define BTN_REPOUPDSEL                          40009
 #define ENT_MODSPATH                            40009
-#define LAB_PATH                                40009
 #define ENT_MODDESC                             40010
 #define TXT_URL                                 40010
 #define BTN_EDIGAME                             40011
@@ -122,7 +124,7 @@
 #define MNU_MODENAALL                           40051
 #define MNU_SNAPCOMPARE                         40052
 #define MNU_SNAPCREATE                          40053
-#define MNU_PROFILELOAD                         40054
+#define MNU_PROFILDELT                          40054
 #define MNU_PROFILSAVE                          40055
 #define MNU_REPOSCONFIG                         40056
 #define MNU_REPOSQUERY                          40057

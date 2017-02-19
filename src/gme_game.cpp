@@ -16,12 +16,12 @@
 #include "gme_conf.h"
 #include "gme_game.h"
 #include "gme_mods.h"
+#include "gme_prof.h"
 #include "gme_tools.h"
 
 /* global list of configured games and current selected id */
 std::vector<GME_GameCfg_Struct> g_GameCfg_List;
 int g_GameCur_Id = -1;
-
 
 void GME_GameUpdMenu()
 {
@@ -47,26 +47,20 @@ void GME_GameUpdMenu()
       EnableMenuItem(g_hmnuMain, MNU_MODENA, MF_GRAYED);
       EnableMenuItem(g_hmnuMain, MNU_MODDIS, MF_GRAYED);
       EnableMenuItem(g_hmnuMain, MNU_PROFILSAVE, MF_GRAYED);
-      EnableMenuItem(g_hmnuMain, MNU_PROFILELOAD, MF_GRAYED);
     } else {
       EnableMenuItem(g_hmnuMain, MNU_MODENAALL, MF_BYCOMMAND);
       EnableMenuItem(g_hmnuMain, MNU_MODDISALL, MF_BYCOMMAND);
       EnableMenuItem(g_hmnuMain, MNU_MODENA, MF_BYCOMMAND);
       EnableMenuItem(g_hmnuMain, MNU_MODDIS, MF_BYCOMMAND);
       EnableMenuItem(g_hmnuMain, MNU_PROFILSAVE, MF_BYCOMMAND);
-      /* check if profile file exists */
-      if(GME_IsFile(GME_GameGetCurConfPath() + L"\\profile.dat")) {
-        EnableMenuItem(g_hmnuMain, MNU_PROFILELOAD, MF_BYCOMMAND);
-      } else {
-        EnableMenuItem(g_hmnuMain, MNU_PROFILELOAD, MF_GRAYED);
-      }
+      /* update profiles menu list */
+      GME_ProfUpdMenu();
     }
   } else {
     EnableMenuItem(g_hmnuMain, MNU_GAMEREM, MF_GRAYED);
     EnableMenuItem(g_hmnuMain, MNU_GAMEEDIT, MF_GRAYED);
     EnableMenuItem(g_hmnuMain, MNU_SNAPCREATE, MF_GRAYED);
     EnableMenuItem(g_hmnuMain, MNU_SNAPCOMPARE, MF_GRAYED);
-    EnableMenuItem(g_hmnuMain, MNU_PROFILELOAD, MF_GRAYED);
     EnableMenuItem(g_hmnuMain, MNU_REPOSQUERY, MF_GRAYED);
     EnableMenuItem(g_hmnuMain, MNU_REPOSCONFIG, MF_GRAYED);
     EnableMenuItem(g_hmnuMain, MNU_MODENAALL, MF_GRAYED);

@@ -39,6 +39,10 @@ void GME_DlgModsMakeInit()
   SendMessage(GetDlgItem(g_hwndNewAMod, ENT_MODDESC), WM_SETFONT, (WPARAM)Lucida, 1);
 }
 
+
+/*
+  initialization routine for Create Mod dialog
+*/
 void GME_DglModsQuickMakeInit()
 {
   HWND hlv = GetDlgItem(g_hwndMain, LVM_MODSLIST);

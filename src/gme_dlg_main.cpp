@@ -18,6 +18,7 @@
 #include "gme_game.h"
 #include "gme_conf.h"
 #include "gme_mods.h"
+#include "gme_prof.h"
 #include "gme_repo.h"
 #include "gme_netw.h"
 #include "gme_logs.h"
@@ -26,6 +27,7 @@
 #include "gme_dlg_repo.h"
 #include "gme_dlg_snap.h"
 #include "gme_dlg_mods.h"
+#include "gme_dlg_prof.h"
 #include "gme_dlg_game.h"
 #include "gme_dlg_main.h"
 
@@ -43,6 +45,9 @@ void GME_MainInit()
 
   /* create main menu */
   g_hmnuMain = LoadMenu(NULL, MAKEINTRESOURCE(IDR_MENU));
+
+  /* get profile submenu */
+  g_hmnuSubProf = GetSubMenu(GetSubMenu(g_hmnuMain, 1), 3);
 
   /* list view image list */
   HIMAGELIST hImgLst;
@@ -263,6 +268,10 @@ BOOL CALLBACK GME_DlgMain(HWND hwndDlg, UINT uMsg, WPARAM wParam, LPARAM lParam)
     return true;
 
   case WM_COMMAND:
+    if(LOWORD(wParam) > 40100) {
+      GME_ProfApply(LOWORD(wParam));
+      return true;
+    }
     switch(LOWORD(wParam))
     {
     case BTN_QUIT:
@@ -326,11 +335,11 @@ BOOL CALLBACK GME_DlgMain(HWND hwndDlg, UINT uMsg, WPARAM wParam, LPARAM lParam)
       return true;
 
     case MNU_PROFILSAVE:
-      GME_ModsProfileSave();
+      DialogBox(g_hInst, MAKEINTRESOURCE(DLG_PROF_NEW), hwndDlg, (DLGPROC)GME_DlgProfNew);
       return true;
 
-    case MNU_PROFILELOAD:
-      GME_ModsProfileApply();
+    case MNU_PROFILDELT:
+      DialogBox(g_hInst, MAKEINTRESOURCE(DLG_PROF_DEL), hwndDlg, (DLGPROC)GME_DlgProfDel);
       return true;
 
     case MNU_REPOSCONFIG:

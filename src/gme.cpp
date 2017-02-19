@@ -23,6 +23,7 @@ HINSTANCE   g_hInst = NULL;
 HICON       g_hicnMain = NULL;
 HWND        g_hwndMain = NULL;
 HMENU       g_hmnuMain = NULL;
+HMENU       g_hmnuSubProf = NULL;
 HWND        g_hwndAddGame = NULL;
 HWND        g_hwndEdiGame = NULL;
 HWND        g_hwndNewAMod = NULL;
@@ -33,6 +34,8 @@ HWND        g_hwndRepConf = NULL;
 HWND        g_hwndRepUpd = NULL;
 HWND        g_hwndRepXml = NULL;
 HWND        g_hwndRepXts = NULL;
+HWND        g_hwndProfNew = NULL;
+HWND        g_hwndProfDel = NULL;
 HWND        g_hwndDebug = NULL;
 HWND        g_hwndUninst = NULL;
 

@@ -33,8 +33,6 @@ bool GME_ModsImport();
 bool GME_ModsChkDesc();
 void GME_ModsExploreCur();
 void GME_ModsDeleteCur();
-void GME_ModsProfileSave();
-bool GME_ModsProfileApply();
 void GME_ModsListQuickEnable(const std::wstring& name, bool enable);
 bool GME_ModsUpdList();
 void GME_ModsUninstall();

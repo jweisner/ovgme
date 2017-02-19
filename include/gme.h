@@ -82,6 +82,7 @@ extern HINSTANCE   g_hInst;
 extern HICON       g_hicnMain;
 extern HWND        g_hwndMain;
 extern HMENU       g_hmnuMain;
+extern HMENU       g_hmnuSubProf;
 extern HWND        g_hwndAddGame;
 extern HWND        g_hwndEdiGame;
 extern HWND        g_hwndNewAMod;
@@ -92,6 +93,8 @@ extern HWND        g_hwndRepUpd;
 extern HWND        g_hwndRepXml;
 extern HWND        g_hwndRepXts;
 extern HWND        g_hwndRepConf;
+extern HWND        g_hwndProfNew;
+extern HWND        g_hwndProfDel;
 extern HWND        g_hwndDebug;
 
 wchar_t* GME_GetVersionString();
