@@ -202,7 +202,7 @@ void GME_DlgRepUpdResize()
   LVCOLUMNW lvcol;
   memset(&lvcol, 0, sizeof(LV_COLUMNW));
   lvcol.mask = LVCF_WIDTH;
-  lvcol.cx = cli.right-319;
+  lvcol.cx = cli.right-339;
   lvcol.iSubItem = 0; // mod name
   SendMessageW(GetDlgItem(hwd, LVM_MODSUPDLIST), LVM_SETCOLUMN, 0, (LPARAM)&lvcol);
   lvcol.cx = 60;
@@ -211,7 +211,7 @@ void GME_DlgRepUpdResize()
   lvcol.cx = 158;
   lvcol.iSubItem = 2; // status
   SendMessageW(GetDlgItem(hwd, LVM_MODSUPDLIST), LVM_SETCOLUMN, 2, (LPARAM)&lvcol);
-  lvcol.cx = 40;
+  lvcol.cx = 60;
   lvcol.iSubItem = 3; // progress
   SendMessageW(GetDlgItem(hwd, LVM_MODSUPDLIST), LVM_SETCOLUMN, 3, (LPARAM)&lvcol);
 

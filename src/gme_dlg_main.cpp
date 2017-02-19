@@ -75,13 +75,13 @@ void GME_MainInit()
 
   wcscpy(buff, L"Mod");
   lvcol.pszText = buff;
-  lvcol.cx = 670;
+  lvcol.cx = 650;
   lvcol.iSubItem = 0;
   SendMessageW(GetDlgItem(g_hwndMain, LVM_MODSLIST), LVM_INSERTCOLUMNW, 0, (LPARAM)&lvcol);
 
   wcscpy(buff, L"Version");
   lvcol.pszText = buff;
-  lvcol.cx = 50;
+  lvcol.cx = 70;
   lvcol.iSubItem = 1;
   SendMessageW(GetDlgItem(g_hwndMain, LVM_MODSLIST), LVM_INSERTCOLUMNW, 1, (LPARAM)&lvcol);
 
@@ -199,10 +199,10 @@ void GME_DlgMainResize()
   LVCOLUMNW lvcol;
   memset(&lvcol, 0, sizeof(LV_COLUMNW));
   lvcol.mask = LVCF_WIDTH;
-  lvcol.cx = cli.right-105;
+  lvcol.cx = cli.right-125;
   lvcol.iSubItem = 0;
   SendMessageW(GetDlgItem(hwd, LVM_MODSLIST), LVM_SETCOLUMN, 0, (LPARAM)&lvcol);
-  lvcol.cx = 40;
+  lvcol.cx = 60;
   lvcol.iSubItem = 1;
   SendMessageW(GetDlgItem(hwd, LVM_MODSLIST), LVM_SETCOLUMN, 1, (LPARAM)&lvcol);
 
