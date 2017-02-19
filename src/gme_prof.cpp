@@ -154,7 +154,7 @@ bool GME_ProfDelete()
     return false;
   }
 
-  DeleteFileW(prfl_file.c_str());
+  GME_FileDelete(prfl_file);
 
   return true;
 }

@@ -30,6 +30,22 @@ std::wstring GME_GetAppdataPath()
   return hpath;
 }
 
+/*
+  function to get Windows error string from error code
+*/
+std::string GME_GetLastErrorStr()
+{
+  int erid = GetLastError();
+  char buff[512];
+  FormatMessageA(FORMAT_MESSAGE_FROM_SYSTEM|FORMAT_MESSAGE_IGNORE_INSERTS, NULL, erid, 0, buff, 512, NULL);
+  std::string msg = buff;
+  if(msg.size() > 2) {
+    msg.erase(msg.size()-1);
+    msg.erase(msg.size()-1);
+  }
+  return msg;
+}
+
 /* -------------------------------- String related toolkit ------------------------------------- */
 
 /*
@@ -348,6 +364,34 @@ bool GME_IsDir(const std::wstring& path)
 }
 
 /*
+  function to delete a folder
+*/
+bool GME_DirRemove(const std::wstring& path)
+{
+  if(!RemoveDirectoryW(path.c_str())) {
+    std::string msg = "RemoveDirectoryW error " + GME_GetLastErrorStr();
+    GME_Logs(GME_LOG_ERROR, "GME_DirRemove", msg.c_str(), GME_StrToMbs(path).c_str());
+    return false;
+  }
+  return true;
+}
+
+
+/*
+  function to create a folder
+*/
+bool GME_DirCreate(const std::wstring& path)
+{
+  if(!CreateDirectoryW(path.c_str(), NULL)) {
+    std::string msg = "CreateDirectoryW error " + GME_GetLastErrorStr();
+    GME_Logs(GME_LOG_ERROR, "GME_DirCreate", msg.c_str(), GME_StrToMbs(path).c_str());
+    return false;
+  }
+  return true;
+}
+
+
+/*
   function to delete a folder + content recursively (rm -R)
 */
 bool GME_DirRemRecursive(const std::wstring& path)
@@ -362,7 +406,13 @@ bool GME_DirRemRecursive(const std::wstring& path)
   fop.wFunc = FO_DELETE;
   fop.fFlags = FOF_NO_UI;
 
-  return SHFileOperationW(&fop);
+  int result = SHFileOperationW(&fop);
+  if(result) {
+    std::string msg = "SHFileOperationW error #"; msg += std::to_string(result);
+    GME_Logs(GME_LOG_ERROR, "GME_DirRemRecursive", msg.c_str(), GME_StrToMbs(path).c_str());
+    return false;
+  }
+  return true;
 }
 
 
@@ -381,7 +431,13 @@ bool GME_DirRemToTrash(const std::wstring& path)
   fop.wFunc = FO_DELETE;
   fop.fFlags = FOF_NO_UI|FOF_ALLOWUNDO;
 
-  return SHFileOperationW(&fop);
+  int result = SHFileOperationW(&fop);
+  if(result) {
+    std::string msg = "SHFileOperationW error #"; msg += std::to_string(result);
+    GME_Logs(GME_LOG_ERROR, "GME_DirRemToTrash", msg.c_str(), GME_StrToMbs(path).c_str());
+    return false;
+  }
+  return true;
 }
 
 
@@ -410,11 +466,14 @@ bool GME_FileRead(ubyte* data, size_t size, const std::wstring& src)
 {
   FILE* fr = _wfopen(src.c_str(), L"rb");
 
-  if(fr == NULL)
+  if(fr == NULL) {
+    GME_Logs(GME_LOG_ERROR, "GME_FileRead", "Unable to open file for reading", GME_StrToMbs(src).c_str());
     return false;
+  }
 
   if(fread(data, 1, size, fr) != size) {
     fclose(fr);
+    GME_Logs(GME_LOG_ERROR, "GME_FileRead", "Read error", GME_StrToMbs(src).c_str());
     return false;
   }
 
@@ -475,39 +534,40 @@ bool GME_FileCopy(const std::wstring& src, const std::wstring& dst, bool overwri
   }
 
   if(!CopyFileW(src.c_str(),dst.c_str(), false)) {
-    GME_Logs(GME_LOG_ERROR, "GME_FileCopy", "CopyFileW failed", GME_StrToMbs(src).c_str());
+    std::string msg = "CopyFileW error " + GME_GetLastErrorStr();
+    std::string itm = "\r\n\tSRC: " + GME_StrToMbs(src) + "\r\n\tDST: " + GME_StrToMbs(dst);
+    GME_Logs(GME_LOG_ERROR, "GME_FileCopy", msg.c_str(), itm.c_str());
     return false;
   }
   return true;
+}
+
 /*
-  ubyte buff[8192];
-  size_t n;
-
-  FILE* fr = _wfopen(src.c_str(), L"rb");
-  FILE* fw = _wfopen(dst.c_str(), L"wb");
-
-  if(fr == NULL || fw == NULL) {
-    if(fr == NULL) GME_Logs(GME_LOG_ERROR, "GME_FileCopy", "Unable to open file for reading", GME_StrToMbs(src).c_str());
-    if(fw == NULL) GME_Logs(GME_LOG_ERROR, "GME_FileCopy", "Unable to open file for writing", GME_StrToMbs(dst).c_str());
-    if(fr) fclose(fr);
-    if(fw) fclose(fw);
+  custom generic function to move/rename files.
+*/
+bool GME_FileMove(const std::wstring& src, const std::wstring& dst)
+{
+  if(!MoveFileW(src.c_str(),dst.c_str())) {
+    std::string msg = "MoveFileW error " + GME_GetLastErrorStr();
+    std::string itm = "\r\n\tSRC: " + GME_StrToMbs(src) + "\r\n\tDST: " + GME_StrToMbs(dst);
+    GME_Logs(GME_LOG_ERROR, "GME_FileMove", msg.c_str(), itm.c_str());
     return false;
   }
-
-  while(0 < (n = fread(buff, 1, sizeof(buff), fr))) {
-    if(fwrite(buff, 1, n, fw) != n) {
-      GME_Logs(GME_LOG_ERROR, "GME_FileCopy", "Write error", GME_StrToMbs(dst).c_str());
-      fclose(fr);
-      fclose(fw);
-      return false;
-    }
-  }
-
-  fclose(fr);
-  fclose(fw);
-
   return true;
+}
+
+
+/*
+  custom generic function to delete file or folder.
 */
+bool GME_FileDelete(const std::wstring& dst)
+{
+  if(!DeleteFileW(dst.c_str())) {
+    std::string msg = "DeleteFileW error " + GME_GetLastErrorStr();
+    GME_Logs(GME_LOG_ERROR, "GME_FileDelete", msg.c_str(), GME_StrToMbs(dst).c_str());
+    return false;
+  }
+  return true;
 }
 
 /*

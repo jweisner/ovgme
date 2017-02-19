@@ -230,7 +230,7 @@ bool GME_GameNewCfg(const std::wstring& title, const std::wstring& root, const s
   /* create game config path within home dir */
   if(!GME_IsDir(conf_path)) {
     /* create game config dir */
-    if(!CreateDirectoryW(conf_path.c_str(), NULL)) {
+    if(!GME_DirCreate(conf_path)) {
       GME_DialogError(g_hwndAddGame, L"Unable to create configuration folder.");
       return false;
     }
@@ -240,7 +240,7 @@ bool GME_GameNewCfg(const std::wstring& title, const std::wstring& root, const s
       return false;
     }
     /* create backups dir */
-    if(!CreateDirectoryW(std::wstring(conf_path + L"\\backups").c_str(), NULL)) {
+    if(!GME_DirCreate(std::wstring(conf_path + L"\\backups"))) {
       GME_DialogError(g_hwndAddGame, L"Unable to create backup folder.");
       return false;
     }

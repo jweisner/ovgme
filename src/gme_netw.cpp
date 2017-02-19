@@ -748,7 +748,7 @@ int GME_NetwHttpGET(const char* url_str, const GME_NetwGETOnErr on_err, const GM
   if(recv_size) {
     if(fwrite(&recv_buff[header.size+4], 1, recv_size, fp) != recv_size) {
       closesocket(sock); WSACleanup();
-      fclose(fp); DeleteFileW(file_path.c_str());
+      fclose(fp); GME_FileDelete(file_path);
       if(on_err) on_err(url_str);
       GME_Logs(GME_LOG_ERROR, "GME_NetwHttpGET", "Error on write file", GME_StrToMbs(file_path).c_str());
       return GME_HTTPGET_ERR_FWR;
@@ -761,7 +761,7 @@ int GME_NetwHttpGET(const char* url_str, const GME_NetwGETOnErr on_err, const GM
     bps = float(body_size)/(float(clock()-t)/CLOCKS_PER_SEC);
     if(!on_dnl(pct, bps)) {
       closesocket(sock); WSACleanup();
-      fclose(fp); DeleteFileW(file_path.c_str());
+      fclose(fp); GME_FileDelete(file_path);
       GME_Logs(GME_LOG_NOTICE, "GME_NetwHttpGET", "Cancelled by user", url_str);
       return 0; // cancelled
     }
@@ -776,7 +776,7 @@ int GME_NetwHttpGET(const char* url_str, const GME_NetwGETOnErr on_err, const GM
       if(recv_size == SOCKET_ERROR || recv_size == 0) {
         /* stream error... */
         closesocket(sock); WSACleanup();
-        fclose(fp); DeleteFileW(file_path.c_str());
+        fclose(fp); GME_FileDelete(file_path);
         if(on_err) on_err(url_str);
         GME_Logs(GME_LOG_ERROR, "GME_NetwHttpGET", "recv failed", url_str);
         return GME_HTTPGET_ERR_REC;
@@ -784,7 +784,7 @@ int GME_NetwHttpGET(const char* url_str, const GME_NetwGETOnErr on_err, const GM
 
       if(fwrite(&recv_buff, 1, recv_size, fp) != recv_size) {
         closesocket(sock); WSACleanup();
-        fclose(fp); DeleteFileW(file_path.c_str());
+        fclose(fp); GME_FileDelete(file_path);
         if(on_err) on_err(url_str);
         GME_Logs(GME_LOG_ERROR, "GME_NetwHttpGET", "Error on write file", GME_StrToMbs(file_path).c_str());
         return GME_HTTPGET_ERR_FWR;
@@ -796,7 +796,7 @@ int GME_NetwHttpGET(const char* url_str, const GME_NetwGETOnErr on_err, const GM
         bps = float(body_size)/(float(clock()-t)/CLOCKS_PER_SEC);
         if(!on_dnl(pct, bps)) {
           closesocket(sock); WSACleanup(); fclose(fp);
-          fclose(fp); DeleteFileW(file_path.c_str());
+          fclose(fp); GME_FileDelete(file_path);
           GME_Logs(GME_LOG_NOTICE, "GME_NetwHttpGET", "Cancelled by user", url_str);
           return 0; // cancelled
         }

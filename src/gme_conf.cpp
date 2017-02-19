@@ -62,7 +62,7 @@ bool GME_ConfLoadCfg()
   /* check if folder exists */
   if(!GME_IsDir(home_path)) {
     /* create home folder */
-    if(!CreateDirectoryW(home_path.c_str(), NULL)) {
+    if(!GME_DirCreate(home_path)) {
       GME_DialogError(NULL, L"Fatal error: Unable to create home directory. OvGME can't create its global configuration.");
       return false;
     }

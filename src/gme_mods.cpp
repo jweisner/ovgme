@@ -127,13 +127,13 @@ void GME_ModsUndoMod(HWND hpb, const std::vector<GME_BckEntry_Struct>& bckentry_
     if(bckentry_list[i].action == GME_BCK_RESTORE_DELETE) {
       if(bckentry_list[i].isdir) {
         if(GME_IsDir(dst_path)) {
-          if(!RemoveDirectoryW(dst_path.c_str())) {
+          if(!GME_DirRemove(dst_path)) {
             GME_Logs(GME_LOG_WARNING, "GME_ModsUndoMod", "(=DELETE) Unable to delete directory", GME_StrToMbs(dst_path).c_str());
           }
         }
       } else {
         if(GME_IsFile(dst_path)) {
-          if(!DeleteFileW(dst_path.c_str())) {
+          if(!GME_FileDelete(dst_path)) {
             GME_Logs(GME_LOG_WARNING, "GME_ModsUndoMod", "(=DELETE) Unable to delete file", GME_StrToMbs(dst_path).c_str());
           }
         }
@@ -336,7 +336,7 @@ void GME_ModsApplyMod(HWND hpb, const std::wstring& name, int type)
         /* this is useless, but we keep data, maybe useful later */
         bckentry.action = GME_BCK_RESTORE_SWAP;
         if(!GME_IsDir(dst_path)) {
-          if(!CreateDirectoryW(dst_path.c_str(), 0)) {
+          if(!GME_DirCreate(dst_path)) {
             GME_DialogError(g_hwndMain, L"Backup creation error for Mod '" + name + L"', the Mod cannot be installed.");
             GME_Logs(GME_LOG_ERROR, "GME_ModsApplyMod", "Unable to backup directory", GME_StrToMbs(dst_path).c_str());
             GME_ModsUndoMod(hpb, bckentry_list);
@@ -401,7 +401,7 @@ void GME_ModsApplyMod(HWND hpb, const std::wstring& name, int type)
   if(is_zip_mod) {
     memset(&za, 0, sizeof(mz_zip_archive));
     if(!mz_zip_reader_init_file(&za, GME_StrToMbs(mods_path + L"\\" + name + L".zip").c_str(), 0)) {
-      GME_DialogError(g_hwndMain, L"Mod-Archive '" + name + L"' extraction error, the Mod cannot be installed.");
+      GME_DialogError(g_hwndMain, L"Mod-Archive '" + name + L"' Zip extraction error, the Mod cannot be installed.");
       GME_Logs(GME_LOG_ERROR, "GME_ModsApplyMod", "mz_zip_reader_init_file failed", GME_StrToMbs(name).c_str());
       delete mod_tree;
       SendMessage(hpb, PBM_SETPOS, (WPARAM)0, 0);
@@ -418,7 +418,16 @@ void GME_ModsApplyMod(HWND hpb, const std::wstring& name, int type)
     if(mod_tree->currChild()->isDir()) {
       /* create new directory */
       if(!GME_IsDir(dst_path)) {
-        CreateDirectoryW(dst_path.c_str(), NULL);
+        if(!GME_DirCreate(dst_path)) {
+          if(is_zip_mod) mz_zip_reader_end(&za);
+          GME_DialogError(g_hwndMain, L"Create directory error for Mod '" + name + L"', the Mod cannot be installed.");
+          GME_Logs(GME_LOG_ERROR, "GME_ModsApplyMod", "Unable to create directory", GME_StrToMbs(dst_path).c_str());
+          delete mod_tree;
+          SendMessage(hpb, PBM_SETPOS, (WPARAM)0, 0);
+          GME_FileDelete(bck_file);
+          GME_ModsUndoMod(hpb, bckentry_list);
+          return;
+        }
       }
     } else {
       /* overwrite or create file */
@@ -427,11 +436,11 @@ void GME_ModsApplyMod(HWND hpb, const std::wstring& name, int type)
         /* extract to file */
         if(!mz_zip_reader_extract_to_file(&za, mod_tree->currChild()->getId(), GME_StrToMbs(dst_path).c_str(), 0)) {
           mz_zip_reader_end(&za);
-          GME_DialogError(g_hwndMain, L"Mod-Archive '" + name + L"' extraction error, the Mod cannot be installed.");
-          GME_Logs(GME_LOG_ERROR, "GME_ModsApplyMod", "mz_zip_reader_extract_to_file failed", GME_StrToMbs(name).c_str());
+          GME_DialogError(g_hwndMain, L"Mod-Archive '" + name + L"' Zip extraction error, the Mod cannot be installed.");
+          GME_Logs(GME_LOG_ERROR, "GME_ModsApplyMod", "mz_zip_reader_extract_to_file failed", GME_StrToMbs(mod_tree->currChild()->getPath(true)).c_str());
           delete mod_tree;
           SendMessage(hpb, PBM_SETPOS, (WPARAM)0, 0);
-          DeleteFileW(bck_file.c_str());
+          GME_FileDelete(bck_file);
           GME_ModsUndoMod(hpb, bckentry_list);
           return;
         }
@@ -444,7 +453,7 @@ void GME_ModsApplyMod(HWND hpb, const std::wstring& name, int type)
           GME_Logs(GME_LOG_ERROR, "GME_ModsApplyMod", "Unable to copy file", GME_StrToMbs(dst_path).c_str());
           delete mod_tree;
           SendMessage(hpb, PBM_SETPOS, (WPARAM)0, 0);
-          DeleteFileW(bck_file.c_str());
+          GME_FileDelete(bck_file);
           GME_ModsUndoMod(hpb, bckentry_list);
           return;
         }
@@ -458,7 +467,7 @@ void GME_ModsApplyMod(HWND hpb, const std::wstring& name, int type)
       if(is_zip_mod) mz_zip_reader_end(&za);
       delete mod_tree;
       SendMessage(hpb, PBM_SETPOS, (WPARAM)0, 0);
-      DeleteFileW(bck_file.c_str());
+      GME_FileDelete(bck_file);
       GME_ModsUndoMod(hpb, bckentry_list);
       return;
     }
@@ -528,7 +537,7 @@ void GME_ModsRestoreMod(HWND hpb, const std::wstring& name)
     if(bckentry_list[i].action == GME_BCK_RESTORE_DELETE) {
       if(bckentry_list[i].isdir) {
         if(GME_IsDir(dst_path)) {
-          if(!RemoveDirectoryW(dst_path.c_str())) {
+          if(!GME_DirRemove(dst_path)) {
             GME_Logs(GME_LOG_ERROR, "GME_ModsRestoreMod", "(=DELETE) Unable to delete directory", GME_StrToMbs(dst_path).c_str());
             got_error = true;
           }
@@ -537,7 +546,7 @@ void GME_ModsRestoreMod(HWND hpb, const std::wstring& name)
         }
       } else {
         if(GME_IsFile(dst_path)) {
-          if(!DeleteFileW(dst_path.c_str())) {
+          if(!GME_FileDelete(dst_path)) {
             GME_Logs(GME_LOG_ERROR, "GME_ModsRestoreMod", "(=DELETE) Unable to delete file", GME_StrToMbs(dst_path).c_str());
             got_error = true;
           }
@@ -561,7 +570,7 @@ void GME_ModsRestoreMod(HWND hpb, const std::wstring& name)
     SendMessage(hpb, PBM_STEPIT, 0, 0);
   }
 
-  DeleteFileW(bck_file.c_str()); /* delete .bck file */
+  GME_FileDelete(bck_file); /* delete .bck file */
 
   SendMessage(hpb, PBM_SETPOS, (WPARAM)0, 0);
 
@@ -651,7 +660,7 @@ void GME_ModsCleanBackup()
       /* backup file is no longer in the depend list, we should remove it */
       if(!is_depend) {
         dst_path = back_path + back_tree->currChild()->getPath(true);
-        if(!DeleteFileW(dst_path.c_str())) {
+        if(!GME_FileDelete(dst_path)) {
           GME_Logs(GME_LOG_WARNING, "GME_ModsCleanBackup", "Unable to delete file", GME_StrToMbs(dst_path).c_str());
         }
       }
@@ -669,7 +678,7 @@ void GME_ModsCleanBackup()
   while(i--) {
     dst_path = back_path + rmdir_list[i];
     if(PathIsDirectoryEmptyW(dst_path.c_str())) {
-      if(!RemoveDirectoryW(dst_path.c_str())) {
+      if(!GME_DirRemove(dst_path)) {
         GME_Logs(GME_LOG_WARNING, "GME_ModsCleanBackup", "Unable to delete directory", GME_StrToMbs(dst_path).c_str());
       }
     }
@@ -1372,7 +1381,7 @@ DWORD WINAPI GME_ModsMake_Th(void* args)
         mz_zip_writer_end(&za);
         delete zip_root;
         delete arg;
-        DeleteFileW(tmp_path.c_str());
+        GME_FileDelete(tmp_path);
         GME_Logs(GME_LOG_ERROR, "GME_ModsMake_Th", "mz_zip_writer_add_mem (dir) failed", GME_StrToMbs(tmp_path).c_str());
         GME_DialogError(g_hwndNewAMod, L"An error occurred during Mod-Archive creation.");
         ShowWindow(GetDlgItem(g_hwndNewAMod, BTN_CREATE), true);
@@ -1389,7 +1398,7 @@ DWORD WINAPI GME_ModsMake_Th(void* args)
           mz_zip_writer_end(&za);
           delete zip_root;
           delete arg;
-          DeleteFileW(tmp_path.c_str());
+          GME_FileDelete(tmp_path);
           GME_Logs(GME_LOG_ERROR, "GME_ModsMake_Th", "mz_zip_writer_add_file failed", GME_StrToMbs(tmp_path).c_str());
           GME_DialogError(g_hwndNewAMod, L"An error occurred during Mod-Archive creation.");
           ShowWindow(GetDlgItem(g_hwndNewAMod, BTN_CREATE), true);
@@ -1403,7 +1412,7 @@ DWORD WINAPI GME_ModsMake_Th(void* args)
           mz_zip_writer_end(&za);
           delete zip_root;
           delete arg;
-          DeleteFileW(tmp_path.c_str());
+          GME_FileDelete(tmp_path);
           GME_Logs(GME_LOG_ERROR, "GME_ModsMake_Th", "mz_zip_writer_add_mem (mem) failed", GME_StrToMbs(tmp_path).c_str());
           GME_DialogError(g_hwndNewAMod, L"An error occurred during Mod-Archive creation.");
           ShowWindow(GetDlgItem(g_hwndNewAMod, BTN_CREATE), true);
@@ -1419,7 +1428,7 @@ DWORD WINAPI GME_ModsMake_Th(void* args)
       mz_zip_writer_end(&za);
       delete zip_root;
       delete arg;
-      DeleteFileW(tmp_path.c_str());
+      GME_FileDelete(tmp_path);
       EnableWindow(GetDlgItem(g_hwndNewAMod, ENT_SRC), true);
       EnableWindow(GetDlgItem(g_hwndNewAMod, BTN_BROWSESRC), true);
       EnableWindow(GetDlgItem(g_hwndNewAMod, ENT_DST), true);
@@ -1448,8 +1457,8 @@ DWORD WINAPI GME_ModsMake_Th(void* args)
 
   /* Deleting existing archive if it exists */
   if(GME_IsFile(zip_path)) {
-    if(!DeleteFileW(zip_path.c_str())) {
-      DeleteFileW(tmp_path.c_str());
+    if(!GME_FileDelete(zip_path)) {
+      GME_FileDelete(tmp_path);
       GME_Logs(GME_LOG_ERROR, "GME_ModsMake_Th", "Unable to delete file", GME_StrToMbs(zip_path).c_str());
       GME_DialogError(g_hwndNewAMod, L"An error occurred during Mod-Archive creation.");
       ShowWindow(GetDlgItem(g_hwndNewAMod, BTN_CREATE), true);
@@ -1461,8 +1470,8 @@ DWORD WINAPI GME_ModsMake_Th(void* args)
   }
 
   /* rename temporary file to final name */
-  if(!MoveFileW(tmp_path.c_str(), zip_path.c_str())) {
-    DeleteFileW(tmp_path.c_str());
+  if(!GME_FileMove(tmp_path, zip_path)) {
+    GME_FileDelete(tmp_path);
     GME_Logs(GME_LOG_ERROR, "GME_ModsMake_Th", "Unable to rename file", GME_StrToMbs(zip_path).c_str());
     GME_DialogError(g_hwndNewAMod, L"An error occurred during Mod-Archive creation.");
     ShowWindow(GetDlgItem(g_hwndNewAMod, BTN_CREATE), true);

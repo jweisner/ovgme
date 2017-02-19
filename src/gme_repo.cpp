@@ -205,7 +205,7 @@ bool GME_RepoWritList()
       return true;
     }
   } else {
-    DeleteFileW(cfg_path.c_str());
+    GME_FileDelete(cfg_path);
     return true;
   }
   return false;
@@ -754,9 +754,9 @@ void GME_RepoDnl_OnSav(const wchar_t* path)
   mod_path += g_GME_ReposDnl_List[g_ReposQry_Id].name;
   mod_path += L".zip";
   if(GME_IsFile(mod_path)) {
-    DeleteFileW(mod_path.c_str());
+    GME_FileDelete(mod_path);
   }
-  MoveFileW(path, mod_path.c_str());
+  GME_FileMove(path, mod_path);
   /* update item in list view */
   GME_RepoDnl_SetItemProgress(g_GME_ReposDnl_List[g_ReposQry_Id].name, -1);
   GME_RepoDnl_SetItemStatus(g_GME_ReposDnl_List[g_ReposQry_Id].name, L"Completed");

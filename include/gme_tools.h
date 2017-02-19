@@ -20,6 +20,7 @@
 #include "gmenode.h"
 
 std::wstring GME_GetAppdataPath();
+std::string GME_GetLastErrorStr();
 std::wstring GME_DirPathToName(const std::wstring& path);
 std::wstring GME_DirPathToName(const wchar_t* cpath);
 std::string GME_DirPathToName(const std::string& path);
@@ -46,12 +47,16 @@ void GME_DirList(const wchar_t* origin, std::vector<std::wstring>* lst);
 void GME_FileListRecursive(const wchar_t* origin, std::vector<std::wstring>* lst, const wchar_t* filter);
 bool GME_IsFile(const std::wstring& path);
 bool GME_IsDir(const std::wstring& path);
+bool GME_DirCreate(const std::wstring& path);
+bool GME_DirRemove(const std::wstring& path);
 bool GME_DirRemRecursive(const std::wstring& path);
 bool GME_DirRemToTrash(const std::wstring& path);
 size_t GME_FileSize(const std::wstring& src);
 bool GME_FileRead(ubyte* data, size_t size, const std::wstring& src);
 bool GME_FileWrite(const ubyte* data, size_t size, const std::wstring& dst, bool overwrite);
 bool GME_FileCopy(const std::wstring& src, const std::wstring& dst, bool overwrite);
+bool GME_FileMove(const std::wstring& src, const std::wstring& dst);
+bool GME_FileDelete(const std::wstring& dst);
 size_t GME_FileGetAsciiContent(const std::wstring& path, std::wstring* content);
 void GME_DialogError(HWND hwnd, std::wstring message);
 void GME_DialogWarning(HWND hwnd, std::wstring message);
