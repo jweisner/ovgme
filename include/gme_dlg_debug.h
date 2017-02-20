@@ -16,8 +16,8 @@
 #define GME_DLG_DEBUG_H_INCLUDED
 
 #include "gme.h"
+#include "gme_logs.h"
 
-extern std::string g_DebugLog;
 
 BOOL CALLBACK GME_DlgDebug(HWND hwndDlg, UINT uMsg, WPARAM wParam, LPARAM lParam);
 

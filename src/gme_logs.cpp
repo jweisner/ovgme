@@ -18,17 +18,14 @@
 #include "gme_tools.h"
 
 std::wstring g_LogFile;
+std::string g_LogHistory;
 
 /*
-  initialize the log.txt, open for write with erase
+  get logs history string
 */
-void GME_LogsInit()
+std::string GME_LogsHistory()
 {
-  g_LogFile = GME_GetAppdataPath() + L"\\log.txt";
-  FILE* fp = _wfopen(g_LogFile.c_str(), L"wb");
-  if(fp) {
-    fclose(fp);
-  }
+  return g_LogHistory;
 }
 
 /*
@@ -40,23 +37,19 @@ void GME_Logs(int level, const char* scope, const char* msg, const char* item)
 
   switch(level) {
   case GME_LOG_FATAL:
-    sprintf(buffer, "FATAL: %s :: %s : %s\r\n", scope, msg, item);
+    sprintf(buffer, "FATAL: %s:: %s : %s\r\n", scope, msg, item);
     break;
   case GME_LOG_ERROR:
-    sprintf(buffer, "ERROR: %s :: %s : %s\r\n", scope, msg, item);
+    sprintf(buffer, "ERROR: %s:: %s : %s\r\n", scope, msg, item);
     break;
   case GME_LOG_WARNING:
-    sprintf(buffer, "WARNING: %s :: %s : %s\r\n", scope, msg, item);
+    sprintf(buffer, "WARNING: %s:: %s : %s\r\n", scope, msg, item);
     break;
   default:
-    sprintf(buffer, "NOTICE: %s :: %s : %s\r\n", scope, msg, item);
+    sprintf(buffer, "NOTICE: %s:: %s : %s\r\n", scope, msg, item);
     break;
   }
 
-  FILE* fp = _wfopen(g_LogFile.c_str(), L"ab");
-  if(fp) {
-    fwrite(buffer, 1, strlen(buffer), fp);
-    fclose(fp);
-  }
+  g_LogHistory += buffer;
 }
 

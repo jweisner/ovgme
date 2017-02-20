@@ -20,7 +20,9 @@
 #define GME_LOG_WARNING 2
 #define GME_LOG_NOTICE 3
 
-void GME_LogsInit();
+#include "gme.h"
+
+std::string GME_LogsHistory();
 void GME_Logs(int level, const char* scope, const char* msg, const char* item);
 
 #endif // GME_LOGS_H_INCLUDED

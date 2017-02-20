@@ -2,6 +2,9 @@ OvGME 1.7.1, 2017-20-02
 
 - Added support for multiple mods profile per config.
 - Fixed version column width for large version numbers.
+- Improving logs reports.
+- New debug logs access via GUI.
+- Help update
 
 OvGME 1.7.0, 2017-14-02
 

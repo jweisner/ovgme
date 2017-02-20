@@ -14,6 +14,7 @@
  */
 
 #include "gme_conf.h"
+#include "gme_logs.h"
 #include "gme_tools.h"
 
 /* config file main instance */
@@ -64,6 +65,7 @@ bool GME_ConfLoadCfg()
     /* create home folder */
     if(!GME_DirCreate(home_path)) {
       GME_DialogError(NULL, L"Fatal error: Unable to create home directory. OvGME can't create its global configuration.");
+      GME_Logs(GME_LOG_ERROR, "GME_ConfLoadCfg", "Create OvGME home directory", "Failed");
       return false;
     }
   }
@@ -85,6 +87,7 @@ bool GME_ConfLoadCfg()
 
     if(!GME_ConfWritCfg(&g_ConfCfg)) {
       GME_DialogError(NULL, L"Unable to write main configuration file. OvGME can't save its global configuration.");
+      GME_Logs(GME_LOG_ERROR, "GME_ConfLoadCfg", "Write default configuration", "Failed");
       return false;
     }
   }
@@ -106,9 +109,12 @@ bool GME_ConfLoadCfg()
 
     if(!GME_ConfWritCfg(&g_ConfCfg)) {
       GME_DialogError(NULL, L"Unable to write main configuration file. OvGME can't save its global configuration.");
+      GME_Logs(GME_LOG_ERROR, "GME_ConfLoadCfg", "Write default configuration", "Failed");
       return false;
     }
   }
+
+  GME_Logs(GME_LOG_NOTICE, "GME_ConfLoadCfg", "Load global configuration", "Done");
 
   return true;
 }

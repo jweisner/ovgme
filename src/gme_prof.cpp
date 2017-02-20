@@ -141,6 +141,7 @@ bool GME_ProfDelete()
 
   if(prof_id < 0) {
     GME_DialogWarning(g_hwndProfDel, L"The profile '" + prfl_name + L"' do not exist.");
+    GME_Logs(GME_LOG_ERROR, "GME_ProfDelete", "Cannot delete non existing profile", GME_StrToMbs(prfl_name).c_str());
     return false;
   }
 
@@ -151,10 +152,16 @@ bool GME_ProfDelete()
       return false;
   } else {
     GME_DialogWarning(g_hwndProfDel, L"The profile '" + prfl_name + L"' data file do not exist.");
+    GME_Logs(GME_LOG_ERROR, "GME_ProfDelete", "Cannot delete non existing profile file", GME_StrToMbs(prfl_file).c_str());
     return false;
   }
 
-  GME_FileDelete(prfl_file);
+  if(!GME_FileDelete(prfl_file)) {
+    GME_DialogWarning(g_hwndProfDel, L"Unable to delete profile data '" + prfl_file + L"'.");
+    GME_Logs(GME_LOG_ERROR, "GME_ProfDelete", "Unable to delete profile file", GME_StrToMbs(prfl_file).c_str());
+  }
+
+  GME_Logs(GME_LOG_ERROR, "GME_ProfDelete", "Delete mods profile", GME_StrToMbs(prfl_name).c_str());
 
   return true;
 }
@@ -225,6 +232,8 @@ bool GME_ProfCreate(const wchar_t* name)
   /* update menus */
   GME_GameUpdMenu();
 
+  GME_Logs(GME_LOG_NOTICE, "GME_ProfCreate", "Create mods profile", GME_StrToMbs(name).c_str());
+
   return true;
 }
 
@@ -255,6 +264,8 @@ bool GME_ProfApply(unsigned mid)
     return false;
   }
 
+  GME_Logs(GME_LOG_NOTICE, "GME_ProfApply", "Get mods profile data", GME_StrToMbs(prf_path).c_str());
+
   /* load profile data file */
   GME_ProfilEntry_Struct profilentry;
   std::vector<GME_ProfilEntry_Struct> profilentry_list;
@@ -281,12 +292,14 @@ bool GME_ProfApply(unsigned mid)
     if(profilentry_list[i].type == 0) {
       if(!GME_IsDir(mod_path)) {
         missing_list.push_back(profilentry_list[i].name);
+        GME_Logs(GME_LOG_WARNING, "GME_ProfApply", "Mods not found in current mods folder", GME_StrToMbs(profilentry_list[i].name).c_str());
         continue;
       }
     }
     if(profilentry_list[i].type == 1) {
       if(!GME_ZipIsValidMod(mod_path + L".zip")) {
         missing_list.push_back(profilentry_list[i].name);
+        GME_Logs(GME_LOG_WARNING, "GME_ProfApply", "Mods not found in current mods folder", GME_StrToMbs(profilentry_list[i].name).c_str());
         continue;
       }
     }
@@ -297,6 +310,8 @@ bool GME_ProfApply(unsigned mid)
     }
   }
 
+  GME_Logs(GME_LOG_NOTICE, "GME_ProfApply", "Apply profile", "Launch mods process thread");
+
   GME_ModsProc_Launch();
 
   if(!missing_list.empty()) {
@@ -306,6 +321,8 @@ bool GME_ProfApply(unsigned mid)
     }
     GME_DialogWarning(g_hwndMain, message);
   }
+
+  GME_Logs(GME_LOG_NOTICE, "GME_ProfApply", "Apply profile", "Done");
 
   return true;
 }

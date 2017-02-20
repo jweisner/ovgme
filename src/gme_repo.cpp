@@ -529,11 +529,9 @@ bool GME_RepoChkDesc()
   return true;
 }
 
-bool GME_RepoParseXml(const std::wstring& xml, std::vector<GME_ReposMod_Struct>* reposmod_list)
+bool GME_RepoParseXml(const std::wstring& xml, std::vector<GME_ReposMod_Struct>* reposmod_list, std::string* log)
 {
   GME_ReposMod_Struct reposmod;
-
-
 
   xml_document xmldoc;
   xmldoc.load(xml.c_str(), xml.size());
@@ -549,10 +547,13 @@ bool GME_RepoParseXml(const std::wstring& xml, std::vector<GME_ReposMod_Struct>*
 
   if(mod_list.empty()) {
     GME_DialogWarning(g_hwndRepUpd, L"Repository XML parse error: no <mod_list> child found.");
+    GME_Logs(GME_LOG_ERROR, "GME_RepoParseXml", "Parse error", "no <mod_list> child found");
+    if(log) *log += "Parse error : no <mod_list> child found\r\n";
     return false;
   }
 
   // get all children of mod_list
+  unsigned child_i = 0;
   bool is_unique;
   for(xml_node child = mod_list.first_child(); child; child = child.next_sibling()) {
 
@@ -560,14 +561,32 @@ bool GME_RepoParseXml(const std::wstring& xml, std::vector<GME_ReposMod_Struct>*
 
       if(!child.attribute(L"name")) {
         GME_DialogWarning(g_hwndRepUpd, L"Repository XML parse error: 'name' attribute not found.");
+        GME_Logs(GME_LOG_ERROR, "GME_RepoParseXml", "Parse error: 'name' attribute not found for child", std::to_string(child_i).c_str());
+        if(log) {
+           *log += "Parse error : 'name' attribute not found for child #";
+           *log += std::to_string(child_i);
+           *log += "\r\n";
+        }
         continue;
       }
       if(!child.attribute(L"url")) {
         GME_DialogWarning(g_hwndRepUpd, L"Repository XML parse error: 'url' attribute not found.");
+        GME_Logs(GME_LOG_ERROR, "GME_RepoParseXml", "Parse error: 'url' attribute not found for child", std::to_string(child_i).c_str());
+        if(log) {
+           *log += "Parse error : 'name' attribute not found for child #";
+           *log += std::to_string(child_i);
+           *log += "\r\n";
+        }
         continue;
       }
       if(!child.attribute(L"version")) {
         GME_DialogWarning(g_hwndRepUpd, L"Repository XML parse error: 'version' attribute not found.");
+        GME_Logs(GME_LOG_ERROR, "GME_RepoParseXml", "Parse error: 'version' attribute not found for child", std::to_string(child_i).c_str());
+        if(log) {
+           *log += "Parse error : 'name' attribute not found for child #";
+           *log += std::to_string(child_i);
+           *log += "\r\n";
+        }
         continue;
       }
 
@@ -603,70 +622,6 @@ bool GME_RepoParseXml(const std::wstring& xml, std::vector<GME_ReposMod_Struct>*
 
   return true;
 }
-
-/*
-bool GME_RepoParseXml(const std::wstring& xml)
-{
-  GME_ReposMod_Struct reposmod;
-
-  unsigned child_count = 0;
-  bool is_unique;
-
-  xml_document xmldoc;
-  xmldoc.load(xml.c_str(), xml.size());
-  xml_node mod_list = xmldoc.first_child();
-  for(xml_node child = mod_list.first_child(); child; child = child.next_sibling()) {
-    if(wcslen(child.name())) {
-      child_count++;
-      if(!child.attribute(L"name")) {
-        GME_DialogWarning(g_hwndRepUpd, L"Repository XML error: 'name' attribute not found.");
-        continue;
-      }
-      if(!child.attribute(L"url")) {
-        GME_DialogWarning(g_hwndRepUpd, L"Repository XML error: 'url' attribute not found.");
-        continue;
-      }
-      if(!child.attribute(L"version")) {
-        GME_DialogWarning(g_hwndRepUpd, L"Repository XML error: 'version' attribute not found.");
-        continue;
-      }
-
-      reposmod.clear();
-
-      wcscpy(reposmod.name, child.attribute(L"name").value());
-      wcstombs(reposmod.url, child.attribute(L"url").value(), wcslen(child.attribute(L"url").value()));
-      reposmod.version = GME_RepoParseVers(child.attribute(L"version").value());
-
-      // check for description
-      if(!child.first_child().empty()) {
-        reposmod.desc = GME_StrToMbs(child.child_value()); // this is content between <mod> <mod/>
-      } else {
-        reposmod.desc = "No description available.";
-      }
-      // check if mod is unique
-      is_unique = true;
-      for(unsigned i = 0; i < g_GME_ReposMod_List.size(); i++) {
-        if(!wcscmp(reposmod.name, g_GME_ReposMod_List[i].name)) {
-          g_GME_ReposMod_List.push_back(reposmod);
-          is_unique = false;
-          if(reposmod.version > g_GME_ReposMod_List[i].version) {
-            // replace the old by the new
-            g_GME_ReposMod_List[i] = reposmod;
-          }
-        }
-      }
-      if(is_unique)
-        g_GME_ReposMod_List.push_back(reposmod);
-    }
-  }
-
-  if(!child_count) {
-    GME_DialogWarning(g_hwndRepUpd, L"Repository XML error: No Mod-Descriptor (child node) found.");
-  }
-
-  return true;
-}
-*/
 
 void GME_RepoDnl_SetItemStatus(const wchar_t* name, const wchar_t* status)
 {
@@ -754,16 +709,25 @@ void GME_RepoDnl_OnSav(const wchar_t* path)
   mod_path += g_GME_ReposDnl_List[g_ReposQry_Id].name;
   mod_path += L".zip";
   if(GME_IsFile(mod_path)) {
-    GME_FileDelete(mod_path);
+    if(!GME_FileDelete(mod_path)) {
+      GME_Logs(GME_LOG_ERROR, "GME_RepoDnl_OnSav", "Unable to delete old file", GME_StrToMbs(mod_path).c_str());
+      GME_DialogWarning(g_hwndRepUpd, L"Download finalization error, see debug logs for details.");
+    }
   }
-  GME_FileMove(path, mod_path);
+  if(!GME_FileMove(path, mod_path)) {
+    GME_Logs(GME_LOG_ERROR, "GME_RepoDnl_OnSav", "Unable to rename temporary file", GME_StrToMbs(path).c_str());
+    GME_DialogWarning(g_hwndRepUpd, L"Download finalization error, see debug logs for details.");
+  }
   /* update item in list view */
   GME_RepoDnl_SetItemProgress(g_GME_ReposDnl_List[g_ReposQry_Id].name, -1);
   GME_RepoDnl_SetItemStatus(g_GME_ReposDnl_List[g_ReposQry_Id].name, L"Completed");
+  GME_Logs(GME_LOG_NOTICE, "GME_RepoDnl_OnSav", "Download Done", GME_StrToMbs(mod_path).c_str());
 }
 
 DWORD WINAPI GME_RepoQueryDnl_Th(void* args)
 {
+  GME_Logs(GME_LOG_NOTICE, "GME_RepoQueryDnl_Th", "Download process", "...");
+
   g_ReposQry_Cancel = false;
   g_ReposQry_Running = true;
 
@@ -785,35 +749,52 @@ DWORD WINAPI GME_RepoQueryDnl_Th(void* args)
     SendMessage(hpb, PBM_SETRANGE, 0, MAKELPARAM(0, 100));
     EnableWindow(GetDlgItem(g_hwndRepUpd, BTN_CANCEL), true);
     GME_RepoDnl_SetItemStatus(g_GME_ReposDnl_List[i].name, L"Downloading...");
+    GME_Logs(GME_LOG_NOTICE, "GME_RepoQueryDnl_Th", "Downloading", g_GME_ReposDnl_List[i].url);
     http_err = GME_NetwHttpGET(g_GME_ReposDnl_List[i].url, GME_RepoDnl_OnErr, GME_RepoDnl_OnDnl, GME_RepoDnl_OnSav, GME_GameGetCurModsPath());
     if(http_err) {
       http_fail++;
       if(http_err < 10) {
+        err_msg = "Download failed for '" + GME_StrToMbs(g_GME_ReposDnl_List[i].name) + "':\r\n\r\n    ";
         switch(http_err)
         {
         case GME_HTTPGET_ERR_DNS:
           GME_RepoDnl_SetItemStatus(g_GME_ReposDnl_List[i].name, L"Host not found");
+          GME_Logs(GME_LOG_WARNING, "GME_RepoQueryDnl_Th", "Download failed", "Host not found");
+          err_msg += "Host not found";
           break;
         case GME_HTTPGET_ERR_CNX:
           GME_RepoDnl_SetItemStatus(g_GME_ReposDnl_List[i].name, L"Connection error");
+          GME_Logs(GME_LOG_WARNING, "GME_RepoQueryDnl_Th", "Download failed", "Connection error");
+          err_msg += "Connection error";
           break;
         case GME_HTTPGET_ERR_ENC:
           GME_RepoDnl_SetItemStatus(g_GME_ReposDnl_List[i].name, L"HTTP transfer error");
+          GME_Logs(GME_LOG_WARNING, "GME_RepoQueryDnl_Th", "Download failed", "HTTP transfer error");
+          err_msg += "HTTP transfer error";
           break;
         case GME_HTTPGET_ERR_REC:
           GME_RepoDnl_SetItemStatus(g_GME_ReposDnl_List[i].name, L"Connection lost");
+          GME_Logs(GME_LOG_WARNING, "GME_RepoQueryDnl_Th", "Download failed", "Connection lost");
+          err_msg += "Connection lost";
           break;
         case GME_HTTPGET_ERR_FOP:
           GME_RepoDnl_SetItemStatus(g_GME_ReposDnl_List[i].name, L"I/O Open error");
+          GME_Logs(GME_LOG_WARNING, "GME_RepoQueryDnl_Th", "Download failed", "I/O Open error");
+          err_msg += "I/O Open error";
           break;
         case GME_HTTPGET_ERR_FWR:
           GME_RepoDnl_SetItemStatus(g_GME_ReposDnl_List[i].name, L"I/O Write error");
+          GME_Logs(GME_LOG_WARNING, "GME_RepoQueryDnl_Th", "Download failed", "I/O Write error");
+          err_msg += "I/O Write error";
           break;
         }
+        GME_DialogWarning(g_hwndRepUpd, GME_StrToWcs(err_msg));
       } else {
         err_msg = "HTTP error ";
         err_msg += std::to_string(http_err);
         GME_RepoDnl_SetItemStatus(g_GME_ReposDnl_List[i].name, GME_StrToWcs(err_msg).c_str());
+        GME_Logs(GME_LOG_WARNING, "GME_RepoQueryDnl_Th", "Download failed", err_msg.c_str());
+        GME_DialogWarning(g_hwndRepUpd, L"Download failed for '" + std::wstring(g_GME_ReposDnl_List[i].name) + L"':\r\n\r\n    " + GME_StrToWcs(err_msg));
       }
     }
 
@@ -831,6 +812,8 @@ DWORD WINAPI GME_RepoQueryDnl_Th(void* args)
 
       g_ReposQry_Running = false;
 
+      GME_Logs(GME_LOG_WARNING, "GME_RepoQueryDnl_Th", "Download process", "Aborted by user");
+
       return 0;
     }
 
@@ -846,6 +829,8 @@ DWORD WINAPI GME_RepoQueryDnl_Th(void* args)
   GME_ModsUpdList();
 
   g_ReposQry_Running = false;
+
+  GME_Logs(GME_LOG_NOTICE, "GME_RepoQueryDnl_Th", "Download process", "Done");
 
   return 0;
 }
@@ -869,11 +854,15 @@ void GME_RepoUpd_OnEnd(const char* body, size_t body_size)
   HWND hpb = GetDlgItem(g_hwndRepUpd, PBM_REPOQRY);
   SendMessage(hpb, PBM_SETPOS, (WPARAM)100, 0);
   //GME_RepoParseXml(GME_StrToWcs(body));
-  GME_RepoParseXml(GME_StrToWcs(body), &g_GME_ReposMod_List);
+  if(!GME_RepoParseXml(GME_StrToWcs(body), &g_GME_ReposMod_List, NULL)) {
+    GME_DialogWarning(g_hwndRepUpd, L"Repository query failed, XML Parsing error.");
+  }
 }
 
 DWORD WINAPI GME_RepoQueryUpd_Th(void* args)
 {
+  GME_Logs(GME_LOG_NOTICE, "GME_RepoQueryUpd_Th", "Query repositories", "...");
+
   g_ReposQry_Running = true;
   g_ReposQry_Cancel = false;
 
@@ -934,29 +923,36 @@ DWORD WINAPI GME_RepoQueryUpd_Th(void* args)
     cnx_msg = "Try connecting to "; cnx_msg += std::string(g_GME_Repos_List[i].url).substr(0, l); cnx_msg += " please wait...";
     SetDlgItemText(g_hwndRepUpd, TXT_REPOQRYURL, cnx_msg.c_str());
 
+    GME_Logs(GME_LOG_NOTICE, "GME_RepoQueryUpd_Th", "Try HTTP access", xml_url.c_str());
+
     http_err = GME_NetwHttpGET(xml_url.c_str(), GME_RepoUpd_OnErr, GME_RepoUpd_OnDnl, GME_RepoUpd_OnEnd);
     if(http_err) {
       err_msg = "Query failed for repository '";
       err_msg += xml_url;
-      err_msg += "':\n\n";
+      err_msg += "':\r\n\r\n    ";
       http_fail++;
       if(http_err < 10) {
         switch(http_err)
         {
         case GME_HTTPGET_ERR_DNS:
           err_msg += "Connection error: Host not found.";
+          GME_Logs(GME_LOG_WARNING, "GME_RepoQueryUpd_Th", "Connection failed", "Host not found");
           break;
         case GME_HTTPGET_ERR_CNX:
           err_msg += "Connection error: Connection refused or timed out.";
+          GME_Logs(GME_LOG_WARNING, "GME_RepoQueryUpd_Th", "Connection failed", "Connection refused or timed out");
           break;
         case GME_HTTPGET_ERR_ENC:
           err_msg += "Unsupported HTTP chunked transfer encoding.";
+          GME_Logs(GME_LOG_WARNING, "GME_RepoQueryUpd_Th", "Connection failed", "Unsupported HTTP chunked transfer encoding");
           break;
         case GME_HTTPGET_ERR_BAL:
           err_msg += "Bad alloc, no enough memory to store HTTP response.";
+          GME_Logs(GME_LOG_WARNING, "GME_RepoQueryUpd_Th", "Connection failed", "Bad alloc, no enough memory to store HTTP response");
           break;
         case GME_HTTPGET_ERR_REC:
           err_msg += "Connection error: Lost connection.";
+          GME_Logs(GME_LOG_WARNING, "GME_RepoQueryUpd_Th", "Connection failed", "Lost connection");
           break;
         }
       } else {
@@ -976,6 +972,7 @@ DWORD WINAPI GME_RepoQueryUpd_Th(void* args)
         case 410: err_msg += " (Gone)"; break;
         }
       }
+      GME_Logs(GME_LOG_WARNING, "GME_RepoQueryUpd_Th", "HTTP access failed", err_msg.c_str());
       GME_DialogWarning(g_hwndRepUpd, GME_StrToWcs(err_msg));
     }
 
@@ -1322,6 +1319,7 @@ bool GME_RepoSaveXml()
 
 bool GME_RepoTestXml(const wchar_t* path, unsigned offst)
 {
+  std::string log;
   std::string output;
   std::wstring content;
   std::wstring file_path = path;
@@ -1330,8 +1328,9 @@ bool GME_RepoTestXml(const wchar_t* path, unsigned offst)
 
     std::vector<GME_ReposMod_Struct> reposmod_list;
 
-    if(!GME_RepoParseXml(content, &reposmod_list)) {
+    if(!GME_RepoParseXml(content, &reposmod_list, &log)) {
       SetDlgItemText(g_hwndRepXts, TXT_MESSAGE, "XML repository file parsing error occurred, the repository XML source file is not valid.");
+      SetDlgItemText(g_hwndRepXts, ENT_OUTPUT, log.c_str());
       return false;
     }
 

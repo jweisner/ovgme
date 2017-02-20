@@ -24,8 +24,6 @@
 */
 void GME_Uninstall()
 {
-  GME_LogsInit();
-
   /* create the available game list */
   GME_GameUpdList();
 

@@ -668,13 +668,13 @@
 	"gme_uins.h"
 	"gme_dlg_main.h"
 
-1487515467 source:d:\dev\cpp\proj\ovgme\resource.rc
+1487582196 source:d:\dev\cpp\proj\ovgme\resource.rc
 	<windows.h>
 	<commctrl.h>
 	<richedit.h>
 	"resource.h"
 
-1487512635 d:\dev\cpp\proj\ovgme\resource.h
+1487580769 d:\dev\cpp\proj\ovgme\resource.h
 
 1487512843 d:\dev\cpp\proj\ovgme\include\gme.h
 	<stdio.h>
@@ -720,8 +720,9 @@
 1487512836 source:d:\dev\cpp\proj\ovgme\src\gme.cpp
 	"gme.h"
 
-1487523200 source:d:\dev\cpp\proj\ovgme\src\gme_conf.cpp
+1487592204 source:d:\dev\cpp\proj\ovgme\src\gme_conf.cpp
 	"gme_conf.h"
+	"gme_logs.h"
 	"gme_tools.h"
 
 1487010623 d:\dev\cpp\proj\ovgme\include\gme_conf.h
@@ -745,7 +746,7 @@
 1472493787 d:\dev\cpp\proj\ovgme\include\gme_game.h
 	"gme.h"
 
-1487518674 source:d:\dev\cpp\proj\ovgme\src\gme_dlg_main.cpp
+1487591606 source:d:\dev\cpp\proj\ovgme\src\gme_dlg_main.cpp
 	"gme.h"
 	"gme_tools.h"
 	"gme_game.h"
@@ -756,6 +757,7 @@
 	"gme_netw.h"
 	"gme_logs.h"
 	"gme_dlg_about.h"
+	"gme_dlg_debug.h"
 	"gme_dlg_repo.h"
 	"gme_dlg_snap.h"
 	"gme_dlg_mods.h"
@@ -768,7 +770,8 @@
 
 1484742761 d:\dev\cpp\proj\ovgme\include\gme_repo.h
 
-1471783044 d:\dev\cpp\proj\ovgme\include\gme_logs.h
+1487591505 d:\dev\cpp\proj\ovgme\include\gme_logs.h
+	"gme.h"
 
 1471623067 d:\dev\cpp\proj\ovgme\include\gme_dlg_about.h
 	"gme.h"
@@ -803,26 +806,27 @@
 
 1471623067 d:\dev\cpp\proj\ovgme\include\gme_snap.h
 
-1487523246 source:d:\dev\cpp\proj\ovgme\src\gme_game.cpp
+1487603122 source:d:\dev\cpp\proj\ovgme\src\gme_game.cpp
 	"gme_conf.h"
+	"gme_logs.h"
 	"gme_game.h"
 	"gme_mods.h"
 	"gme_prof.h"
 	"gme_tools.h"
 
-1471957212 source:d:\dev\cpp\proj\ovgme\src\gme_logs.cpp
+1487591498 source:d:\dev\cpp\proj\ovgme\src\gme_logs.cpp
 	"gme.h"
 	"gme_logs.h"
 	"gme_tools.h"
 
-1487524449 source:d:\dev\cpp\proj\ovgme\src\gme_mods.cpp
+1487602156 source:d:\dev\cpp\proj\ovgme\src\gme_mods.cpp
 	"gme_tools.h"
 	"gme_game.h"
 	"gme_mods.h"
 	"gme_prof.h"
 	"gme_logs.h"
 
-1487521339 source:d:\dev\cpp\proj\ovgme\src\gme_netw.cpp
+1487604826 source:d:\dev\cpp\proj\ovgme\src\gme_netw.cpp
 	"gme_tools.h"
 	"gme_netw.h"
 	"gme_logs.h"
@@ -838,7 +842,7 @@
 
 1471623067 d:\dev\cpp\proj\ovgme\include\thirdparty\pugixml\pugiconfig.hpp
 
-1487521737 source:d:\dev\cpp\proj\ovgme\src\gme_repo.cpp
+1487604401 source:d:\dev\cpp\proj\ovgme\src\gme_repo.cpp
 	"gme_game.h"
 	"gme_mods.h"
 	"gme_repo.h"
@@ -847,16 +851,17 @@
 	"gme_logs.h"
 	"pugixml.hpp"
 
-1487019997 source:d:\dev\cpp\proj\ovgme\src\gme_snap.cpp
+1487600491 source:d:\dev\cpp\proj\ovgme\src\gme_snap.cpp
 	"gme_snap.h"
 	"gme_game.h"
 	"gme_tools.h"
+	"gme_logs.h"
 
-1487523568 source:d:\dev\cpp\proj\ovgme\src\gme_tools.cpp
+1487530271 source:d:\dev\cpp\proj\ovgme\src\gme_tools.cpp
 	"gme_tools.h"
 	"gme_logs.h"
 
-1472559237 source:d:\dev\cpp\proj\ovgme\src\gme_uins.cpp
+1487591575 source:d:\dev\cpp\proj\ovgme\src\gme_uins.cpp
 	"gme_uins.h"
 	"gme_logs.h"
 	"gme_mods.h"
@@ -912,10 +917,18 @@
 
 1487513775 d:\dev\cpp\proj\ovgme\include\gme_prof.h
 
-1487521382 source:d:\dev\cpp\proj\ovgme\src\gme_prof.cpp
+1487601478 source:d:\dev\cpp\proj\ovgme\src\gme_prof.cpp
 	"gme_tools.h"
 	"gme_game.h"
 	"gme_mods.h"
 	"gme_prof.h"
+	"gme_logs.h"
+
+1487582455 source:d:\dev\cpp\proj\ovgme\src\gme_dlg_debug.cpp
+	"gme_dlg_debug.h"
+	"gme_logs.h"
+
+1487580353 d:\dev\cpp\proj\ovgme\include\gme_dlg_debug.h
+	"gme.h"
 	"gme_logs.h"
 

@@ -24,6 +24,7 @@
 #include "gme_logs.h"
 
 #include "gme_dlg_about.h"
+#include "gme_dlg_debug.h"
 #include "gme_dlg_repo.h"
 #include "gme_dlg_snap.h"
 #include "gme_dlg_mods.h"
@@ -36,7 +37,7 @@
 */
 void GME_MainInit()
 {
-  GME_LogsInit();
+  GME_Logs(GME_LOG_NOTICE, "GME_MainInit", "OvGME Initialization", "Log history start");
 
   GME_ConfLoadCfg();
 
@@ -364,6 +365,10 @@ BOOL CALLBACK GME_DlgMain(HWND hwndDlg, UINT uMsg, WPARAM wParam, LPARAM lParam)
 
     case MNU_HELP:
       ShellExecute(hwndDlg, _T( "open" ), _T( "ovgme.chm" ), NULL, NULL, SW_NORMAL );
+      return true;
+
+    case MNU_LOGS:
+      DialogBox(g_hInst, MAKEINTRESOURCE(DLG_LOGS), hwndDlg, (DLGPROC)GME_DlgDebug);
       return true;
 
     case CMB_GAMELIST:

@@ -16,6 +16,7 @@
 #include "gme_snap.h"
 #include "gme_game.h"
 #include "gme_tools.h"
+#include "gme_logs.h"
 
 /* backup entry struct */
 struct GME_SnapEntry_Struct
@@ -38,6 +39,8 @@ bool g_SnapProc_Running = false;
 /* threaded function to create snapshot */
 DWORD WINAPI GME_SnapCreate_Th(void* pargs)
 {
+  GME_Logs(GME_LOG_NOTICE, "GME_SnapCreate_Th", "Snapshot create process", GME_StrToMbs(GME_GameGetCurRoot()).c_str());
+
   g_SnapProc_Running = true;
 
   HWND hpb = GetDlgItem(g_hwndSnapNew, PBM_SNAP_NEW);
@@ -77,6 +80,7 @@ DWORD WINAPI GME_SnapCreate_Th(void* pargs)
     if(g_SnapProc_Cancel) {
       delete game_tree;
       g_SnapProc_Running = false;
+      GME_Logs(GME_LOG_WARNING, "GME_SnapCreate_Th", "Snapshot create process", "Canceled by user");
       return 0;
     }
   }
@@ -132,6 +136,7 @@ DWORD WINAPI GME_SnapCreate_Th(void* pargs)
     if(g_SnapProc_Cancel) {
       delete game_tree;
       g_SnapProc_Running = false;
+      GME_Logs(GME_LOG_WARNING, "GME_SnapCreate_Th", "Snapshot create process", "Canceled by user");
       return 0;
     }
   }
@@ -164,6 +169,7 @@ DWORD WINAPI GME_SnapCreate_Th(void* pargs)
   GME_GameUpdMenu();
 
   g_SnapProc_Running = false;
+
   return 0;
 }
 
@@ -171,6 +177,8 @@ DWORD WINAPI GME_SnapCreate_Th(void* pargs)
 /* threaded function to compare snapshot */
 DWORD WINAPI GME_SnapCompare_Th(void* pargs)
 {
+  GME_Logs(GME_LOG_NOTICE, "GME_SnapCompare_Th", "Snapshot compare process", GME_StrToMbs(GME_GameGetCurRoot()).c_str());
+
   g_SnapProc_Running = true;
 
   HWND hpb = GetDlgItem(g_hwndSnapCmp, PBM_SNAP_CMP);
@@ -242,6 +250,7 @@ DWORD WINAPI GME_SnapCompare_Th(void* pargs)
     if(g_SnapProc_Cancel) {
       delete game_tree;
       g_SnapProc_Running = false;
+      GME_Logs(GME_LOG_WARNING, "GME_SnapCompare_Th", "Snapshot compare process", "Canceled by user");
       return 0;
     }
   }
@@ -328,6 +337,7 @@ DWORD WINAPI GME_SnapCompare_Th(void* pargs)
     if(g_SnapProc_Cancel) {
       delete game_tree;
       g_SnapProc_Running = false;
+      GME_Logs(GME_LOG_WARNING, "GME_SnapCompare_Th", "Snapshot compare process", "Canceled by user");
       return 0;
     }
   }
@@ -382,6 +392,7 @@ DWORD WINAPI GME_SnapCompare_Th(void* pargs)
     if(g_SnapProc_Cancel) {
       delete game_tree;
       g_SnapProc_Running = false;
+      GME_Logs(GME_LOG_WARNING, "GME_SnapCompare_Th", "Snapshot compare process", "Canceled by user");
       return 0;
     }
   }
@@ -417,6 +428,7 @@ DWORD WINAPI GME_SnapCompare_Th(void* pargs)
   SendMessage(hpb, PBM_SETPOS, (WPARAM)c, 0);
 
   g_SnapProc_Running = false;
+
   return 0;
 }
 

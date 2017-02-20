@@ -14,6 +14,7 @@
  */
 
 #include "gme_conf.h"
+#include "gme_logs.h"
 #include "gme_game.h"
 #include "gme_mods.h"
 #include "gme_prof.h"
@@ -153,6 +154,8 @@ bool GME_GameWritCfg(const std::wstring& path, const GME_GameCfg_Struct* data)
 */
 bool GME_GameNewCfg(const std::wstring& title, const std::wstring& root, const std::wstring& mods, bool use_custom_back, const std::wstring& backp)
 {
+  GME_Logs(GME_LOG_NOTICE, "GME_GameNewCfg", "Create new config", GME_StrToMbs(root).c_str());
+
   std::wstring conf_path = GME_GetAppdataPath() + L"\\" + GME_Md5(root);
 
   /* check if game cfg already exists */
@@ -232,16 +235,19 @@ bool GME_GameNewCfg(const std::wstring& title, const std::wstring& root, const s
     /* create game config dir */
     if(!GME_DirCreate(conf_path)) {
       GME_DialogError(g_hwndAddGame, L"Unable to create configuration folder.");
+      GME_Logs(GME_LOG_ERROR, "GME_GameNewCfg", "Unable to create config folder", GME_StrToMbs(conf_path).c_str());
       return false;
     }
     /* write config file */
     if(!GME_GameWritCfg(conf_path, &data)) {
       GME_DialogError(g_hwndAddGame, L"Unable to write configuration file.");
+      GME_Logs(GME_LOG_ERROR, "GME_GameNewCfg", "Unable to write config file", GME_StrToMbs(conf_path).c_str());
       return false;
     }
     /* create backups dir */
     if(!GME_DirCreate(std::wstring(conf_path + L"\\backups"))) {
       GME_DialogError(g_hwndAddGame, L"Unable to create backup folder.");
+      GME_Logs(GME_LOG_ERROR, "GME_GameNewCfg", "Unable to create backup subfolder", GME_StrToMbs(conf_path).c_str());
       return false;
     }
   }
@@ -260,6 +266,8 @@ bool GME_GameNewCfg(const std::wstring& title, const std::wstring& root, const s
 */
 bool GME_GameRemCurCfg()
 {
+  GME_Logs(GME_LOG_NOTICE, "GME_GameRemCurCfg", "Delete current config", GME_StrToMbs(GME_GameGetCurTitle()).c_str());
+
   /* confirmation dialog */
   if(IDYES != GME_DialogWarningConfirm(g_hwndMain, L"Are you sure you want to remove config '" + GME_GameGetCurTitle() + L"' from management list ?")) {
     return false;
@@ -292,6 +300,8 @@ bool GME_GameRemCurCfg()
 */
 bool GME_GameEditCurCfg(const std::wstring& title, const std::wstring& mods, bool use_custom_back, const std::wstring& backp)
 {
+  GME_Logs(GME_LOG_NOTICE, "GME_GameEditCurCfg", "Edit current config", GME_StrToMbs(GME_GameGetCurTitle()).c_str());
+
   /* check if game title already exists */
   for(int i = 0; i < (int)g_GameCfg_List.size(); i++) {
     if(i != g_GameCur_Id) {
@@ -366,6 +376,7 @@ bool GME_GameEditCurCfg(const std::wstring& title, const std::wstring& mods, boo
   /* write config file */
   if(!GME_GameWritCfg(conf_path, &data)) {
     GME_DialogError(g_hwndEdiGame, L"Unable to write configuration file.");
+    GME_Logs(GME_LOG_ERROR, "GME_GameEditCurCfg", "Unable to write config file", GME_StrToMbs(conf_path).c_str());
     return true;
   }
 
@@ -383,6 +394,8 @@ bool GME_GameEditCurCfg(const std::wstring& title, const std::wstring& mods, boo
 */
 bool GME_GameSelectCfg(const std::wstring& title)
 {
+  GME_Logs(GME_LOG_NOTICE, "GME_GameSelectCfg", "Selecting config", GME_StrToMbs(title).c_str());
+
   /* no game selected */
   g_GameCur_Id = -1;
 
@@ -403,6 +416,7 @@ bool GME_GameSelectCfg(const std::wstring& title)
     /* update mods list */
     GME_ModsUpdList();
     GME_DialogWarning(g_hwndMain, L"The configuration list is empty.");
+    GME_Logs(GME_LOG_WARNING, "GME_GameSelectCfg", "Empty config list", "Nothing to select");
     return false;
   }
 
@@ -439,6 +453,8 @@ bool GME_GameSelectCfg(const std::wstring& title)
 */
 bool GME_GameUpdList()
 {
+  GME_Logs(GME_LOG_NOTICE, "GME_GameUpdList", "Updating config list", GME_StrToMbs(GME_GetAppdataPath()).c_str());
+
   HWND hcb = GetDlgItem(g_hwndMain, CMB_GAMELIST);
 
   /* reload game cfg list */
@@ -461,6 +477,7 @@ bool GME_GameUpdList()
         if(cfg_fp) {
           fread(&cfg_data, 1, sizeof(GME_GameCfg_Struct), cfg_fp);
           g_GameCfg_List.push_back(cfg_data);
+          GME_Logs(GME_LOG_NOTICE, "GME_GameUpdList", "Retrieving config", GME_StrToMbs(fdw.cFileName).c_str());
           fclose(cfg_fp);
         }
       }
@@ -482,6 +499,7 @@ bool GME_GameUpdList()
     GME_ModsUpdList();
     /* update menus */
     GME_GameUpdMenu();
+    GME_Logs(GME_LOG_WARNING, "GME_GameUpdList", "Empty config list", "No config found");
     return false;
   }
 

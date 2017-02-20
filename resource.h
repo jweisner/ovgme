@@ -30,6 +30,7 @@
 #define DLG_REPOS_XTS                           170
 #define DLG_PROF_NEW                            172
 #define DLG_PROF_DEL                            174
+#define DLG_LOGS                                176
 #define BTN_ADD                                 40000
 #define BTN_APPLY                               40000
 #define CMB_GAMELIST                            40000
@@ -130,6 +131,7 @@
 #define MNU_REPOSQUERY                          40057
 #define MNU_REPOSMKXML                          40058
 #define MNU_REPOSTSXML                          40059
+#define MNU_LOGS                                40060
 #define POP_OPENDIR                             40062
 #define POP_TOGGLE                              40065
 #define POP_ENABLE                              40066

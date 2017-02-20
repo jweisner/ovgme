@@ -98,6 +98,7 @@
 		<Unit filename="include/gme.h" />
 		<Unit filename="include/gme_conf.h" />
 		<Unit filename="include/gme_dlg_about.h" />
+		<Unit filename="include/gme_dlg_debug.h" />
 		<Unit filename="include/gme_dlg_game.h" />
 		<Unit filename="include/gme_dlg_main.h" />
 		<Unit filename="include/gme_dlg_mods.h" />
@@ -127,6 +128,7 @@
 		<Unit filename="src/gme.cpp" />
 		<Unit filename="src/gme_conf.cpp" />
 		<Unit filename="src/gme_dlg_about.cpp" />
+		<Unit filename="src/gme_dlg_debug.cpp" />
 		<Unit filename="src/gme_dlg_game.cpp" />
 		<Unit filename="src/gme_dlg_main.cpp" />
 		<Unit filename="src/gme_dlg_mods.cpp" />
