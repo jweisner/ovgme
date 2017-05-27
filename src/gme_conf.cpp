@@ -84,6 +84,7 @@ bool GME_ConfLoadCfg()
     g_ConfCfg.winh = rect.bottom - rect.top;
     g_ConfCfg.winx = rect.left;
     g_ConfCfg.winy = rect.top;
+    g_ConfCfg.ensort = false;
 
     if(!GME_ConfWritCfg(&g_ConfCfg)) {
       GME_DialogError(NULL, L"Unable to write main configuration file. OvGME can't save its global configuration.");
@@ -106,6 +107,7 @@ bool GME_ConfLoadCfg()
     g_ConfCfg.winh = rect.bottom - rect.top;
     g_ConfCfg.winx = rect.left;
     g_ConfCfg.winy = rect.top;
+    g_ConfCfg.ensort = false;
 
     if(!GME_ConfWritCfg(&g_ConfCfg)) {
       GME_DialogError(NULL, L"Unable to write main configuration file. OvGME can't save its global configuration.");
@@ -131,6 +133,7 @@ bool GME_ConfSaveCfg()
   g_ConfCfg.winh = rect.bottom - rect.top;
   g_ConfCfg.winx = rect.left;
   g_ConfCfg.winy = rect.top;
+  g_ConfCfg.ensort = SendMessage(GetDlgItem(g_hwndMain, CHK_SORTMODS), BM_GETCHECK, 0, 0);
 
   if(!GME_ConfWritCfg(&g_ConfCfg)) {
     GME_DialogError(NULL, L"Unable to write main configuration file. OvGME can't save its global configuration.");
@@ -194,4 +197,12 @@ int GME_ConfGetWinX()
 int GME_ConfGetWinY()
 {
   return g_ConfCfg.winy;
+}
+
+/*
+  get saved sort by enabled checkbox
+*/
+bool GME_ConfGetEnSort()
+{
+  return g_ConfCfg.ensort;
 }

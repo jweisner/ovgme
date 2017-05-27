@@ -28,6 +28,7 @@ struct GME_ConfCfg_Struct
   int winh;
   int winx;
   int winy;
+  bool ensort;
 };
 
 
@@ -42,6 +43,7 @@ int GME_ConfGetWinW();
 int GME_ConfGetWinH();
 int GME_ConfGetWinX();
 int GME_ConfGetWinY();
+bool GME_ConfGetEnSort();
 
 
 #endif // GME_CONF_H_INCLUDED

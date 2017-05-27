@@ -65,8 +65,12 @@ void GME_MainInit()
   DeleteObject(hImgLst);
 
   /* set list window-style */
-  int dwstyle = GetWindowLongPtrA(GetDlgItem(g_hwndMain, LVM_MODSLIST), GWL_STYLE);
-  SetWindowLong(GetDlgItem(g_hwndMain, LVM_MODSLIST), GWL_STYLE, dwstyle|LVS_SORTASCENDING);
+  if(!GME_ConfGetEnSort()) {
+    int dwstyle = GetWindowLongPtrA(GetDlgItem(g_hwndMain, LVM_MODSLIST), GWL_STYLE);
+    SetWindowLong(GetDlgItem(g_hwndMain, LVM_MODSLIST), GWL_STYLE, dwstyle|LVS_SORTASCENDING);
+  } else {
+    SendMessageW(GetDlgItem(g_hwndMain, CHK_SORTMODS), BM_SETCHECK, 1, 1);
+  }
 
   /* set style for modlist */
   SendMessageW(GetDlgItem(g_hwndMain, LVM_MODSLIST), LVM_SETEXTENDEDLISTVIEWSTYLE, 0, LVS_EX_FULLROWSELECT|LVS_EX_SUBITEMIMAGES);

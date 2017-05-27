@@ -668,7 +668,7 @@
 	"gme_uins.h"
 	"gme_dlg_main.h"
 
-1495869882 source:d:\dev\cpp\proj\ovgme\resource.rc
+1495892258 source:d:\dev\cpp\proj\ovgme\resource.rc
 	<windows.h>
 	<commctrl.h>
 	<richedit.h>
@@ -720,12 +720,12 @@
 1487516436 source:d:\dev\cpp\proj\ovgme\src\gme.cpp
 	"gme.h"
 
-1487595804 source:d:\dev\cpp\proj\ovgme\src\gme_conf.cpp
+1495892881 source:d:\dev\cpp\proj\ovgme\src\gme_conf.cpp
 	"gme_conf.h"
 	"gme_logs.h"
 	"gme_tools.h"
 
-1487014223 d:\dev\cpp\proj\ovgme\include\gme_conf.h
+1495892427 d:\dev\cpp\proj\ovgme\include\gme_conf.h
 	"gme.h"
 
 1487532381 d:\dev\cpp\proj\ovgme\include\gme_tools.h
@@ -746,7 +746,7 @@
 1472497387 d:\dev\cpp\proj\ovgme\include\gme_game.h
 	"gme.h"
 
-1495870400 source:d:\dev\cpp\proj\ovgme\src\gme_dlg_main.cpp
+1495892870 source:d:\dev\cpp\proj\ovgme\src\gme_dlg_main.cpp
 	"gme.h"
 	"gme_tools.h"
 	"gme_game.h"
