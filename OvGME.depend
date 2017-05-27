@@ -932,3 +932,272 @@
 	"gme.h"
 	"gme_logs.h"
 
+1495882240 source:c:\works\ovgme\main.cpp
+	"gme.h"
+	"gme_uins.h"
+	"gme_dlg_main.h"
+
+1495884950 c:\works\ovgme\include\gme.h
+	<stdio.h>
+	<stdlib.h>
+	<iostream>
+	<tchar.h>
+	<string.h>
+	<algorithm>
+	<string>
+	<vector>
+	<sstream>
+	<iomanip>
+	<process.h>
+	<winsock2.h>
+	<ws2tcpip.h>
+	<windows.h>
+	<commctrl.h>
+	<shlobj.h>
+	<shlwapi.h>
+	<htmlhelp.h>
+	<stdint.h>
+	<inttypes.h>
+	"miniz.h"
+	"xxhash.h"
+	"../resource.h"
+
+1495882240 c:\works\ovgme\include\thirdparty\miniz\miniz.h
+	<stdlib.h>
+	<time.h>
+
+1495882240 c:\works\ovgme\include\thirdparty\xxhash\xxhash.h
+	<stddef.h>
+	"xxhash.c"
+
+1495882240 c:\works\ovgme\resource.h
+
+1495882240 c:\works\ovgme\include\gme_uins.h
+
+1495882240 c:\works\ovgme\include\gme_dlg_main.h
+	"gme.h"
+
+1495879398 source:c:\works\ovgme\resource.rc
+	<windows.h>
+	<commctrl.h>
+	<richedit.h>
+	"resource.h"
+
+1495882240 source:c:\works\ovgme\src\gme.cpp
+	"gme.h"
+
+1495882240 source:c:\works\ovgme\src\gme_conf.cpp
+	"gme_conf.h"
+	"gme_logs.h"
+	"gme_tools.h"
+
+1495882240 c:\works\ovgme\include\gme_conf.h
+	"gme.h"
+
+1495882240 c:\works\ovgme\include\gme_logs.h
+	"gme.h"
+
+1495882240 c:\works\ovgme\include\gme_tools.h
+	"gme.h"
+	"gmenode.h"
+
+1495882240 c:\works\ovgme\include\gmenode.h
+	"gme.h"
+
+1495882240 source:c:\works\ovgme\src\gme_dlg_about.cpp
+	"gme.h"
+
+1495882240 source:c:\works\ovgme\src\gme_dlg_debug.cpp
+	"gme_dlg_debug.h"
+	"gme_logs.h"
+
+1495882240 c:\works\ovgme\include\gme_dlg_debug.h
+	"gme.h"
+	"gme_logs.h"
+
+1495882240 source:c:\works\ovgme\src\gme_dlg_game.cpp
+	"gme.h"
+	"gme_game.h"
+	"gme_tools.h"
+
+1495882240 c:\works\ovgme\include\gme_game.h
+	"gme.h"
+
+1495882240 source:c:\works\ovgme\src\gme_dlg_main.cpp
+	"gme.h"
+	"gme_tools.h"
+	"gme_game.h"
+	"gme_conf.h"
+	"gme_mods.h"
+	"gme_prof.h"
+	"gme_repo.h"
+	"gme_netw.h"
+	"gme_logs.h"
+	"gme_dlg_about.h"
+	"gme_dlg_debug.h"
+	"gme_dlg_repo.h"
+	"gme_dlg_snap.h"
+	"gme_dlg_mods.h"
+	"gme_dlg_prof.h"
+	"gme_dlg_game.h"
+	"gme_dlg_main.h"
+
+1495882240 c:\works\ovgme\include\gme_mods.h
+	"gme.h"
+
+1495882240 c:\works\ovgme\include\gme_prof.h
+
+1495882240 c:\works\ovgme\include\gme_repo.h
+
+1495882240 c:\works\ovgme\include\gme_netw.h
+	<gme.h>
+
+1495882240 c:\works\ovgme\include\gme_dlg_about.h
+	"gme.h"
+
+1495882240 c:\works\ovgme\include\gme_dlg_repo.h
+	"gme.h"
+
+1495882240 c:\works\ovgme\include\gme_dlg_snap.h
+	"gme.h"
+
+1495882240 c:\works\ovgme\include\gme_dlg_mods.h
+	"gme.h"
+
+1495882240 c:\works\ovgme\include\gme_dlg_prof.h
+	"gme.h"
+
+1495882240 c:\works\ovgme\include\gme_dlg_game.h
+	"gme.h"
+
+1495882240 source:c:\works\ovgme\src\gme_dlg_mods.cpp
+	"gme.h"
+	"gme_game.h"
+	"gme_mods.h"
+	"gme_tools.h"
+	"gme_logs.h"
+
+1495882240 source:c:\works\ovgme\src\gme_dlg_prof.cpp
+	"gme.h"
+	"gme_game.h"
+	"gme_prof.h"
+	"gme_tools.h"
+
+1495882240 source:c:\works\ovgme\src\gme_dlg_repo.cpp
+	"gme.h"
+	"gme_repo.h"
+	"gme_tools.h"
+
+1495882240 source:c:\works\ovgme\src\gme_dlg_snap.cpp
+	"gme.h"
+	"gme_snap.h"
+
+1495882240 c:\works\ovgme\include\gme_snap.h
+
+1495882240 source:c:\works\ovgme\src\gme_game.cpp
+	"gme_conf.h"
+	"gme_logs.h"
+	"gme_game.h"
+	"gme_mods.h"
+	"gme_prof.h"
+	"gme_tools.h"
+
+1495882240 source:c:\works\ovgme\src\gme_logs.cpp
+	"gme.h"
+	"gme_logs.h"
+	"gme_tools.h"
+
+1495882206 source:c:\works\ovgme\src\gme_mods.cpp
+	"gme_tools.h"
+	"gme_game.h"
+	"gme_mods.h"
+	"gme_prof.h"
+	"gme_logs.h"
+
+1495882240 source:c:\works\ovgme\src\gme_netw.cpp
+	"gme_tools.h"
+	"gme_netw.h"
+	"gme_logs.h"
+	"pugixml.hpp"
+
+1495882240 c:\works\ovgme\include\thirdparty\pugixml\pugixml.hpp
+	"pugiconfig.hpp"
+	<stddef.h>
+	<exception>
+	<iterator>
+	<iosfwd>
+	<string>
+
+1495882240 c:\works\ovgme\include\thirdparty\pugixml\pugiconfig.hpp
+
+1495882240 source:c:\works\ovgme\src\gme_prof.cpp
+	"gme_tools.h"
+	"gme_game.h"
+	"gme_mods.h"
+	"gme_prof.h"
+	"gme_logs.h"
+
+1495882240 source:c:\works\ovgme\src\gme_repo.cpp
+	"gme_game.h"
+	"gme_mods.h"
+	"gme_repo.h"
+	"gme_tools.h"
+	"gme_netw.h"
+	"gme_logs.h"
+	"pugixml.hpp"
+
+1495882240 source:c:\works\ovgme\src\gme_snap.cpp
+	"gme_snap.h"
+	"gme_game.h"
+	"gme_tools.h"
+	"gme_logs.h"
+
+1495882240 source:c:\works\ovgme\src\gme_tools.cpp
+	"gme_tools.h"
+	"gme_logs.h"
+
+1495882240 source:c:\works\ovgme\src\gme_uins.cpp
+	"gme_uins.h"
+	"gme_logs.h"
+	"gme_mods.h"
+	"gme_game.h"
+	"gme_tools.h"
+
+1495882240 source:c:\works\ovgme\src\gmenode.cpp
+	"gmenode.h"
+	"gme_logs.h"
+
+1495882240 source:c:\works\ovgme\src\thirdparty\miniz\miniz.c
+	"miniz.h"
+	<string.h>
+	<assert.h>
+	<stdio.h>
+	<sys/stat.h>
+	<sys/utime.h>
+	<sys/utime.h>
+	<sys/utime.h>
+	<utime.h>
+	<utime.h>
+
+1495882240 source:c:\works\ovgme\src\thirdparty\pugixml\pugixml.cpp
+	"pugixml.hpp"
+	<stdlib.h>
+	<stdio.h>
+	<string.h>
+	<assert.h>
+	<wchar.h>
+	<math.h>
+	<float.h>
+	<setjmp.h>
+	<istream>
+	<ostream>
+	<string>
+	<new>
+	<stdint.h>
+
+1495882240 source:c:\works\ovgme\src\thirdparty\xxhash\xxhash.c
+	<stdlib.h>
+	<string.h>
+	"xxhash.h"
+	<stdint.h>
+

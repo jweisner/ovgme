@@ -520,7 +520,7 @@ IDI_ICON           ICON           "res/icon.ico"
 //
 #ifdef DEBUG
 LANGUAGE LANG_NEUTRAL, SUBLANG_NEUTRAL
-1                  RT_MANIFEST    "manifest.dbg"
+1                  RT_MANIFEST    "manifest.xml"
 #else
 LANGUAGE LANG_NEUTRAL, SUBLANG_NEUTRAL
 1                  RT_MANIFEST    "manifest.xml"

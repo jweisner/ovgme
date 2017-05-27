@@ -1,6 +1,6 @@
 Microsoft HTML Help Compiler 4.74.8702
 
-Compiling d:\dev\cpp\proj\OvGME\help\fr\ovgme.chm
+Compiling c:\Works\ovgme\help\fr\ovgme.chm
 
 introduction.html
 gameintro.html
@@ -37,5 +37,12 @@ repos_upgrade.png
 repos_dngrade.png
 repos_schem.jpg
 
+Compile time: 0 minutes, 0 seconds
+25	Topics
+52	Local links
+0	Internet links
+9	Graphics
 
-The following files were not compiled:
+
+Created c:\Works\ovgme\help\fr\ovgme.chm, 90,223 bytes
+Compression decreased file by 60,613 bytes.

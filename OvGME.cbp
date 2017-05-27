@@ -23,6 +23,7 @@
 				<Compiler>
 					<Add option="-std=c++11" />
 					<Add option="-g" />
+					<Add option="-fpermissive" />
 				</Compiler>
 				<ResourceCompiler>
 					<Add option="-DDEBUG" />
@@ -44,6 +45,7 @@
 				<Compiler>
 					<Add option="-O3" />
 					<Add option="-std=c++11" />
+					<Add option="-fpermissive" />
 				</Compiler>
 				<Linker>
 					<Add option="-s" />
@@ -57,6 +59,7 @@
 				<Compiler>
 					<Add option="-std=c++11" />
 					<Add option="-g" />
+					<Add option="-fpermissive" />
 				</Compiler>
 				<ResourceCompiler>
 					<Add option="-DDEBUG" />
@@ -70,6 +73,7 @@
 				<Compiler>
 					<Add option="-O3" />
 					<Add option="-std=c++11" />
+					<Add option="-fpermissive" />
 				</Compiler>
 				<Linker>
 					<Add option="-s" />
