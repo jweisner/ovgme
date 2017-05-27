@@ -1158,7 +1158,71 @@ bool GME_ModsUpdList()
   WIN32_FIND_DATAW fdw;
   HANDLE hnd;
 
-  /* first check only for folders */
+  /* first, get installed mods list, i.e. available backup data */
+  srch_path = conf_path + L"\\*.bck";
+  hnd = FindFirstFileW(srch_path.c_str(), &fdw);
+  if(hnd != INVALID_HANDLE_VALUE) {
+    do {
+      if(!(fdw.dwFileAttributes & FILE_ATTRIBUTE_DIRECTORY)) {
+        name = GME_FilePathToName(fdw.cFileName);
+        name_list.push_back(name);
+        type_list.push_back(2);
+      }
+    } while(FindNextFileW(hnd, &fdw));
+  }
+  FindClose(hnd);
+
+  /* then gather mods from mods list folder */
+  srch_path = GME_GameGetCurModsPath() + L"\\*";
+  hnd = FindFirstFileW(srch_path.c_str(), &fdw);
+  if(hnd != INVALID_HANDLE_VALUE) {
+    do {
+      if(fdw.dwFileAttributes & FILE_ATTRIBUTE_DIRECTORY) {
+        if(fdw.dwFileAttributes & FILE_ATTRIBUTE_HIDDEN)
+          continue;
+        if(!wcscmp(fdw.cFileName, L"."))
+          continue;
+        if(!wcscmp(fdw.cFileName, L".."))
+          continue;
+        name = fdw.cFileName;
+        if(!GME_IsFile(conf_path + L"\\" + name + L".bck")) {
+          name_list.push_back(name);
+          type_list.push_back(0);
+        }
+      } else {
+        if(GME_ZipIsValidMod(mods_path + L"\\" + fdw.cFileName)) {
+          name = GME_FilePathToName(fdw.cFileName);
+          if(!GME_IsFile(conf_path + L"\\" + name + L".bck")) {
+            name_list.push_back(name);
+            type_list.push_back(1);
+          }
+        }
+      }
+    } while(FindNextFileW(hnd, &fdw));
+  }
+  FindClose(hnd);
+
+  /* then search only .zip files */
+  /*
+  srch_path = GME_GameGetCurModsPath() + L"\\*.zip";
+  hnd = FindFirstFileW(srch_path.c_str(), &fdw);
+  if(hnd != INVALID_HANDLE_VALUE) {
+    do {
+      if(!(fdw.dwFileAttributes & FILE_ATTRIBUTE_DIRECTORY)) {
+        if(GME_ZipIsValidMod(mods_path + L"\\" + fdw.cFileName)) {
+          name = GME_FilePathToName(fdw.cFileName);
+          if(!GME_IsFile(conf_path + L"\\" + name + L".bck")) {
+            name_list.push_back(name);
+            type_list.push_back(1);
+          }
+        }
+      }
+    } while(FindNextFileW(hnd, &fdw));
+  }
+  FindClose(hnd);
+  */
+  /* finally check only for folders */
+  /*
   srch_path = GME_GameGetCurModsPath() + L"\\*";
   hnd = FindFirstFileW(srch_path.c_str(), &fdw);
   if(hnd != INVALID_HANDLE_VALUE) {
@@ -1179,40 +1243,7 @@ bool GME_ModsUpdList()
     } while(FindNextFileW(hnd, &fdw));
   }
   FindClose(hnd);
-
-  /* then search only .zip files */
-  srch_path = GME_GameGetCurModsPath() + L"\\*.zip";
-  hnd = FindFirstFileW(srch_path.c_str(), &fdw);
-  if(hnd != INVALID_HANDLE_VALUE) {
-    do {
-      if(!(fdw.dwFileAttributes & FILE_ATTRIBUTE_DIRECTORY)) {
-        if(GME_ZipIsValidMod(mods_path + L"\\" + fdw.cFileName)) {
-          name = GME_FilePathToName(fdw.cFileName);
-          if(!GME_IsFile(conf_path + L"\\" + name + L".bck")) {
-            name_list.push_back(name);
-            type_list.push_back(1);
-          }
-        }
-      }
-    } while(FindNextFileW(hnd, &fdw));
-  }
-  FindClose(hnd);
-
-  /* get installed mods list, i.e. available backup data */
-  srch_path = conf_path + L"\\*.bck";
-
-  hnd = FindFirstFileW(srch_path.c_str(), &fdw);
-  if(hnd != INVALID_HANDLE_VALUE) {
-    do {
-      if(!(fdw.dwFileAttributes & FILE_ATTRIBUTE_DIRECTORY)) {
-        name = GME_FilePathToName(fdw.cFileName);
-        name_list.push_back(name);
-        type_list.push_back(2);
-      }
-    } while(FindNextFileW(hnd, &fdw));
-  }
-  FindClose(hnd);
-
+*/
   if(name_list.empty()) {
     /* update menus */
     GME_GameUpdMenu();

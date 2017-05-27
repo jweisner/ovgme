@@ -64,8 +64,12 @@ void GME_MainInit()
   SendMessageW(GetDlgItem(g_hwndMain, LVM_MODSLIST), LVM_SETIMAGELIST, LVSIL_NORMAL, (LPARAM)hImgLst);
   DeleteObject(hImgLst);
 
+  /* set list window-style */
+  int dwstyle = GetWindowLongPtrA(GetDlgItem(g_hwndMain, LVM_MODSLIST), GWL_STYLE);
+  SetWindowLong(GetDlgItem(g_hwndMain, LVM_MODSLIST), GWL_STYLE, dwstyle|LVS_SORTASCENDING);
+
   /* set style for modlist */
-  SendMessageW(GetDlgItem(g_hwndMain, LVM_MODSLIST), LVM_SETEXTENDEDLISTVIEWSTYLE, 0, LVS_EX_FULLROWSELECT|LVS_EX_SUBITEMIMAGES);
+  SendMessageW(GetDlgItem(g_hwndMain, LVM_MODSLIST), LVM_SETEXTENDEDLISTVIEWSTYLE, 0, LVS_EX_FULLROWSELECT|LVS_EX_SUBITEMIMAGES|LVS_SORTASCENDING);
 
   /* create colums in list view */
   wchar_t buff[64];
@@ -194,7 +198,8 @@ void GME_DlgMainResize()
   SetWindowPos(GetDlgItem(hwd, BTN_MODENA), NULL, 120, cli.bottom-203, 100, 23, SWP_NOZORDER);
   SetWindowPos(GetDlgItem(hwd, BTN_MODCANCEL), NULL, cli.right-100, cli.bottom-203, 80, 23, SWP_NOZORDER);
   SetWindowPos(GetDlgItem(hwd, PBM_MODPROC), NULL, 225, cli.bottom-203, cli.right-330, 22, SWP_NOZORDER);
-  SetWindowPos(GetDlgItem(hwd, LVM_MODSLIST), NULL, 20, 120, cli.right-40, cli.bottom-330, SWP_NOZORDER);
+
+  SetWindowPos(GetDlgItem(hwd, LVM_MODSLIST), NULL, 20, 135, cli.right-40, cli.bottom-345, SWP_NOZORDER);
 
   /* modify colums in list view */
   LVCOLUMNW lvcol;
@@ -207,6 +212,8 @@ void GME_DlgMainResize()
   lvcol.iSubItem = 1;
   SendMessageW(GetDlgItem(hwd, LVM_MODSLIST), LVM_SETCOLUMN, 1, (LPARAM)&lvcol);
 
+  SetWindowPos(GetDlgItem(hwd, CHK_SORTMODS), NULL, 20, 115, cli.right-40, 20, SWP_NOZORDER);
+
   SetWindowPos(GetDlgItem(hwd, BTN_IMPORTMOD), NULL, cli.right-105, 90, 85, 23, SWP_NOZORDER);
   SetWindowPos(GetDlgItem(hwd, ENT_MODSPATH), NULL, 20, 91, cli.right-130, 21, SWP_NOZORDER);
 
@@ -215,6 +222,22 @@ void GME_DlgMainResize()
   SetWindowPos(GetDlgItem(hwd, BTN_EDIGAME), NULL, cli.right-92, 19, 35, 23, SWP_NOZORDER);
   SetWindowPos(GetDlgItem(hwd, BTN_ADDGAME), NULL, cli.right-55, 19, 35, 23, SWP_NOZORDER);
   SetWindowPos(GetDlgItem(hwd, ENT_CFGRPATH), NULL, 165, 45, cli.right-185, 21, SWP_NOZORDER);
+}
+
+
+/*
+  Mods list view automatic sorting enabled or not
+*/
+void GME_DlgMainSortList(bool byenabled)
+{
+  int dwstyle = GetWindowLongPtrA(GetDlgItem(g_hwndMain, LVM_MODSLIST), GWL_STYLE);
+
+  if(byenabled) {
+    dwstyle = dwstyle & ~LVS_SORTASCENDING;
+    SetWindowLong(GetDlgItem(g_hwndMain, LVM_MODSLIST), GWL_STYLE, dwstyle);
+  } else {
+    SetWindowLong(GetDlgItem(g_hwndMain, LVM_MODSLIST), GWL_STYLE, dwstyle|LVS_SORTASCENDING);
+  }
 }
 
 /*
@@ -265,6 +288,10 @@ BOOL CALLBACK GME_DlgMain(HWND hwndDlg, UINT uMsg, WPARAM wParam, LPARAM lParam)
         GME_MainPopMenuMods();
         return true;
       }
+      if(((LPNMHDR)lParam)->code == LVN_ITEMCHANGED) {
+        GME_ModsChkDesc();
+        return true;
+      }
     }
     return true;
 
@@ -278,6 +305,11 @@ BOOL CALLBACK GME_DlgMain(HWND hwndDlg, UINT uMsg, WPARAM wParam, LPARAM lParam)
     case BTN_QUIT:
       GME_MainExit();
       EndDialog(hwndDlg, 0);
+      return true;
+
+    case CHK_SORTMODS:
+      GME_DlgMainSortList(SendMessage(GetDlgItem(hwndDlg, CHK_SORTMODS), BM_GETCHECK, 0, 0));
+      GME_ModsUpdList();
       return true;
 
     case MNU_GAMEADD:
