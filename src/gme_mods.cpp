@@ -1119,7 +1119,7 @@ bool GME_ModsUpdList()
   HWND het_path = GetDlgItem(g_hwndMain, ENT_MODSPATH);
   HWND het_desc = GetDlgItem(g_hwndMain, ENT_MODDESC);
 
-  // Save scroll position to lvmRect
+  /* Save scroll position to lvmRect */
   RECT lvmRect = {};
   SendMessageW(hlv, LVM_GETVIEWRECT, 0, (LPARAM)&lvmRect);
 
@@ -1297,7 +1297,7 @@ bool GME_ModsUpdList()
     SendMessageW(hlv, LVM_SETITEMW, 0, (LPARAM)&lvitm);
   }
 
-  // Restore scroll position from lvmRect
+  /* Restore scroll position from lvmRect */
   SendMessageW(hlv, LVM_SCROLL, 0, -lvmRect.top );
 
   /* set mods path in display entry */

@@ -69,7 +69,7 @@ void GME_MainInit()
   SetWindowLong(GetDlgItem(g_hwndMain, LVM_MODSLIST), GWL_STYLE, dwstyle|LVS_SORTASCENDING);
 
   /* set style for modlist */
-  SendMessageW(GetDlgItem(g_hwndMain, LVM_MODSLIST), LVM_SETEXTENDEDLISTVIEWSTYLE, 0, LVS_EX_FULLROWSELECT|LVS_EX_SUBITEMIMAGES|LVS_SORTASCENDING);
+  SendMessageW(GetDlgItem(g_hwndMain, LVM_MODSLIST), LVM_SETEXTENDEDLISTVIEWSTYLE, 0, LVS_EX_FULLROWSELECT|LVS_EX_SUBITEMIMAGES);
 
   /* create colums in list view */
   wchar_t buff[64];
