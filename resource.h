@@ -112,6 +112,7 @@
 #define ENT_VERSMAJOR                           40030
 #define ENT_VERSMINOR                           40031
 #define ENT_VERSREVIS                           40032
+#define CHK_SORTMODS                            40033
 #define MNU_ABOUT                               40040
 #define MNU_GAMEADD                             40041
 #define MNU_GAMEEDIT                            40042

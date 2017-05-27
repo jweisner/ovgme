@@ -1,6 +1,7 @@
-OvGME 1.7.2, 2017-27-05
+OvGME 1.7.2, 2017-01-06
 
-- Added reposition of vertical scroll on mod selection/deselection. Useful working with many mods.
+- Fix mod description display when using arrow keys.
+- Add "Sort by enabled" option for mods list view.
 
 OvGME 1.7.1, 2017-20-02
 
