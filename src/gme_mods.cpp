@@ -1206,48 +1206,6 @@ bool GME_ModsUpdList()
   }
   FindClose(hnd);
 
-  /* then search only .zip files */
-  /*
-  srch_path = GME_GameGetCurModsPath() + L"\\*.zip";
-  hnd = FindFirstFileW(srch_path.c_str(), &fdw);
-  if(hnd != INVALID_HANDLE_VALUE) {
-    do {
-      if(!(fdw.dwFileAttributes & FILE_ATTRIBUTE_DIRECTORY)) {
-        if(GME_ZipIsValidMod(mods_path + L"\\" + fdw.cFileName)) {
-          name = GME_FilePathToName(fdw.cFileName);
-          if(!GME_IsFile(conf_path + L"\\" + name + L".bck")) {
-            name_list.push_back(name);
-            type_list.push_back(1);
-          }
-        }
-      }
-    } while(FindNextFileW(hnd, &fdw));
-  }
-  FindClose(hnd);
-  */
-  /* finally check only for folders */
-  /*
-  srch_path = GME_GameGetCurModsPath() + L"\\*";
-  hnd = FindFirstFileW(srch_path.c_str(), &fdw);
-  if(hnd != INVALID_HANDLE_VALUE) {
-    do {
-      if(fdw.dwFileAttributes & FILE_ATTRIBUTE_DIRECTORY) {
-        if(fdw.dwFileAttributes & FILE_ATTRIBUTE_HIDDEN)
-          continue;
-        if(!wcscmp(fdw.cFileName, L"."))
-          continue;
-        if(!wcscmp(fdw.cFileName, L".."))
-          continue;
-        name = fdw.cFileName;
-        if(!GME_IsFile(conf_path + L"\\" + name + L".bck")) {
-          name_list.push_back(name);
-          type_list.push_back(0);
-        }
-      }
-    } while(FindNextFileW(hnd, &fdw));
-  }
-  FindClose(hnd);
-*/
   if(name_list.empty()) {
     /* update menus */
     GME_GameUpdMenu();
@@ -1541,7 +1499,7 @@ DWORD WINAPI GME_ModsMake_Th(void* args)
   }
 
   /* rename temporary file to final name */
-  if(!GME_FileMove(tmp_path, zip_path)) {
+  if(!GME_FileMove(tmp_path, zip_path, true)) {
     GME_FileDelete(tmp_path);
     GME_Logs(GME_LOG_ERROR, "GME_ModsMake_Th", "Unable to rename file", GME_StrToMbs(zip_path).c_str());
     GME_DialogError(g_hwndNewAMod, L"An error occurred during Mod-Archive creation.");

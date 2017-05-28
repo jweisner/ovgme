@@ -545,13 +545,22 @@ bool GME_FileCopy(const std::wstring& src, const std::wstring& dst, bool overwri
 /*
   custom generic function to move/rename files.
 */
-bool GME_FileMove(const std::wstring& src, const std::wstring& dst)
+bool GME_FileMove(const std::wstring& src, const std::wstring& dst, bool overwrite)
 {
-  if(!MoveFileW(src.c_str(),dst.c_str())) {
-    std::string msg = "MoveFileW error " + GME_GetLastErrorStr();
-    std::string itm = "\r\n\tSRC: " + GME_StrToMbs(src) + "\r\n\tDST: " + GME_StrToMbs(dst);
-    GME_Logs(GME_LOG_ERROR, "GME_FileMove", msg.c_str(), itm.c_str());
-    return false;
+  if(overwrite) {
+    if(!MoveFileExW(src.c_str(),dst.c_str(),MOVEFILE_COPY_ALLOWED|MOVEFILE_REPLACE_EXISTING)) {
+      std::string msg = "MoveFileExW error " + GME_GetLastErrorStr();
+      std::string itm = "\r\n\tSRC: " + GME_StrToMbs(src) + "\r\n\tDST: " + GME_StrToMbs(dst);
+      GME_Logs(GME_LOG_ERROR, "GME_FileMove", msg.c_str(), itm.c_str());
+      return false;
+    }
+  } else {
+    if(!MoveFileExW(src.c_str(),dst.c_str(),MOVEFILE_COPY_ALLOWED)) {
+      std::string msg = "MoveFileExW error " + GME_GetLastErrorStr();
+      std::string itm = "\r\n\tSRC: " + GME_StrToMbs(src) + "\r\n\tDST: " + GME_StrToMbs(dst);
+      GME_Logs(GME_LOG_ERROR, "GME_FileMove", msg.c_str(), itm.c_str());
+      return false;
+    }
   }
   return true;
 }

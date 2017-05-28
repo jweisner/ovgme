@@ -714,7 +714,7 @@ void GME_RepoDnl_OnSav(const wchar_t* path)
       GME_DialogWarning(g_hwndRepUpd, L"Download finalization error, see debug logs for details.");
     }
   }
-  if(!GME_FileMove(path, mod_path)) {
+  if(!GME_FileMove(path, mod_path, true)) {
     GME_Logs(GME_LOG_ERROR, "GME_RepoDnl_OnSav", "Unable to rename temporary file", GME_StrToMbs(path).c_str());
     GME_DialogWarning(g_hwndRepUpd, L"Download finalization error, see debug logs for details.");
   }

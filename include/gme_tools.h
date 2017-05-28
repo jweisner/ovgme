@@ -55,7 +55,7 @@ size_t GME_FileSize(const std::wstring& src);
 bool GME_FileRead(ubyte* data, size_t size, const std::wstring& src);
 bool GME_FileWrite(const ubyte* data, size_t size, const std::wstring& dst, bool overwrite);
 bool GME_FileCopy(const std::wstring& src, const std::wstring& dst, bool overwrite);
-bool GME_FileMove(const std::wstring& src, const std::wstring& dst);
+bool GME_FileMove(const std::wstring& src, const std::wstring& dst, bool overwrite);
 bool GME_FileDelete(const std::wstring& dst);
 size_t GME_FileGetAsciiContent(const std::wstring& path, std::wstring* content);
 void GME_DialogError(HWND hwnd, std::wstring message);
