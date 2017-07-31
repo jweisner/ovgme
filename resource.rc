@@ -321,11 +321,11 @@ CAPTION "OvGME Save Mods Profile"
 FONT 8, "Ms Shell Dlg"
 {
     EDITTEXT        ENT_NAME, 21, 43, 237, 12, ES_AUTOHSCROLL, WS_EX_LEFT
-    LTEXT           "Mods profile name:", 0, 13, 32, 60, 9, SS_LEFT, WS_EX_LEFT
-    GROUPBOX        "", 0, 7, 21, 256, 45, 0, WS_EX_LEFT
+    LTEXT           "Mods profile name:", TXT_HELP1, 13, 32, 60, 9, SS_LEFT, WS_EX_LEFT
+    GROUPBOX        "", BOX_MAIN, 7, 21, 256, 45, 0, WS_EX_LEFT
     PUSHBUTTON      "Cancel", IDCANCEL, 59, 71, 50, 14, 0, WS_EX_LEFT
     DEFPUSHBUTTON   "Save", BTN_ADD, 7, 71, 50, 14, 0, WS_EX_LEFT
-    LTEXT           "Save current mods profile", 0, 7, 7, 76, 9, SS_LEFT, WS_EX_LEFT
+    LTEXT           "Save current mods profile", TXT_TITLE, 7, 7, 120, 9, SS_LEFT, WS_EX_LEFT
 }
 
 

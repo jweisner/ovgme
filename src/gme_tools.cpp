@@ -650,7 +650,7 @@ int GME_DialogWarningConfirm(HWND hwnd, std::wstring message)
 */
 int GME_DialogQuestionConfirm(HWND hwnd, std::wstring message)
 {
-  return MessageBoxW(hwnd, message.c_str(), L"OvGME Choose Your Destiny", MB_YESNO|MB_ICONQUESTION);
+  return MessageBoxW(hwnd, message.c_str(), L"OvGME Question", MB_YESNO|MB_ICONQUESTION);
 }
 
 /*
@@ -806,6 +806,7 @@ bool GME_ZipIsValidMod(const std::wstring& zip)
   std::string zip_name = GME_StrToMbs(zip);
   memset(&za, 0, sizeof(mz_zip_archive));
   if(!mz_zip_reader_init_file(&za, zip_name.c_str(), 0)) {
+    GME_Logs(GME_LOG_WARNING, "GME_ZipIsValidMod", "Invalid Zip file:", zip_name.c_str());
     return false;
   }
 
@@ -817,16 +818,18 @@ bool GME_ZipIsValidMod(const std::wstring& zip)
     if(mz_zip_reader_is_file_a_directory(&za, i)) {
       if(!mz_zip_reader_file_stat(&za, i, &zf)){
         mz_zip_reader_end(&za);
+        GME_Logs(GME_LOG_WARNING, "GME_ZipIsValidMod", "Zip read error:", zip_name.c_str());
         return false;
       }
       dir_name = zf.m_filename;
-      if(mod_name == dir_name.substr(0, dir_name.size()-1)) {
+      if(mod_name == dir_name.substr(0, dir_name.find_first_of("/"))) {
         mz_zip_reader_end(&za);
         return true;
       }
     }
   }
   mz_zip_reader_end(&za);
+  GME_Logs(GME_LOG_WARNING, "GME_ZipIsValidMod", "So suitable Mod-Folder found in Zip file:", zip_name.c_str());
   return false;
 }
 

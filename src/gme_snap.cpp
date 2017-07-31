@@ -36,6 +36,16 @@ bool g_SnapProc_Cancel = false;
 bool g_SnapProc_Running = false;
 
 
+/* function to append log output */
+void GME_SnapLogAppend(HWND hent, const wchar_t* out)
+{
+  //int s = GetWindowTextLengthW(hent);
+  unsigned s = SendMessageW(hent, WM_GETTEXTLENGTH, 0, 0);
+  SendMessage(hent, EM_SETSEL, s, s);
+  SendMessageW(hent, EM_REPLACESEL, 0, (LPARAM)out);
+  SendMessage(hent, WM_VSCROLL, SB_BOTTOM, (LPARAM)NULL);
+}
+
 /* threaded function to create snapshot */
 DWORD WINAPI GME_SnapCreate_Th(void* pargs)
 {
@@ -257,13 +267,18 @@ DWORD WINAPI GME_SnapCompare_Th(void* pargs)
 
   /* we now remove excluded branchs from tree */
   for(unsigned i = 0; i < rem_list.size(); i++) {
-    SetDlgItemTextW(g_hwndSnapCmp, ENT_OUTPUT, outlog.c_str());
+    //SetDlgItemTextW(g_hwndSnapCmp, ENT_OUTPUT, outlog.c_str());
+    //GME_SnapLogAppend(hen_output, outlog.c_str());
     rem_list[i]->setParent(NULL);
     delete rem_list[i];
   }
 
-  outlog += L"Type\tChange\tPath\r\n";
+  /* init output log entry */
+  outlog = L"Type\tChange\tPath\r\n";
   SetDlgItemTextW(g_hwndSnapCmp, ENT_OUTPUT, outlog.c_str());
+  SendMessage(hen_output, EM_SETLIMITTEXT, 0, 0);
+
+  //GME_SnapLogAppend(hen_output, outlog.c_str());
 
   /* temporary flag for file not found */
   bool not_found;
@@ -306,11 +321,8 @@ DWORD WINAPI GME_SnapCompare_Th(void* pargs)
         }
       }
       if(not_found) {
-        outlog += L"(d)\t+\t" + file_path + L"\r\n";
-        SetDlgItemTextW(g_hwndSnapCmp, ENT_OUTPUT, outlog.c_str());
-        SendMessage(hen_output, EM_SETSEL, 0, -1);
-        SendMessage(hen_output, EM_SETSEL, -1, -1);
-        SendMessage(hen_output, EM_SCROLLCARET, 0, 0);
+        outlog = L"(d)\t+\t" + file_path + L"\r\n";
+        GME_SnapLogAppend(hen_output, outlog.c_str());
         addition++;
       }
     } else {
@@ -324,11 +336,8 @@ DWORD WINAPI GME_SnapCompare_Th(void* pargs)
         }
       }
       if(not_found) {
-        outlog += L"(f)\t+\t" + file_path + L"\r\n";
-        SetDlgItemTextW(g_hwndSnapCmp, ENT_OUTPUT, outlog.c_str());
-        SendMessage(hen_output, EM_SETSEL, 0, -1);
-        SendMessage(hen_output, EM_SETSEL, -1, -1);
-        SendMessage(hen_output, EM_SCROLLCARET, 0, 0);
+        outlog = L"(f)\t+\t" + file_path + L"\r\n";
+        GME_SnapLogAppend(hen_output, outlog.c_str());
         addition++;
       }
     }
@@ -344,18 +353,18 @@ DWORD WINAPI GME_SnapCompare_Th(void* pargs)
 
   /* check removed entries... */
   c = 0;
+  outlog = L"";
   for(unsigned i = 0; i < found_list.size(); i++) {
     if(!found_list[i]) {
+      file_path = snpentry_list[i].path;
       outlog += L"(f)\t-\t" + file_path + L"\r\n";
-      SetDlgItemTextW(g_hwndSnapCmp, ENT_OUTPUT, outlog.c_str());
-      SendMessage(hen_output, EM_SETSEL, 0, -1);
-      SendMessage(hen_output, EM_SETSEL, -1, -1);
-      SendMessage(hen_output, EM_SCROLLCARET, 0, 0);
       removes++;
-    } else {
+    }  else {
       c++; /* increase for progress bar */
     }
   }
+
+  GME_SnapLogAppend(hen_output, outlog.c_str());
 
   /* set progress bar */
   SendMessage(hpb, PBM_SETRANGE, 0, MAKELPARAM(0, c));
@@ -374,13 +383,10 @@ DWORD WINAPI GME_SnapCompare_Th(void* pargs)
         abs_path = GME_GameGetCurRoot() + snpentry_list[i].path;
         /* check file xxHash32 */
         if(snpentry_list[i].xhash != GME_FileGetXxH32(abs_path)) {
-          outlog += L"(f)\t~\t";
+          outlog = L"(f)\t~\t";
           outlog += snpentry_list[i].path;
           outlog += L"\r\n";
-          SetDlgItemTextW(g_hwndSnapCmp, ENT_OUTPUT, outlog.c_str());
-          SendMessage(hen_output, EM_SETSEL, 0, -1);
-          SendMessage(hen_output, EM_SETSEL, -1, -1);
-          SendMessage(hen_output, EM_SCROLLCARET, 0, 0);
+          GME_SnapLogAppend(hen_output, outlog.c_str());
           changes++;
         }
       }
@@ -399,7 +405,7 @@ DWORD WINAPI GME_SnapCompare_Th(void* pargs)
 
   delete game_tree;
 
-  outlog += L"\r\n";
+  outlog = L"\r\n";
 
   float duration = ((float)clock()-time)/CLOCKS_PER_SEC;
   int mn = duration / 60.0f;
@@ -411,11 +417,7 @@ DWORD WINAPI GME_SnapCompare_Th(void* pargs)
   swprintf(wpbuff, 128, L"%d addition(s).\r\n%d remove(s).\r\n%d change(s).\r\n", addition, removes, changes);
   outlog += wpbuff;
 
-  SetDlgItemTextW(g_hwndSnapCmp, ENT_OUTPUT, outlog.c_str());
-  SendMessage(hen_output, EM_SETSEL, 0, -1);
-  SendMessage(hen_output, EM_SETSEL, -1, -1);
-  SendMessage(hen_output, EM_SCROLLCARET, 0, 0);
-
+  GME_SnapLogAppend(hen_output, outlog.c_str());
 
   SetDlgItemTextW(g_hwndSnapCmp, TXT_TITLE, L"Snapshot comparison successfully completed.");
   SetDlgItemTextW(g_hwndSnapCmp, TXT_STATUS, L"Operation completed");

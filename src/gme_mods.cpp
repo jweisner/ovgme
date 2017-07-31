@@ -314,7 +314,7 @@ void GME_ModsApplyMod(HWND hpb, const std::wstring& name, int type)
           /* create LE message... */
           olap_msg = L"The Mod '" + name + L"' files overlap with the already installed Mod: '" + GME_FilePathToName(fdw.cFileName) + L"'.";
           olap_msg += L"\n\nOverlapped file(s):\n";
-          for(unsigned k = 0; k < olap_flist.size(); k++) olap_msg += L"  " + olap_flist[k] + L"\n";
+          for(unsigned k = 0; k < olap_flist.size(); k++) olap_msg += L"  -" + olap_flist[k] + L"\n";
           olap_msg += L"\nThis will alter already installed Mod files, do you want to install it anyway ?";
 
           GME_Logs(GME_LOG_WARNING, "GME_ModsApplyMod", "Mod overlaps with", GME_StrToMbs(fdw.cFileName).c_str());
@@ -1200,6 +1200,8 @@ bool GME_ModsUpdList()
             name_list.push_back(name);
             type_list.push_back(1);
           }
+        } else {
+          GME_Logs(GME_LOG_WARNING, "GME_ModsUpdList", "Zip file is not a valid Mod-Archive:", GME_StrToMbs(fdw.cFileName).c_str());
         }
       }
     } while(FindNextFileW(hnd, &fdw));
@@ -1484,20 +1486,6 @@ DWORD WINAPI GME_ModsMake_Th(void* args)
   delete zip_root;
   delete arg;
 
-  /* Deleting existing archive if it exists */
-  if(GME_IsFile(zip_path)) {
-    if(!GME_FileDelete(zip_path)) {
-      GME_FileDelete(tmp_path);
-      GME_Logs(GME_LOG_ERROR, "GME_ModsMake_Th", "Unable to delete file", GME_StrToMbs(zip_path).c_str());
-      GME_DialogError(g_hwndNewAMod, L"An error occurred during Mod-Archive creation.");
-      ShowWindow(GetDlgItem(g_hwndNewAMod, BTN_CREATE), true);
-      ShowWindow(GetDlgItem(g_hwndNewAMod, IDCANCEL), false);
-      EnableWindow(GetDlgItem(g_hwndNewAMod, BTN_CLOSE), true);
-      g_ModsMake_Running = false;
-      return 0;
-    }
-  }
-
   /* rename temporary file to final name */
   if(!GME_FileMove(tmp_path, zip_path, true)) {
     GME_FileDelete(tmp_path);
@@ -1591,8 +1579,10 @@ void GME_ModsMakeArchive(const std::wstring& src_dir, const std::wstring& dst_pa
 
 
   if(GME_IsFile(zip_path)) {
-    if(IDCANCEL == GME_DialogQuestionConfirm(g_hwndNewAMod, L"The destination file '" + zip_path + L"' already exists, do you want to overwrite ?"))
+    if(IDYES != GME_DialogQuestionConfirm(g_hwndNewAMod,
+          L"The destination file '" + zip_path + L"' already exists, do you want to overwrite ?")) {
       return;
+    }
   }
 
   /* node tree for data structure */
@@ -1691,8 +1681,9 @@ void GME_ModsMakeArchiveCur(const std::wstring& desc, int vmaj, int vmin, int vr
 
 
   if(GME_IsFile(zip_path)) {
-    if(IDCANCEL == GME_DialogQuestionConfirm(g_hwndNewAMod, L"The destination file '" + zip_path + L"' already exists, do you want to overwrite ?"))
+    if(IDYES != GME_DialogQuestionConfirm(g_hwndNewAMod, L"The destination file '" + zip_path + L"' already exists, do you want to overwrite ?")) {
       return;
+    }
   }
 
   /* node tree for data structure */
