@@ -1,4 +1,4 @@
-OvGME 1.7.4, 2017-
+OvGME 1.7.4, 2017-13-11
 
 - Fix crash when pressing Esc key in configuration window.
 - Config combo list is now alphabetically sorted.
