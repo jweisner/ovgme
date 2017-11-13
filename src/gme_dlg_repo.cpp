@@ -125,8 +125,10 @@ BOOL CALLBACK GME_DlgRepConf(HWND hwndDlg, UINT uMsg, WPARAM wParam, LPARAM lPar
     }
 
   case WM_NOTIFY:
-    if(((LPNMHDR)lParam)->code == 4294966877) { /* 4294966877 seem to be item change notify... optained by checking raw messages */
-      GME_RepoChkList();
+    if(lParam) {
+      if(((LPNMHDR)lParam)->code == 4294966877) { /* 4294966877 seem to be item change notify... optained by checking raw messages */
+        GME_RepoChkList();
+      }
     }
     return true;
   }

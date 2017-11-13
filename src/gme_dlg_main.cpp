@@ -99,7 +99,7 @@ void GME_MainInit()
 
   SendMessage(GetDlgItem(g_hwndMain, ENT_MODDESC), WM_SETFONT, (WPARAM)Lucida, 1);
 
-  SetWindowPos(g_hwndMain, NULL, GME_ConfGetWinX(),GME_ConfGetWinY(), GME_ConfGetWinW(), GME_ConfGetWinH(), SWP_NOZORDER);
+  SetWindowPos(g_hwndMain, NULL, GME_ConfGetWinX(), GME_ConfGetWinY(), GME_ConfGetWinW(), GME_ConfGetWinH(), SWP_NOZORDER);
 }
 
 /*

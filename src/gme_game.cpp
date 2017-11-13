@@ -24,6 +24,31 @@
 std::vector<GME_GameCfg_Struct> g_GameCfg_List;
 int g_GameCur_Id = -1;
 
+bool GME_GameSortCfgComp(const GME_GameCfg_Struct& a_cfg, const GME_GameCfg_Struct& b_cfg)
+{
+  std::string a_title = GME_StrToMbs(a_cfg.title);
+  std::string b_title = GME_StrToMbs(b_cfg.title);
+
+  GME_StrToUpper(a_title);
+  GME_StrToUpper(b_title);
+
+  size_t l = a_title.size() > b_title.size() ? b_title.size() : a_title.size();
+
+  for(unsigned i = 0; i < l; i++) {
+    if(a_title[i] < b_title[i]) {
+      return true;
+    } else {
+      return false;
+    }
+  }
+  return false;
+}
+
+void GME_GameSortCfgList()
+{
+  std::sort(g_GameCfg_List.begin(), g_GameCfg_List.end(), GME_GameSortCfgComp);
+}
+
 void GME_GameUpdMenu()
 {
   if(g_GameCur_Id != -1) {
@@ -484,6 +509,9 @@ bool GME_GameUpdList()
     } while(FindNextFileW(hnd, &fdw));
   }
   FindClose(hnd);
+
+  /* Sort list alphabetically */
+  GME_GameSortCfgList();
 
   /* empty combo box */
   unsigned s = SendMessageW(hcb, CB_GETCOUNT, 0, 0);

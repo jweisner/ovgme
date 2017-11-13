@@ -93,6 +93,17 @@ bool GME_ConfLoadCfg()
     }
   }
 
+   /* app was probably closed when minimized, we restore default values */
+  if(g_ConfCfg.winx < 0 || g_ConfCfg.winy < 0) {
+    RECT rect;
+    GetWindowRect(g_hwndMain, &rect);
+    g_ConfCfg.winw = rect.right - rect.left;
+    g_ConfCfg.winh = rect.bottom - rect.top;
+    g_ConfCfg.winx = rect.left;
+    g_ConfCfg.winy = rect.top;
+    g_ConfCfg.ensort = false;
+  }
+
   /* check main config version */
   if(g_ConfCfg.vmajor != GME_APP_MAJOR || g_ConfCfg.vminor != GME_APP_MINOR) {
 

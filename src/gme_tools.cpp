@@ -285,6 +285,7 @@ bool GME_StrIsValidFilename(const std::wstring& name)
   return true;
 }
 
+
 /* ------------------------- Files and Directory related toolkit ------------------------------- */
 
 /*
