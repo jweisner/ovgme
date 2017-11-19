@@ -26,21 +26,32 @@ int g_GameCur_Id = -1;
 
 bool GME_GameSortCfgComp(const GME_GameCfg_Struct& a_cfg, const GME_GameCfg_Struct& b_cfg)
 {
+  // convert to ASCII
   std::string a_title = GME_StrToMbs(a_cfg.title);
   std::string b_title = GME_StrToMbs(b_cfg.title);
 
+  // Convert to upper case to compare ASCII values
   GME_StrToUpper(a_title);
   GME_StrToUpper(b_title);
 
+  // test against the shorter string
   size_t l = a_title.size() > b_title.size() ? b_title.size() : a_title.size();
 
+  // test for ASCII value greater than the other
   for(unsigned i = 0; i < l; i++) {
-    if(a_title[i] < b_title[i]) {
-      return true;
-    } else {
-      return false;
+    if(a_title[i] != b_title[i]) {
+      if(a_title[i] < b_title[i]) {
+        return true;
+      } else {
+        return false;
+      }
     }
   }
+
+  // tested strings portions are equals, we sort by string size
+  if(a_title.size() < b_title.size())
+    return true;
+
   return false;
 }
 
